@@ -4,67 +4,109 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Patron Tygodnia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --bg: #f7d291;
-      --card: #ffffff;
-      --navy: #15326b;
-      --accent1: #d15518;
-      --accent2: #f69628;
-      --muted: #4b5563;
-      --radius: 14px;
-      --gap: 14px;
+      /* paleta i zmienne */
+      --bg: #f8eee4; /* page background */
+      --navy: #7a1f12; /* akcent/tekst */
+      --white: #ffffff;
+      --quote-grad-start: #b77d4e;
+      --quote-grad-end: #e8a169;
+      --accent: #d15518;
+      --btn: #96a590;
+      --container-w:440px;
+      --rounded:16px;
+      --card-h:120px;
+      --gap:14px;
+
+      /* responsywna strzałka (zmniejsza się na małych ekranach) */
+      --external-size: clamp(36px, 8vw, 44px);
+      --external-icon: clamp(16px, 4vw, 22px);
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
+      min-height:100vh;
       background: var(--bg);
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-family: Roboto, Arial, sans-serif;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       display:flex;
-      align-items:center;
+      align-items:flex-start; /* lepsze dla pionowego widoku telefonu */
       justify-content:center;
-      padding:18px;
-      color: #08203a;
+      padding: env(safe-area-inset-top,18px) env(safe-area-inset-right,12px) env(safe-area-inset-bottom,18px) env(safe-area-inset-left,12px);
+      color: var(--navy);
     }
 
-    /* Container optimized for mobile */
+    /* Container */
     .container{
       width:100%;
-      max-width:440px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.95), var(--card));
-      border-radius: var(--radius);
-      padding: clamp(16px, 4vw, 22px);
-      box-shadow: 0 18px 45px rgba(6,21,52,0.12);
-      border: 1px solid rgba(21,50,107,0.06);
+      max-width:var(--container-w);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), var(--white));
+      border-radius: var(--rounded);
+      padding: clamp(12px, 4vw, 22px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+      border: 1px solid rgba(122,31,18,0.06);
+      position:relative; /* potrzebne dla pozycji strzałki */
+      overflow:auto; /* ważne przy małych ekranach */
+      max-height: calc(100vh - 36px); /* mieści się w pionowym widoku telefonu */
+      margin: 8px auto; /* trochę odstępu od górnej krawędzi */
+      animation: appIn .45s ease forwards;
     }
+    @keyframes appIn{ from{opacity:0; transform:translateY(8px) scale(.995)} to{opacity:1; transform:none} }
 
-    header{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:6px}
+    /* top-left external link (strzałka) - mniejsza i responsywna */
+    .external-link{
+      position:absolute;
+      top:12px;
+      left:12px;
+      width:var(--external-size);
+      height:var(--external-size);
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      background:linear-gradient(135deg,#96a590 0%,#717c6b 100%);
+      box-shadow:0 8px 20px rgba(0,0,0,0.10);
+      transition:transform .14s ease, box-shadow .14s ease, opacity .12s ease;
+      z-index:1000;
+      border:1px solid rgba(255,255,255,0.06);
+      outline: none;
+    }
+    .external-link:focus{ box-shadow:0 8px 24px rgba(0,0,0,0.16); }
+    .external-link:hover{ transform:translateY(-2px) scale(1.03); box-shadow:0 14px 30px rgba(0,0,0,0.14); }
+    .external-link:active{ transform:translateY(0) scale(.99) }
+    .external-link svg{ width:var(--external-icon); height:var(--external-icon); display:block; fill:#ffffff; transform:rotate(180deg); }
+
+    header{ display:flex; align-items:center; gap:12px; justify-content:center; margin-bottom:6px; text-align:center }
     h1{
       font-family: 'Pacifico', cursive;
       margin:0;
-      color:#7a0b0b;
+      color: var(--quote-grad-start);
       font-size: clamp(20px, 6vw, 28px);
       line-height:1;
     }
 
     .patron-box{
       margin-top: var(--gap);
-      background: radial-gradient(circle at 10% 10%, var(--accent1), var(--accent2));
-      color: white;
+      background: radial-gradient(circle at 10% 10%, var(--quote-grad-start), var(--quote-grad-end));
+      color: var(--white);
       padding: clamp(12px,3.6vw,18px);
       border-radius: 12px;
-      min-height:80px;
+      min-height:100px;
       display:flex;
       flex-direction:column;
       justify-content:center;
       text-align:center;
+      box-shadow: 0 10px 30px rgba(113,124,107,0.12);
+      font-size: 1rem;
     }
-    .patron-box h2{margin:0;font-size:1.05rem; font-weight:700}
-    .patron-box p{margin:6px 0 0 0;font-size:0.95rem;opacity:0.95}
+    .patron-box h2{ margin:0; font-size:1.05rem; font-weight:700 }
+    .patron-box p{ margin:6px 0 0 0; font-size:0.95rem; opacity:0.95 }
 
     .controls{
       display:flex;
@@ -72,6 +114,7 @@
       margin-top: var(--gap);
       flex-direction:column;
     }
+
     .btn-primary{
       appearance:none;
       border: none;
@@ -79,10 +122,10 @@
       padding: 14px;
       font-weight:800;
       font-size:1.05rem;
-      background: linear-gradient(180deg,var(--accent1),var(--accent2));
-      color:white;
+      background: linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));
+      color:var(--white);
       cursor:pointer;
-      box-shadow: 0 10px 20px rgba(59,89,152,0.14);
+      box-shadow: 0 10px 20px rgba(59,89,152,0.12);
       transition: transform .12s ease, box-shadow .12s ease;
       width:100%;
     }
@@ -100,10 +143,11 @@
 
     .panel{
       margin-top:14px;
-      background: rgba(255,255,255,0.9);
+      background: linear-gradient(180deg,#fff8f0,#ffffff);
       border-radius:10px;
       padding:10px;
-      border:1px solid rgba(2,6,23,0.04);
+      border:1px solid rgba(122,31,18,0.06);
+      box-shadow: 0 8px 18px rgba(122,31,18,0.04);
     }
 
     .history-header{ display:flex; align-items:center; justify-content:space-between; gap:8px }
@@ -112,6 +156,10 @@
       max-height:200px;
       overflow:auto;
       -webkit-overflow-scrolling:touch;
+      border-radius:8px;
+      padding:6px;
+      background: #fff;
+      border:1px solid rgba(122,31,18,0.04);
     }
     .history-item{
       padding:10px;
@@ -120,29 +168,49 @@
       margin-bottom:8px;
       font-size:0.95rem;
     }
-    .history-item small{ display:block;color:var(--muted); margin-top:6px; font-size:0.82rem }
+    .history-item small{ display:block;color:rgba(122,31,18,0.6); margin-top:6px; font-size:0.82rem }
 
     .history-controls{ display:flex; gap:8px; margin-top:10px; justify-content:flex-end; flex-wrap:wrap }
     .btn-small{
       border-radius:10px;
       padding:8px 10px;
-      border:1px solid rgba(21,50,107,0.06);
+      border:1px solid rgba(122,31,18,0.06);
       background:transparent;
       color:var(--navy);
       cursor:pointer;
       font-weight:700;
     }
 
-    .muted{ color:var(--muted); font-size:0.92rem; text-align:center; margin-top:10px }
+    .muted{ color:rgba(122,31,18,0.65); font-size:0.92rem; text-align:center; margin-top:10px }
+
+    /* entry animations */
+    @keyframes slideInFromLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+    header{opacity:0;animation:slideInFromLeft .5s cubic-bezier(.2,.9,.2,1) forwards .08s}
+    .patron-box{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .16s}
+    .controls{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .24s}
+    .panel{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .32s}
+    footer{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .40s}
 
     @media (min-width:700px){
       .controls{flex-direction:row}
       .meta{justify-content:space-between}
     }
+
+    /* drobne poprawki dla bardzo wąskich ekranów */
+    @media (max-width:360px){
+      .container{ padding:10px; border-radius:12px }
+      .external-link{ top:10px; left:10px }
+      .patron-box{ padding:10px }
+    }
   </style>
 </head>
 <body>
   <div class="container" role="main" aria-label="Aplikacja Patron Tygodnia">
+    <!-- top-left arrow linking do bloga -->
+    <a class="external-link" href="https://blogwpg.my.canva.site/" target="_blank" rel="noopener" aria-label="Odwiedź blog">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+    </a>
+
     <header>
       <h1>Patron Tygodnia</h1>
     </header>
@@ -176,7 +244,7 @@
   </div>
 
   <script>
-    // --- rozszerzona lista 100 świętych ---
+    // --- rozszerzona lista 100 świętych (bez zmian) ---
     const patrons = [
       { name: "św. Maria (Matka Boża)", prayer: "Matko Boża, prowadź mnie do Syna." },
       { name: "św. Józef", prayer: "Święty Józefie, opiekuj się moją rodziną." },
@@ -268,7 +336,6 @@
       { name: "św. Rita z Cascii (ponownie)", prayer: "Święta Rito, wstawiaj się za beznadziejne sprawy." }
     ];
 
-    // If the array length is not 100 for some reason, add placeholders to reach 100
     if (patrons.length < 100) {
       const needed = 100 - patrons.length;
       for (let i = 1; i <= needed; i++) {
@@ -276,27 +343,25 @@
       }
     }
 
-    // --- elementy ---
+    // --- elementy DOM ---
     const drawBtn = document.getElementById('drawBtn');
     const patronBox = document.getElementById('patronBox');
     const countdownDiv = document.getElementById('countdown');
     const historyList = document.getElementById('historyList');
     const toggleHistoryBtn = document.getElementById('toggleHistoryBtn');
 
-    // --- stan ---
+    // --- stan i funkcje ---
     const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
     let countdownIntervalId = null;
     const HISTORY_SHOW = 6;
     let historyExpanded = false;
 
-    // --- funkcje pomocnicze ---
     function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
 
     function renderPatron(p){
       patronBox.innerHTML = `<h2>${escapeHtml(p.name)}</h2><p>${escapeHtml(p.prayer)}</p>`;
     }
 
-    // --- historia ---
     function pushHistory(entry){
       const raw = localStorage.getItem('patronHistory');
       const arr = raw ? JSON.parse(raw) : [];
@@ -340,7 +405,6 @@
       }
     }
 
-    // --- logika tygodniowa ---
     function getCurrentWeekIndex(){ return Math.floor(Date.now() / WEEK_MS); }
 
     function ensureWeeklyPatronOnLoad(){
@@ -397,13 +461,14 @@
       countdownIntervalId = setInterval(tick, 1000);
     }
 
-    // --- start ---
     function init(){
       renderHistory();
       ensureWeeklyPatronOnLoad();
       drawBtn.setAttribute('aria-label', 'Losuj patrona na tydzień');
+      console.info('Patron Tygodnia - poprawiona strzałka i responsywność dla telefonu w pionie.');
     }
     init();
   </script>
 </body>
 </html>
+

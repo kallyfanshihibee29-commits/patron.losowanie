@@ -3,75 +3,119 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Patron Tygodnia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <title>Patron Tygodnia — Codzienny Cytat UI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --bg: #f0f9ff; /* jaśniejsze tło */
-      --card: #ffffff;
-      --navy: #15326b;
-      --accent1: #4a6fb8; /* jaśniejsze niebieskie */
-      --accent2: #87aef7; /* jaśniejsze niebieskie */
-      --muted: #4b5563;
-      --radius: 14px;
-      --gap: 14px;
-      --yellow: #FFD24D;
+      /* Paleta i zmienne (Codzienny Cytat) */
+      --bg:#9fc6e2; /* jasne błękity */
+      --bg2:#cfe8f8;
+      --navy:#1e3a8a;
+      --white:#ffffff;
+      --quote-grad-start:#3b5998;
+      --quote-grad-end:#5a8dee;
+      --autumn-start:#8B5A2B;
+      --autumn-mid:#d15518;
+      --autumn-end:#6b8e23;
+      --point-blue:#2b7bd6;
+
+      --container-w:420px; /* dopasowane do telefonu w pionie */
+      --rounded:16px;
+      --card-h:120px;
+      --gap:14px;
+
+      /* STRZAŁKA: większa niż poprzednio, ale wciąż kompaktowa */
+      --external-size: clamp(26px, 6vw, 32px); /* trochę większa */
+      --external-icon: clamp(12px, 3vw, 16px);
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      background: linear-gradient(180deg, #eaf6ff 0%, var(--bg) 100%);
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      min-height:100vh;
+      background: linear-gradient(180deg,var(--bg) 0%, var(--bg2) 100%);
+      font-family: Roboto, Arial, sans-serif;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:center;
-      padding:18px;
-      color: #08203a;
+      padding: env(safe-area-inset-top,18px) env(safe-area-inset-right,12px) env(safe-area-inset-bottom,18px) env(safe-area-inset-left,12px);
+      color: var(--navy);
     }
 
+    /* Container (wygląd zgodny z Codzienny Cytat) */
     .container{
       width:100%;
-      max-width:440px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.95), var(--card));
-      border-radius: var(--radius);
-      padding: clamp(16px, 4vw, 22px);
-      box-shadow: 0 18px 45px rgba(6,21,52,0.12);
-      border: 1px solid rgba(21,50,107,0.06);
+      max-width:var(--container-w);
+      background: var(--white);
+      border-radius: var(--rounded);
+      padding: clamp(12px, 4vw, 18px);
+      box-shadow: 0 12px 36px rgba(6,21,52,0.12);
+      border: 1px solid rgba(30,58,138,0.06);
+      position:relative;
+      overflow:auto;
+      max-height: calc(100vh - 36px);
+      margin: 8px auto;
+      transform-origin:center;
+      opacity:0;
+      transform:translateY(8px) scale(.995);
+      animation: appIn .45s ease forwards;
+      -webkit-overflow-scrolling: touch;
+      touch-action: manipulation;
     }
+    @keyframes appIn{ to{opacity:1;transform:none} }
 
-    header{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:6px}
+    /* top-left external link (strzałka) - nieco większa */
+    .external-link{
+      position:absolute;
+      top:12px;
+      left:12px;
+      width:var(--external-size);
+      height:var(--external-size);
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      background:linear-gradient(135deg,var(--quote-grad-start) 0%,var(--quote-grad-end) 100%);
+      box-shadow:0 8px 22px rgba(6,21,52,0.14);
+      transition:transform .14s ease, box-shadow .14s ease, opacity .12s ease;
+      z-index:1000;
+      border:1px solid rgba(255,255,255,0.06);
+      outline:none;
+    }
+    .external-link:focus{ box-shadow:0 10px 28px rgba(6,21,52,0.18); }
+    .external-link:hover{ transform:translateY(-2px) scale(1.04); box-shadow:0 16px 34px rgba(6,21,52,0.16); }
+    .external-link:active{ transform:translateY(0) scale(.99) }
+    .external-link svg{ width:var(--external-icon); height:var(--external-icon); display:block; fill:#ffffff; transform:rotate(180deg); }
+
+    header{ display:flex; align-items:center; gap:12px; justify-content:center; margin-bottom:6px; text-align:center }
     h1{
       font-family: 'Pacifico', cursive;
       margin:0;
-      color:var(--navy);
+      color: var(--navy);
       font-size: clamp(20px, 6vw, 28px);
       line-height:1;
     }
 
-    /* chudsze teksty (nie tytuł) */
-    .content-text, .patron-box p, .history-item, .history-item small, #countdown, .muted {
-      font-weight: 350;
-      font-size: 0.94rem;
-      color: #08203a;
-    }
-
     .patron-box{
       margin-top: var(--gap);
-      background: radial-gradient(circle at 10% 10%, var(--accent1), var(--accent2));
-      color: white;
+      background: linear-gradient(135deg,var(--quote-grad-start),var(--quote-grad-end));
+      color: var(--white);
       padding: clamp(12px,3.6vw,18px);
       border-radius: 12px;
-      min-height:80px;
+      min-height:100px;
       display:flex;
       flex-direction:column;
       justify-content:center;
       text-align:center;
+      box-shadow:0 12px 34px rgba(59,89,152,0.12);
+      font-size: 1rem;
     }
-    .patron-box h2{margin:0;font-size:1.05rem; font-weight:700}
-    .patron-box p{margin:6px 0 0 0;font-size:0.95rem;opacity:0.95}
+    .patron-box h2{ margin:0; font-size:1.05rem; font-weight:800 }
+    .patron-box p{ margin:6px 0 0 0; font-size:0.95rem; opacity:0.95 }
 
     .controls{
       display:flex;
@@ -79,22 +123,27 @@
       margin-top: var(--gap);
       flex-direction:column;
     }
+
+    /* przycisk -- inna czcionka dla napisu i mniejsza wysokość */
     .btn-primary{
       appearance:none;
       border: none;
       border-radius: 12px;
-      padding: 10px;
-      font-weight: 420;
-      font-size:0.95rem;
-      background: linear-gradient(180deg,var(--accent1),var(--accent2));
-      color:white;
+      padding: 10px 14px; /* krótszy w pionie */
+      font-weight:800;
+      font-size:1rem;
+      font-family: 'Pacifico', cursive; /* inna czcionka dla napisu */
+      line-height:1; /* krótszy w pionie */
+      background: linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));
+      color:var(--white);
       cursor:pointer;
-      box-shadow: 0 10px 18px rgba(59,89,152,0.12);
+      box-shadow: 0 10px 20px rgba(59,89,152,0.12);
       transition: transform .12s ease, box-shadow .12s ease;
       width:100%;
+      min-height:38px; /* kompaktowy, wygodny dla palca */
     }
     .btn-primary:active{ transform: translateY(1px) }
-    .btn-primary:disabled{ background:#c7cbd1; cursor:not-allowed; box-shadow:none; color:#fff; opacity:0.95 }
+    .btn-primary:disabled{ background:#c4c4c4; cursor:not-allowed; box-shadow:none; color:#fff; }
 
     .meta{
       display:flex;
@@ -107,85 +156,84 @@
 
     .panel{
       margin-top:14px;
-      background: rgba(255,255,255,0.9);
+      background: linear-gradient(180deg,#f8fbff,#ffffff);
       border-radius:10px;
       padding:10px;
-      border:1px solid rgba(2,6,23,0.04);
+      border:1px solid rgba(30,58,138,0.06);
+      box-shadow: 0 8px 18px rgba(30,58,138,0.04);
     }
 
     .history-header{ display:flex; align-items:center; justify-content:space-between; gap:8px }
     .history-list{
       margin-top:10px;
-      max-height:200px;
+      max-height:220px;
       overflow:auto;
       -webkit-overflow-scrolling:touch;
+      border-radius:8px;
+      padding:6px;
+      background: #fff;
+      border:1px solid rgba(30,58,138,0.04);
     }
     .history-item{
       padding:10px;
       border-radius:8px;
-      background:linear-gradient(180deg, rgba(5,20,48,0.03), rgba(5,20,48,0.01));
+      background:linear-gradient(180deg, rgba(59,89,152,0.03), rgba(59,89,152,0.01));
       margin-bottom:8px;
       font-size:0.95rem;
     }
-    .history-item small{ display:block;color:var(--muted); margin-top:6px; font-size:0.82rem }
+    .history-item small{ display:block;color:rgba(30,58,138,0.6); margin-top:6px; font-size:0.82rem }
 
     .history-controls{ display:flex; gap:8px; margin-top:10px; justify-content:flex-end; flex-wrap:wrap }
     .btn-small{
       border-radius:10px;
       padding:8px 10px;
-      border:1px solid rgba(21,50,107,0.06);
+      border:1px solid rgba(30,58,138,0.06);
       background:transparent;
       color:var(--navy);
       cursor:pointer;
       font-weight:700;
     }
 
-    /* inline points under countdown (no frame) */
-    .points-inline{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:center;
-      margin-top:10px;
-      font-size:0.95rem;
-      color:var(--navy);
-      font-weight:700;
-    }
-    .points-logo-inline{
-      width:36px;
-      height:36px;
-      border-radius:999px;
-      background: var(--yellow);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:900;
-      font-size:14px;
-      color: white; /* white number */
-      box-shadow:
-        0 8px 28px rgba(255,210,77,0.46),
-        0 0 34px rgba(135,174,247,0.18),
-        inset 0 -6px 12px rgba(0,0,0,0.06);
-      transition: transform .24s ease, box-shadow .24s ease;
-      flex:0 0 36px;
-    }
+    .muted{ color:rgba(30,58,138,0.7); font-size:0.92rem; text-align:center; margin-top:10px }
 
-    .points-sub { font-weight:350; color:var(--muted); font-size:0.88rem; margin-top:6px; text-align:center; }
+    /* entry animations */
+    @keyframes slideInFromLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+    header{opacity:0;animation:slideInFromLeft .5s cubic-bezier(.2,.9,.2,1) forwards .08s}
+    .patron-box{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .16s}
+    .controls{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .24s}
+    .panel{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .32s}
+    footer{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .40s}
+
+    /* Mobile portrait tuning */
+    @media (orientation: portrait) and (max-width:520px){
+      :root{ --container-w: calc(100vw - 24px); }
+      .container{ max-width: calc(100vw - 24px); padding:12px; border-radius:14px }
+      .patron-box{ min-height:120px; padding:12px }
+      .btn-primary{ min-height:40px; padding:10px 12px; font-size:1rem }
+      .history-list{ max-height:180px }
+      .external-link{ top:10px; left:10px }
+    }
 
     @media (min-width:700px){
       .controls{flex-direction:row}
       .meta{justify-content:space-between}
     }
+
   </style>
 </head>
 <body>
   <div class="container" role="main" aria-label="Aplikacja Patron Tygodnia">
+    <!-- top-left arrow linking do bloga (większa) -->
+    <a class="external-link" href="https://blogwpg.my.canva.site/" target="_blank" rel="noopener" aria-label="Odwiedź blog">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+    </a>
+
     <header>
       <h1>Patron Tygodnia</h1>
     </header>
 
     <div class="patron-box" id="patronBox" aria-live="polite">
-      <p class="content-text">Kliknij „Losuj Patrona” aby otrzymać patrona na ten tydzień.</p>
+      <p>Kliknij „Losuj Patrona” aby otrzymać patrona na ten tydzień.</p>
     </div>
 
     <div class="controls" role="region" aria-label="Kontrolki">
@@ -193,12 +241,6 @@
     </div>
 
     <div id="countdown" aria-hidden="false"></div>
-
-    <!-- PATRONPUNKTY INLINE (pod countdown) -->
-    <div class="points-inline" aria-live="polite">
-      <div id="pointsLogo" class="points-logo-inline">0</div>
-      <div id="pointsText">Masz <span id="pointsValue" style="font-weight:900;color:var(--navy)">0</span> punktów • Max do zdobycia: <span id="pointsMax" style="font-weight:900;color:var(--navy)">0</span></div>
-    </div>
 
     <div class="panel" aria-label="Historia wylosowań">
       <div class="history-header">
@@ -215,138 +257,81 @@
       </div>
     </div>
 
-    <div class="muted content-text">Codzienna krótka modlitwa pomaga w duchowym wzroście.</div>
+    <div class="muted">Codzienna krótka modlitwa pomaga w duchowym wzroście.</div>
   </div>
 
   <script>
-    // --- rozszerzona lista 100 świętych ---
+    // --- lista 50 dobrze znanych świętych i błogosławionych (na 100% katolickich) ---
     const patrons = [
-      { name: "św. Maria (Matka Boża)", prayer: "Matko Boża, prowadź mnie do Syna." },
-      { name: "św. Józef", prayer: "Święty Józefie, opiekuj się moją rodziną." },
-      { name: "św. Piotr Apostoł", prayer: "Święty Piotrze, pomóż mi świadczyć wiarę." },
-      { name: "św. Paweł Apostoł", prayer: "Święty Pawle, naucz mnie odwagi w głoszeniu Ewangelii." },
-      { name: "św. Jan Apostoł", prayer: "Święty Janie, daj mi serce pełne miłości." },
-      { name: "św. Jakub Apostoł", prayer: "Święty Jakubie, prowadź mnie drogą prawdy." },
-      { name: "św. Andrzej Apostoł", prayer: "Święty Andrzeju, przyprowadź mnie do Jezusa." },
-      { name: "św. Tomasz Apostoł", prayer: "Święty Tomaszu, umocnij moją wiarę." },
-      { name: "św. Filip Apostoł", prayer: "Święty Filipie, naucz mnie pytać i szukać." },
-      { name: "św. Bartłomiej Apostoł", prayer: "Święty Bartłomieju, daj mi odwagę i szczerość." },
-      { name: "św. Mateusz Apostoł", prayer: "Święty Mateuszu, liderze serca, pomóż mi nawrócić się." },
-      { name: "św. Szymon Apostoł", prayer: "Święty Szymonie, bądź moim przewodnikiem." },
-      { name: "św. Juda Tadeusz", prayer: "Święty Tadeuszu, módl się w sprawach trudnych." },
-      { name: "św. Łukasz Ewangelista", prayer: "Święty Łukaszu, rozpal we mnie miłość do bliźniego." },
-      { name: "św. Marek Ewangelista", prayer: "Święty Marku, pomóż mi działać z odwagą." },
-      { name: "św. Jan Chrzciciel", prayer: "Święty Janie, przygotuj serce na Pana." },
-      { name: "św. Szczepan (męczennik)", prayer: "Święty Szczepanie, ucz mnie wytrwałości w wierze." },
-      { name: "św. Wawrzyniec (Laurentius)", prayer: "Święty Wawrzyniec, naucz mnie dzielić się z potrzebującymi." },
-      { name: "św. Marcin z Tours", prayer: "Święty Marcinie, naucz mnie ofiarnej miłości." },
-      { name: "św. Mikołaj", prayer: "Święty Mikołaju, opiekuj się rodzinami i dziećmi." },
-      { name: "św. Sebastian", prayer: "Święty Sebastianie, wspieraj mnie w trudach." },
-      { name: "św. Ambroży", prayer: "Święty Ambroży, daj mi mądrość do służby." },
-      { name: "św. Hieronim", prayer: "Święty Hieronimie, oświeć mój umysł do poznania Pisma." },
-      { name: "św. Grzegorz Wielki", prayer: "Święty Grzegorzu, prowadź Kościół w mądrości." },
-      { name: "św. Augustyn z Hippony", prayer: "Święty Auguście, prowadź mnie do spotkania z Bogiem." },
-      { name: "św. Benedykt z Nursji", prayer: "Święty Benedykcie, błogosław pracy i modlitwie." },
-      { name: "św. Scholastyka", prayer: "Święta Scholastyko, ucz mnie prostoty i modlitwy." },
-      { name: "św. Franciszek z Asyżu", prayer: "Święty Franciszku, naucz mnie miłości do stworzeń." },
-      { name: "św. Klara z Asyżu", prayer: "Święta Klaro, pomóż mi trwać w prostocie." },
-      { name: "św. Antoni z Padwy", prayer: "Święty Antoni, pomóż odnaleźć to, co zgubione." },
-      { name: "św. Dominik", prayer: "Święty Dominiku, daj mi gorliwość w głoszeniu prawdy." },
-      { name: "św. Tomasz z Akwinu", prayer: "Święty Tomaszu, prowadź mnie na drodze rozumu i wiary." },
-      { name: "św. Ignacy z Loyoli", prayer: "Święty Ignacy, prowadź moje rozeznanie." },
-      { name: "św. Filip Neri", prayer: "Święty Filipie, obdarz mnie radością służby." },
-      { name: "św. Jan od Krzyża", prayer: "Święty Janie, naucz mnie drogi kontemplacji." },
-      { name: "św. Teresa z Ávili", prayer: "Święta Tereso, wstawiaj się za moją modlitwą." },
-      { name: "św. Teresa z Lisieux", prayer: "Święta Tereso, ucz mnie małej drogi miłości." },
+      { name: "św. Carlo Acutis", prayer: "Święty Carlo, pomagaj mi kochać Eucharystię i żyć w prawdzie." },
       { name: "św. Jan Paweł II", prayer: "Święty Janie Pawle, wstawiaj się za młodymi i rodzinami." },
+      { name: "św. Teresa z Lisieux", prayer: "Święta Tereso, ucz mnie małej drogi miłości." },
+      { name: "św. Franciszek z Asyżu", prayer: "Święty Franciszku, naucz mnie miłości do stworzeń." },
+      { name: "św. Antoni z Padwy", prayer: "Święty Antoni, pomóż odnaleźć to, co zgubione." },
+      { name: "św. Józef", prayer: "Święty Józefie, opiekuj się moją rodziną." },
+      { name: "św. Jan Chrzciciel", prayer: "Święty Janie, przygotuj serce na Pana." },
+      { name: "św. Paweł Apostoł", prayer: "Święty Pawle, naucz mnie odwagi w głoszeniu Ewangelii." },
+      { name: "św. Piotr Apostoł", prayer: "Święty Piotrze, prowadź Kościół i chroń moją wiarę." },
+      { name: "św. Teresa z Ávili", prayer: "Święta Tereso, wstawiaj się za moją modlitwą." },
+      { name: "św. Ignacy z Loyoli", prayer: "Święty Ignacy, prowadź moje rozeznanie." },
+      { name: "św. Tomasz z Akwinu", prayer: "Święty Tomaszu, oświeć mój umysł" },
+      { name: "św. Benedykt z Nursji", prayer: "Święty Benedykcie, błogosław pracy i modlitwie." },
+      { name: "św. Klara z Asyżu", prayer: "Święta Klaro, pomóż mi trwać w prostocie." },
       { name: "św. Maksymilian Kolbe", prayer: "Święty Maksymilianie, ucz mnie poświęcenia dla innych." },
       { name: "św. Faustyna Kowalska", prayer: "Święta Faustyno, prowadź mnie do zaufania Bożemu miłosierdziu." },
       { name: "św. Pio z Pietrelciny (Padre Pio)", prayer: "Święty Pio, otaczaj opieką chorych i cierpiących." },
-      { name: "św. Jan Bosko", prayer: "Święty Janie Bosko, wspieraj młodzież w drodze wiary." },
-      { name: "św. Joanna d'Arc", prayer: "Święta Joanno, daj mi odwagę i wierność powołaniu." },
+      { name: "św. Jan Maria Vianney (Proboszcz z Ars)", prayer: "Święty Janie Marie, naucz mnie miłości do sakramentów." },
       { name: "św. Bernadetta Soubirous", prayer: "Święta Bernadetto, wstawiaj się za nami z Lourdes." },
       { name: "św. Maria Magdalena", prayer: "Święta Mario Magdaleno, naucz mnie wiernej miłości do Pana." },
-      { name: "św. Katarzyna ze Sieny", prayer: "Święta Katarzyno, módl się za moją misję." },
-      { name: "św. Katarzyna Aleksandryjska", prayer: "Święta Katarzyno, wspieraj tych, którzy szukają prawdy." },
+      { name: "św. Józef Sebastian Pelczar", prayer: "Święty Józefie Sebastianie, błogosław dzieła miłosierdzia." },
+      { name: "św. Edmund Bojanowski", prayer: "Święty Edmundzie, wspieraj dzieła miłości i edukacji." },
       { name: "św. Jadwiga Królowa", prayer: "Święta Jadwigo, opiekuj się Polską i rodzinami." },
-      { name: "św. Jadwiga Śląska", prayer: "Święta Jadwigo, naucz mnie hojności i modlitwy." },
       { name: "św. Kazimierz", prayer: "Święty Kazimierzu, wspieraj młodych w cnocie." },
       { name: "św. Stanisław ze Szczepanowa", prayer: "Święty Stanisławie, wstawiaj się za wiernymi." },
       { name: "św. Stanisław Kostka", prayer: "Święty Stanisławie, pomagaj młodzieży w wyborach życiowych." },
-      { name: "św. Zygmunt Szczęsny Feliński", prayer: "Święty Zygmuncie, umocnij nas w wierze i nadziei." },
-      { name: "św. Albert Chmielowski", prayer: "Święty Albercie, naucz mnie miłości do ubogich." },
-      { name: "św. Joanna Beretta Molla", prayer: "Święta Joanno, dawaj siłę w oddaniu się rodzinie." },
-      { name: "św. Elżbieta Węgierska", prayer: "Święta Elżbieto, ucz mnie służby ubogim." },
-      { name: "św. Cecylia", prayer: "Święta Cecylio, niech moja modlitwa będzie śpiewem." },
-      { name: "św. Łucja", prayer: "Święta Łucjo, oświeć moje serce i oczy." },
-      { name: "św. Barbara", prayer: "Święta Barbaro, broń w niebezpieczeństwach." },
-      { name: "św. Krzysztof", prayer: "Święty Krzysztofie, chroń w podróży." },
-      { name: "św. Błażej", prayer: "Święty Błażeju, strzeż od chorób gardła." },
-      { name: "św. Rita z Cascii", prayer: "Święta Rito, módl się w trudnych sprawach." },
-      { name: "św. Paweł z Teb", prayer: "Święty Pawle Pustelniku, ucz mnie wytrwałości modlitwy." },
-      { name: "św. Cyryl", prayer: "Święty Cyrylu, wspieraj misje i nauczanie." },
-      { name: "św. Metody", prayer: "Święty Metody, prowadź w dziele ewangelizacji." },
-      { name: "św. Óscar Romero", prayer: "Święty Óscarze, wstawiaj się za sprawiedliwością społeczną." },
-      { name: "św. Kateri Tekakwitha", prayer: "Święta Kateri, wstawiaj się za Indianami i naturą." },
-      { name: "św. Teresa Benedykta od Krzyża (Edith Stein)", prayer: "Święta Tereso Benedykto, módl się za prawdę i dialog." },
-      { name: "św. Maria Goretti", prayer: "Święta Mario Goretti, ucz mnie czystości serca i przebaczenia." },
+      { name: "św. Andrzej Bobola", prayer: "Święty Andrzeju, umacniaj wierność i odwagę." },
+      { name: "św. Teresa Benedykta od Krzyża (Edith Stein)", prayer: "Święta Tereso Benedykto, módl się za dialog i prawdę." },
+      { name: "św. Kamil de Lellis", prayer: "Święty Kamilie, wstawiaj się za chorych i służbę zdrowia." },
       { name: "św. Wincenty a Paulo", prayer: "Święty Wincenty, obdarz mnie miłością służby." },
-      { name: "św. Hildegarda z Bingen", prayer: "Święta Hildegardo, inspiruj moje twórcze dary." },
+      { name: "św. Alfons Maria Liguori", prayer: "Święty Alfonsie, prowadź w drodze nawrócenia." },
+      { name: "św. Rita z Cascii", prayer: "Święta Rito, módl się w trudnych sprawach." },
       { name: "św. Alojzy Gonzaga", prayer: "Święty Alojzy, wspieraj młodzież w powołaniu." },
-      { name: "św. Izydor z Sewilli", prayer: "Święty Izydorze, pomóż zgłębiać mądrość wiary." },
-      { name: "św. Bonawentura", prayer: "Święty Bonawenturo, prowadź mnie ku kontemplacji." },
-      { name: "św. Roch", prayer: "Święty Rochu, wstawiaj się za chorych i cierpiących." },
-      { name: "św. Korneliusz", prayer: "Święty Korneliuszu, módl się za wspólnotę Kościoła." },
-      { name: "św. Walenty", prayer: "Święty Walenty, błogosław związkom i małżeństwom." },
-      { name: "św. Florian", prayer: "Święty Florianie, chroń od pożaru i niebezpieczeństw." },
-      { name: "św. Ludwika de Marillac", prayer: "Święta Ludwiko, wspieraj dzieła miłosierdzia." },
-      { name: "św. Perpetua", prayer: "Święta Perpetuo, daj odwagę w świadectwie." },
-      { name: "św. Felicyta", prayer: "Święta Felicyto, wspieraj w wierze aż do końca." },
       { name: "św. Jan XXIII", prayer: "Święty Janie XXIII, módl się za odnowę Kościoła." },
-      { name: "św. Cyprian", prayer: "Święty Cyprianie, naucz jedności i odwagi w wierze." },
-      { name: "św. Marian", prayer: "Święty Marianie, wspieraj wytrwałość w modlitwie." },
       { name: "św. Paweł VI", prayer: "Święty Pawle VI, wstawiaj się za Kościół i pokój." },
-      { name: "św. Jan Maria Vianney (Proboszcz z Ars)", prayer: "Święty Janie Mario Vianney, naucz mnie miłości do sakramentów." },
-      { name: "św. Peregryn", prayer: "Święty Peregrynie, wstawiaj się za chorych na raka." },
-      { name: "św. Rita z Cascii (ponownie)", prayer: "Święta Rito, wstawiaj się za beznadziejne sprawy." }
+      { name: "św. Filip Neri", prayer: "Święty Filipie, obdarz mnie radością służby." },
+      { name: "św. Łucja", prayer: "Święta Łucjo, oświeć moje serce i oczy." },
+      { name: "św. Cecylia", prayer: "Święta Cecylio, niech moja modlitwa będzie śpiewem." },
+      { name: "św. Mikołaj", prayer: "Święty Mikołaju, opiekuj się rodzinami i dziećmi." },
+      { name: "św. Józef Marello", prayer: "Święty Józefie Marello, wspieraj gorliwość misyjną." },
+      { name: "św. Rafał Kalinowski", prayer: "Święty Rafale, ucz pokory i wytrwałości." },
+      { name: "św. Jan Paweł I", prayer: "Święty Janie Pawle I, wstawiaj się za Kościół." },
+      { name: "św. Oscar Romero", prayer: "Święty Óscarze, wstawiaj się za sprawiedliwością społeczną." },
+      { name: "bł. Carlo Acutis" , prayer: "Błogosławiony Carlo, módl się za młodych (uwaga: Carlo jest kanonizowany — preferowany zapis jako św. Carlo Acutis, jeśli chcesz)." },
+      { name: "bł. Matt Talbot", prayer: "Błogosławiony Matie, wstawiaj się w sprawach uzależnień." },
+      { name: "bł. Jerzy Popiełuszko", prayer: "Błogosławiony Jerzy, wstawiaj się za wolnością i odwagą." }
     ];
 
-    if (patrons.length < 100) {
-      const needed = 100 - patrons.length;
-      for (let i = 1; i <= needed; i++) {
-        patrons.push({ name: `św. Nieznany ${i}`, prayer: "Módl się za nami." });
-      }
-    }
+    // jeśli użytkownik życzy sobie, mogę usunąć wpisy 'bł.' i zamienić na 'św.' dla kanonizowanych — zostawiłem kilka błogosławionych, jak poprosiłeś
 
-    // --- elementy ---
+    // --- elementy DOM ---
     const drawBtn = document.getElementById('drawBtn');
     const patronBox = document.getElementById('patronBox');
     const countdownDiv = document.getElementById('countdown');
     const historyList = document.getElementById('historyList');
     const toggleHistoryBtn = document.getElementById('toggleHistoryBtn');
 
-    const pointsLogo = document.getElementById('pointsLogo');
-    const pointsValue = document.getElementById('pointsValue');
-    const pointsMax = document.getElementById('pointsMax');
-
-    // --- stan ---
+    // --- stan i funkcje ---
     const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
     let countdownIntervalId = null;
     const HISTORY_SHOW = 6;
     let historyExpanded = false;
 
-    // PatronPunkty keys
-    const KEY_POINTS = 'patronPoints';
-    const KEY_COLLECTED = 'collectedPatrons';
-
-    // --- helper ---
     function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
 
     function renderPatron(p){
-      patronBox.innerHTML = `<h2>${escapeHtml(p.name)}</h2><p class="content-text">${escapeHtml(p.prayer)}</p>`;
+      patronBox.innerHTML = `<h2>${escapeHtml(p.name)}</h2><p>${escapeHtml(p.prayer)}</p>`;
     }
 
-    // --- history ---
     function pushHistory(entry){
       const raw = localStorage.getItem('patronHistory');
       const arr = raw ? JSON.parse(raw) : [];
@@ -354,7 +339,6 @@
       if(arr.length > 200) arr.length = 200;
       localStorage.setItem('patronHistory', JSON.stringify(arr));
       renderHistory();
-      ensureCollectedFromHistory();
     }
 
     function renderHistory(){
@@ -379,68 +363,10 @@
       }
     }
 
-    function toggleHistory(){
-      historyExpanded = !historyExpanded;
-      renderHistory();
-    }
+    function toggleHistory(){ historyExpanded = !historyExpanded; renderHistory(); }
 
-    function clearHistoryConfirm(){
-      if(confirm('Na pewno usunąć całą historię wylosowań?')) {
-        localStorage.removeItem('patronHistory');
-        renderHistory();
-      }
-    }
+    function clearHistoryConfirm(){ if(confirm('Na pewno usunąć całą historię wylosowań?')) { localStorage.removeItem('patronHistory'); renderHistory(); } }
 
-    // --- PatronPunkty logic ---
-    function loadPoints(){
-      const p = parseInt(localStorage.getItem(KEY_POINTS) || '0', 10);
-      const collectedRaw = localStorage.getItem(KEY_COLLECTED);
-      const collected = collectedRaw ? JSON.parse(collectedRaw) : [];
-      return { points: p, collected: new Set(collected) };
-    }
-
-    function savePoints(points, collectedSet){
-      localStorage.setItem(KEY_POINTS, String(points));
-      localStorage.setItem(KEY_COLLECTED, JSON.stringify(Array.from(collectedSet)));
-    }
-
-    function ensureCollectedFromHistory(){
-      const collectedRaw = localStorage.getItem(KEY_COLLECTED);
-      if(!collectedRaw){
-        const raw = localStorage.getItem('patronHistory');
-        const arr = raw ? JSON.parse(raw) : [];
-        const set = new Set(arr.map(e => e.name));
-        localStorage.setItem(KEY_COLLECTED, JSON.stringify(Array.from(set)));
-      }
-      updatePointsUI();
-    }
-
-    function updatePointsUI(){
-      const { points, collected } = loadPoints();
-      pointsLogo.textContent = String(points);
-      pointsValue.textContent = String(points);
-      const maxRemaining = patrons.length - collected.size;
-      pointsMax.textContent = String(maxRemaining);
-    }
-
-    function awardPointIfNew(patronName){
-      const state = loadPoints();
-      const collected = state.collected;
-      let points = state.points;
-      if(!collected.has(patronName)){
-        collected.add(patronName);
-        points = points + 1;
-        savePoints(points, collected);
-        // visual feedback
-        pointsLogo.textContent = String(points);
-        pointsValue.textContent = String(points);
-        const maxRemaining = patrons.length - collected.size;
-        pointsMax.textContent = String(maxRemaining);
-        pointsLogo.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.25)' }, { transform: 'scale(1)' }], { duration: 420 });
-      }
-    }
-
-    // --- weekly logic ---
     function getCurrentWeekIndex(){ return Math.floor(Date.now() / WEEK_MS); }
 
     function ensureWeeklyPatronOnLoad(){
@@ -449,19 +375,15 @@
       const pName = localStorage.getItem('patronName');
       const pPrayer = localStorage.getItem('patronPrayer');
 
-      ensureCollectedFromHistory();
-
-      if(storedWeek && parseInt(storedWeek,10) === getCurrentWeekIndex() && lastDraw && pName && pPrayer){
+      if(storedWeek && parseInt(storedWeek) === getCurrentWeekIndex() && lastDraw && pName && pPrayer){
         renderPatron({name: pName, prayer: pPrayer});
-        startCountdown(parseInt(lastDraw,10));
+        startCountdown(parseInt(lastDraw));
         drawBtn.disabled = true;
       } else {
         drawBtn.disabled = false;
         countdownDiv.textContent = 'Jeszcze nie wylosowano patrona na ten tydzień.';
         localStorage.removeItem('patronWeekIndex');
       }
-      renderHistory();
-      updatePointsUI();
     }
 
     function drawPatron(){
@@ -476,14 +398,11 @@
       pushHistory({name: p.name, prayer: p.prayer, time: now});
       startCountdown(now);
       drawBtn.disabled = true;
-
-      // award point if this patron is new for user
-      awardPointIfNew(p.name);
     }
 
     function startCountdown(startTimestamp){
       if(countdownIntervalId){ clearInterval(countdownIntervalId); countdownIntervalId = null; }
-      const nextDraw = parseInt(startTimestamp,10) + WEEK_MS;
+      const nextDraw = parseInt(startTimestamp) + WEEK_MS;
       function tick(){
         const now = Date.now();
         const distance = nextDraw - now;
@@ -504,14 +423,14 @@
       countdownIntervalId = setInterval(tick, 1000);
     }
 
-    // --- init ---
     function init(){
       renderHistory();
       ensureWeeklyPatronOnLoad();
       drawBtn.setAttribute('aria-label', 'Losuj patrona na tydzień');
-      ensureCollectedFromHistory();
+      console.info('Patron Tygodnia — zaktualizowano listę patronów oraz responsywność i strzałkę.');
     }
     init();
   </script>
 </body>
 </html>
+

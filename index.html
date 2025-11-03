@@ -1,436 +1,1224 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Patron Tygodnia — Codzienny Cytat UI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patron Tygodnia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
   <style>
-    :root{
-      /* Paleta i zmienne (Codzienny Cytat) */
-      --bg:#9fc6e2; /* jasne błękity */
-      --bg2:#cfe8f8;
-      --navy:#1e3a8a;
-      --white:#ffffff;
-      --quote-grad-start:#3b5998;
-      --quote-grad-end:#5a8dee;
-      --autumn-start:#8B5A2B;
-      --autumn-mid:#d15518;
-      --autumn-end:#6b8e23;
-      --point-blue:#2b7bd6;
-
-      --container-w:420px; /* dopasowane do telefonu w pionie */
-      --rounded:16px;
-      --card-h:120px;
-      --gap:14px;
-
-      /* STRZAŁKA: większa niż poprzednio, ale wciąż kompaktowa */
-      --external-size: clamp(26px, 6vw, 32px); /* trochę większa */
-      --external-icon: clamp(12px, 3vw, 16px);
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: #9fc6e2;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      min-height:100vh;
-      background: linear-gradient(180deg,var(--bg) 0%, var(--bg2) 100%);
-      font-family: Roboto, Arial, sans-serif;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-      padding: env(safe-area-inset-top,18px) env(safe-area-inset-right,12px) env(safe-area-inset-bottom,18px) env(safe-area-inset-left,12px);
-      color: var(--navy);
+    * {
+      box-sizing: border-box;
     }
 
-    /* Container (wygląd zgodny z Codzienny Cytat) */
-    .container{
-      width:100%;
-      max-width:var(--container-w);
-      background: var(--white);
-      border-radius: var(--rounded);
-      padding: clamp(12px, 4vw, 18px);
-      box-shadow: 0 12px 36px rgba(6,21,52,0.12);
-      border: 1px solid rgba(30,58,138,0.06);
-      position:relative;
-      overflow:auto;
-      max-height: calc(100vh - 36px);
-      margin: 8px auto;
-      transform-origin:center;
-      opacity:0;
-      transform:translateY(8px) scale(.995);
-      animation: appIn .45s ease forwards;
-      -webkit-overflow-scrolling: touch;
-      touch-action: manipulation;
+    .container {
+      width: 90%;
+      max-width: 500px;
+      padding: 32px 24px;
     }
-    @keyframes appIn{ to{opacity:1;transform:none} }
 
-    /* top-left external link (strzałka) - nieco większa */
-    .external-link{
-      position:absolute;
-      top:12px;
-      left:12px;
-      width:var(--external-size);
-      height:var(--external-size);
-      border-radius:999px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      text-decoration:none;
-      background:linear-gradient(135deg,var(--quote-grad-start) 0%,var(--quote-grad-end) 100%);
-      box-shadow:0 8px 22px rgba(6,21,52,0.14);
-      transition:transform .14s ease, box-shadow .14s ease, opacity .12s ease;
-      z-index:1000;
-      border:1px solid rgba(255,255,255,0.06);
-      outline:none;
-    }
-    .external-link:focus{ box-shadow:0 10px 28px rgba(6,21,52,0.18); }
-    .external-link:hover{ transform:translateY(-2px) scale(1.04); box-shadow:0 16px 34px rgba(6,21,52,0.16); }
-    .external-link:active{ transform:translateY(0) scale(.99) }
-    .external-link svg{ width:var(--external-icon); height:var(--external-icon); display:block; fill:#ffffff; transform:rotate(180deg); }
-
-    header{ display:flex; align-items:center; gap:12px; justify-content:center; margin-bottom:6px; text-align:center }
-    h1{
+    .title {
       font-family: 'Pacifico', cursive;
-      margin:0;
-      color: var(--navy);
-      font-size: clamp(20px, 6vw, 28px);
-      line-height:1;
+      font-size: 36px;
+      color: #1e3a8a;
+      text-align: center;
+      margin: 0 0 32px 0;
+      text-shadow: 2px 2px 4px rgba(6, 21, 52, 0.1);
     }
 
-    .patron-box{
-      margin-top: var(--gap);
-      background: linear-gradient(135deg,var(--quote-grad-start),var(--quote-grad-end));
-      color: var(--white);
-      padding: clamp(12px,3.6vw,18px);
-      border-radius: 12px;
-      min-height:100px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      text-align:center;
-      box-shadow:0 12px 34px rgba(59,89,152,0.12);
-      font-size: 1rem;
-    }
-    .patron-box h2{ margin:0; font-size:1.05rem; font-weight:800 }
-    .patron-box p{ margin:6px 0 0 0; font-size:0.95rem; opacity:0.95 }
-
-    .controls{
-      display:flex;
-      gap:10px;
-      margin-top: var(--gap);
-      flex-direction:column;
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px 24px;
+      box-shadow: 
+        0 4px 12px rgba(6, 21, 52, 0.12),
+        0 2px 6px rgba(59, 89, 152, 0.12);
+      margin-bottom: 24px;
     }
 
-    /* przycisk -- inna czcionka dla napisu i mniejsza wysokość */
-    .btn-primary{
-      appearance:none;
+    .instruction {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-align: center;
+      margin: 0 0 24px 0;
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .draw-button {
+      width: 100%;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);
+      color: white;
       border: none;
       border-radius: 12px;
-      padding: 10px 14px; /* krótszy w pionie */
-      font-weight:800;
-      font-size:1rem;
-      font-family: 'Pacifico', cursive; /* inna czcionka dla napisu */
-      line-height:1; /* krótszy w pionie */
-      background: linear-gradient(90deg,var(--quote-grad-start),var(--quote-grad-end));
-      color:var(--white);
-      cursor:pointer;
-      box-shadow: 0 10px 20px rgba(59,89,152,0.12);
-      transition: transform .12s ease, box-shadow .12s ease;
-      width:100%;
-      min-height:38px; /* kompaktowy, wygodny dla palca */
-    }
-    .btn-primary:active{ transform: translateY(1px) }
-    .btn-primary:disabled{ background:#c4c4c4; cursor:not-allowed; box-shadow:none; color:#fff; }
-
-    .meta{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      margin-top:10px;
-    }
-    #countdown { font-weight:700; color:var(--navy); font-size:0.95rem; text-align:center; margin-top:6px }
-
-    .panel{
-      margin-top:14px;
-      background: linear-gradient(180deg,#f8fbff,#ffffff);
-      border-radius:10px;
-      padding:10px;
-      border:1px solid rgba(30,58,138,0.06);
-      box-shadow: 0 8px 18px rgba(30,58,138,0.04);
+      font-family: 'Roboto', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 
+        0 4px 12px rgba(59, 89, 152, 0.3),
+        0 2px 6px rgba(6, 21, 52, 0.2);
+      transition: all 0.3s ease;
     }
 
-    .history-header{ display:flex; align-items:center; justify-content:space-between; gap:8px }
-    .history-list{
-      margin-top:10px;
-      max-height:220px;
-      overflow:auto;
-      -webkit-overflow-scrolling:touch;
-      border-radius:8px;
-      padding:6px;
-      background: #fff;
-      border:1px solid rgba(30,58,138,0.04);
-    }
-    .history-item{
-      padding:10px;
-      border-radius:8px;
-      background:linear-gradient(180deg, rgba(59,89,152,0.03), rgba(59,89,152,0.01));
-      margin-bottom:8px;
-      font-size:0.95rem;
-    }
-    .history-item small{ display:block;color:rgba(30,58,138,0.6); margin-top:6px; font-size:0.82rem }
-
-    .history-controls{ display:flex; gap:8px; margin-top:10px; justify-content:flex-end; flex-wrap:wrap }
-    .btn-small{
-      border-radius:10px;
-      padding:8px 10px;
-      border:1px solid rgba(30,58,138,0.06);
-      background:transparent;
-      color:var(--navy);
-      cursor:pointer;
-      font-weight:700;
+    .draw-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 6px 16px rgba(59, 89, 152, 0.4),
+        0 3px 8px rgba(6, 21, 52, 0.25);
     }
 
-    .muted{ color:rgba(30,58,138,0.7); font-size:0.92rem; text-align:center; margin-top:10px }
-
-    /* entry animations */
-    @keyframes slideInFromLeft{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
-    header{opacity:0;animation:slideInFromLeft .5s cubic-bezier(.2,.9,.2,1) forwards .08s}
-    .patron-box{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .16s}
-    .controls{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .24s}
-    .panel{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .32s}
-    footer{opacity:0;animation:slideInFromLeft .55s cubic-bezier(.2,.9,.2,1) forwards .40s}
-
-    /* Mobile portrait tuning */
-    @media (orientation: portrait) and (max-width:520px){
-      :root{ --container-w: calc(100vw - 24px); }
-      .container{ max-width: calc(100vw - 24px); padding:12px; border-radius:14px }
-      .patron-box{ min-height:120px; padding:12px }
-      .btn-primary{ min-height:40px; padding:10px 12px; font-size:1rem }
-      .history-list{ max-height:180px }
-      .external-link{ top:10px; left:10px }
+    .draw-button:active:not(:disabled) {
+      transform: translateY(0);
     }
 
-    @media (min-width:700px){
-      .controls{flex-direction:row}
-      .meta{justify-content:space-between}
+    .draw-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
+    .result-card {
+      background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 24px;
+      box-shadow: 
+        0 4px 12px rgba(59, 89, 152, 0.3),
+        0 2px 6px rgba(6, 21, 52, 0.2);
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .result-card.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes messageSlideIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    @keyframes messageSlideOut {
+      from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+      }
+    }
+
+    .patron-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .patron-name {
+      font-family: 'Roboto', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+      margin: 0;
+      flex: 1;
+      text-align: left;
+    }
+
+    .plus-button {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .plus-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: scale(1.1);
+    }
+
+    .plus-button:active {
+      transform: scale(0.95);
+    }
+
+    .patron-prayer {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.95);
+      text-align: center;
+      line-height: 1.6;
+      margin: 0;
+      font-style: italic;
+    }
+
+    .countdown-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      display: none;
+    }
+
+    .countdown-card.show {
+      display: block;
+    }
+
+    .countdown-label {
+      font-size: 14px;
+      color: #1e3a8a;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+    }
+
+    .countdown-time {
+      font-size: 32px;
+      font-weight: 700;
+      color: #2b7bd6;
+      margin: 0;
+    }
+
+    .spinning {
+      animation: pulse 0.1s ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .saved-patrons-button {
+      width: 100%;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #2b7bd6 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 
+        0 4px 12px rgba(30, 58, 138, 0.3),
+        0 2px 6px rgba(6, 21, 52, 0.2);
+      transition: all 0.3s ease;
+      margin-top: 16px;
+    }
+
+    .saved-patrons-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 6px 16px rgba(30, 58, 138, 0.4),
+        0 3px 8px rgba(6, 21, 52, 0.25);
+    }
+
+    .saved-patrons-button:active {
+      transform: translateY(0);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 80%;
+      overflow: hidden;
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.2),
+        0 10px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 24px 16px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .close-button {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 24px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .close-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: scale(1.1);
+    }
+
+    .modal-body {
+      padding: 16px 24px 24px 24px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .no-patrons {
+      text-align: center;
+      color: #1e3a8a;
+      font-style: italic;
+      margin: 40px 0;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      line-height: 1.5;
+    }
+
+    .saved-patron-item {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .saved-patron-item:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .saved-patron-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin: 0 0 8px 0;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .saved-patron-prayer {
+      font-size: 14px;
+      color: #1e3a8a;
+      line-height: 1.4;
+      margin: 0 0 8px 0;
+      font-style: italic;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .saved-patron-date {
+      font-size: 12px;
+      color: #1e3a8a;
+      margin: 0;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .delete-patron-button {
+      background: rgba(220, 38, 38, 0.2);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(220, 38, 38, 0.4);
+      color: #1e3a8a;
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      float: right;
+      margin-top: -4px;
+      transition: all 0.3s ease;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .delete-patron-button:hover {
+      background: rgba(220, 38, 38, 0.3);
+      border-color: rgba(220, 38, 38, 0.6);
+      transform: scale(1.05);
+    }
+
+    .settings-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .settings-button:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: scale(1.1) rotate(90deg);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .settings-icon {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+
+    .settings-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1500;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .settings-modal.show {
+      display: flex;
+    }
+
+    .settings-content {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      max-height: 80%;
+      overflow: hidden;
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.2),
+        0 10px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 24px 16px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .settings-header h3 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .settings-body {
+      padding: 16px 24px 24px 24px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .color-schemes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .color-scheme {
+      background: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      padding: 16px 12px 12px 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .color-scheme:hover {
+      border-color: rgba(30, 58, 138, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .color-scheme.active {
+      border-color: #1e3a8a;
+      box-shadow: 0 4px 16px rgba(30, 58, 138, 0.3);
+    }
+
+    .color-scheme-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin: 8px 0 0 0;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .color-preview {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      margin: 0 auto 8px auto;
+      border: 2px solid #f0f0f0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
   </style>
-</head>
-<body>
-  <div class="container" role="main" aria-label="Aplikacja Patron Tygodnia">
-    <!-- top-left arrow linking do bloga (większa) -->
-    <a class="external-link" href="https://blogwpg.my.canva.site/" target="_blank" rel="noopener" aria-label="Odwiedź blog">
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-    </a>
-
-    <header>
-      <h1>Patron Tygodnia</h1>
-    </header>
-
-    <div class="patron-box" id="patronBox" aria-live="polite">
-      <p>Kliknij „Losuj Patrona” aby otrzymać patrona na ten tydzień.</p>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body><!-- Przycisk ustawień --> <button class="settings-button" id="settingsButton">
+   <svg class="settings-icon" viewbox="0 0 24 24"><path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.22,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.22,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
+   </svg></button>
+  <div class="container">
+   <h1 class="title" id="mainTitle">Patron Tygodnia</h1>
+   <div class="card">
+    <div class="instruction" id="instructionText">
+     Wylosuj swojego Patrona na ten tydzień
+    </div><button class="draw-button" id="drawButton">Losuj</button>
+    <div class="result-card" id="resultCard">
+     <div class="patron-header">
+      <h2 class="patron-name" id="patronName"></h2><button class="plus-button" id="plusButton">+</button>
+     </div>
+     <p class="patron-prayer" id="patronPrayer"></p>
     </div>
-
-    <div class="controls" role="region" aria-label="Kontrolki">
-      <button id="drawBtn" class="btn-primary" onclick="drawPatron()">Losuj Patrona</button>
+   </div>
+   <div class="countdown-card" id="countdownCard">
+    <p class="countdown-label">Następne losowanie za:</p>
+    <p class="countdown-time" id="countdownTime">7 dni</p>
+   </div><button class="saved-patrons-button" id="savedPatronsButton">Zapisani Patroni</button>
+  </div><!-- Modal dla zapisanych patronów -->
+  <div class="modal-overlay" id="modalOverlay">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h3>Zapisani Patroni</h3><button class="close-button" id="closeButton">×</button>
     </div>
-
-    <div id="countdown" aria-hidden="false"></div>
-
-    <div class="panel" aria-label="Historia wylosowań">
-      <div class="history-header">
-        <strong>Historia (ostatnie 6)</strong>
-      </div>
-
-      <div class="history-list" id="historyList" aria-live="polite">
-        <!-- wpisy historii -->
-      </div>
-
-      <div class="history-controls">
-        <button id="toggleHistoryBtn" class="btn-small" onclick="toggleHistory()">Pokaż więcej</button>
-        <button class="btn-small" onclick="clearHistoryConfirm()">Wyczyść historię</button>
-      </div>
+    <div class="modal-body" id="modalBody">
+     <p class="no-patrons">Nie masz jeszcze zapisanych patronów</p>
     </div>
-
-    <div class="muted">Codzienna krótka modlitwa pomaga w duchowym wzroście.</div>
+   </div>
+  </div><!-- Modal ustawień -->
+  <div class="settings-modal" id="settingsModal">
+   <div class="settings-content">
+    <div class="settings-header">
+     <h3>Ustawienia Kolorów</h3><button class="close-button" id="closeSettingsButton">×</button>
+    </div>
+    <div class="settings-body">
+     <p style="color: #1e3a8a; font-weight: 700; margin: 0 0 16px 0; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">Wybierz schemat kolorów:</p>
+     <div class="color-schemes" id="colorSchemes"><!-- Schematy kolorów będą dodane przez JavaScript -->
+     </div>
+    </div>
+   </div>
   </div>
-
   <script>
-    // --- lista 50 dobrze znanych świętych i błogosławionych (na 100% katolickich) ---
     const patrons = [
-      { name: "św. Carlo Acutis", prayer: "Święty Carlo, pomagaj mi kochać Eucharystię i żyć w prawdzie." },
-      { name: "św. Jan Paweł II", prayer: "Święty Janie Pawle, wstawiaj się za młodymi i rodzinami." },
-      { name: "św. Teresa z Lisieux", prayer: "Święta Tereso, ucz mnie małej drogi miłości." },
-      { name: "św. Franciszek z Asyżu", prayer: "Święty Franciszku, naucz mnie miłości do stworzeń." },
-      { name: "św. Antoni z Padwy", prayer: "Święty Antoni, pomóż odnaleźć to, co zgubione." },
-      { name: "św. Józef", prayer: "Święty Józefie, opiekuj się moją rodziną." },
-      { name: "św. Jan Chrzciciel", prayer: "Święty Janie, przygotuj serce na Pana." },
-      { name: "św. Paweł Apostoł", prayer: "Święty Pawle, naucz mnie odwagi w głoszeniu Ewangelii." },
-      { name: "św. Piotr Apostoł", prayer: "Święty Piotrze, prowadź Kościół i chroń moją wiarę." },
-      { name: "św. Teresa z Ávili", prayer: "Święta Tereso, wstawiaj się za moją modlitwą." },
-      { name: "św. Ignacy z Loyoli", prayer: "Święty Ignacy, prowadź moje rozeznanie." },
-      { name: "św. Tomasz z Akwinu", prayer: "Święty Tomaszu, oświeć mój umysł" },
-      { name: "św. Benedykt z Nursji", prayer: "Święty Benedykcie, błogosław pracy i modlitwie." },
-      { name: "św. Klara z Asyżu", prayer: "Święta Klaro, pomóż mi trwać w prostocie." },
-      { name: "św. Maksymilian Kolbe", prayer: "Święty Maksymilianie, ucz mnie poświęcenia dla innych." },
-      { name: "św. Faustyna Kowalska", prayer: "Święta Faustyno, prowadź mnie do zaufania Bożemu miłosierdziu." },
-      { name: "św. Pio z Pietrelciny (Padre Pio)", prayer: "Święty Pio, otaczaj opieką chorych i cierpiących." },
-      { name: "św. Jan Maria Vianney (Proboszcz z Ars)", prayer: "Święty Janie Marie, naucz mnie miłości do sakramentów." },
-      { name: "św. Bernadetta Soubirous", prayer: "Święta Bernadetto, wstawiaj się za nami z Lourdes." },
-      { name: "św. Maria Magdalena", prayer: "Święta Mario Magdaleno, naucz mnie wiernej miłości do Pana." },
-      { name: "św. Józef Sebastian Pelczar", prayer: "Święty Józefie Sebastianie, błogosław dzieła miłosierdzia." },
-      { name: "św. Edmund Bojanowski", prayer: "Święty Edmundzie, wspieraj dzieła miłości i edukacji." },
-      { name: "św. Jadwiga Królowa", prayer: "Święta Jadwigo, opiekuj się Polską i rodzinami." },
-      { name: "św. Kazimierz", prayer: "Święty Kazimierzu, wspieraj młodych w cnocie." },
-      { name: "św. Stanisław ze Szczepanowa", prayer: "Święty Stanisławie, wstawiaj się za wiernymi." },
-      { name: "św. Stanisław Kostka", prayer: "Święty Stanisławie, pomagaj młodzieży w wyborach życiowych." },
-      { name: "św. Andrzej Bobola", prayer: "Święty Andrzeju, umacniaj wierność i odwagę." },
-      { name: "św. Teresa Benedykta od Krzyża (Edith Stein)", prayer: "Święta Tereso Benedykto, módl się za dialog i prawdę." },
-      { name: "św. Kamil de Lellis", prayer: "Święty Kamilie, wstawiaj się za chorych i służbę zdrowia." },
-      { name: "św. Wincenty a Paulo", prayer: "Święty Wincenty, obdarz mnie miłością służby." },
-      { name: "św. Alfons Maria Liguori", prayer: "Święty Alfonsie, prowadź w drodze nawrócenia." },
-      { name: "św. Rita z Cascii", prayer: "Święta Rito, módl się w trudnych sprawach." },
-      { name: "św. Alojzy Gonzaga", prayer: "Święty Alojzy, wspieraj młodzież w powołaniu." },
-      { name: "św. Jan XXIII", prayer: "Święty Janie XXIII, módl się za odnowę Kościoła." },
-      { name: "św. Paweł VI", prayer: "Święty Pawle VI, wstawiaj się za Kościół i pokój." },
-      { name: "św. Filip Neri", prayer: "Święty Filipie, obdarz mnie radością służby." },
-      { name: "św. Łucja", prayer: "Święta Łucjo, oświeć moje serce i oczy." },
-      { name: "św. Cecylia", prayer: "Święta Cecylio, niech moja modlitwa będzie śpiewem." },
-      { name: "św. Mikołaj", prayer: "Święty Mikołaju, opiekuj się rodzinami i dziećmi." },
-      { name: "św. Józef Marello", prayer: "Święty Józefie Marello, wspieraj gorliwość misyjną." },
-      { name: "św. Rafał Kalinowski", prayer: "Święty Rafale, ucz pokory i wytrwałości." },
-      { name: "św. Jan Paweł I", prayer: "Święty Janie Pawle I, wstawiaj się za Kościół." },
-      { name: "św. Oscar Romero", prayer: "Święty Óscarze, wstawiaj się za sprawiedliwością społeczną." },
-      { name: "bł. Carlo Acutis" , prayer: "Błogosławiony Carlo, módl się za młodych (uwaga: Carlo jest kanonizowany — preferowany zapis jako św. Carlo Acutis, jeśli chcesz)." },
-      { name: "bł. Matt Talbot", prayer: "Błogosławiony Matie, wstawiaj się w sprawach uzależnień." },
-      { name: "bł. Jerzy Popiełuszko", prayer: "Błogosławiony Jerzy, wstawiaj się za wolnością i odwagą." }
+      { name: "Św. Jan Paweł II (Karol Wojtyła)", prayer: "Módl się, abym kochał człowieka tak, jak Chrystus mnie umiłował." },
+      { name: "Św. Franciszek z Asyżu", prayer: "Ucz mnie, abym był narzędziem pokoju i dobroci." },
+      { name: "Św. Teresa z Lisieux (Mała Tereska)", prayer: "Módl się, abym ufał Bogu w małych rzeczach każdego dnia." },
+      { name: "Św. Ojciec Pio (Francesco Forgione)", prayer: "Ucz mnie cierpliwości w cierpieniu i wytrwałości w modlitwie." },
+      { name: "Św. Rita z Cascii", prayer: "Módl się, abym przebaczał nawet w najtrudniejszych chwilach." },
+      { name: "Św. Antoni z Padwy", prayer: "Ucz mnie szukać Boga ponad wszystkim, co zaginęło." },
+      { name: "Św. Józef (oblubieniec Maryi)", prayer: "Módl się, abym ufał Bogu w milczeniu i prostocie." },
+      { name: "Św. Faustyna Kowalska", prayer: "Ucz mnie, abym był miłosierny sercem, słowem i czynem." },
+      { name: "Św. Maksymilian Maria Kolbe", prayer: "Módl się, abym potrafił ofiarować siebie z miłości." },
+      { name: "Św. Katarzyna ze Sieny", prayer: "Ucz mnie odwagi w głoszeniu prawdy." },
+      { name: "Św. Augustyn z Hippony", prayer: "Módl się, abym pragnął Boga bardziej niż rzeczy tego świata." },
+      { name: "Św. Ignacy Loyola", prayer: "Ucz mnie rozeznawać wolę Bożą w codzienności." },
+      { name: "Św. Franciszek Ksawery", prayer: "Módl się, abym miał serce misyjne i otwarte." },
+      { name: "Św. Bernadetta Soubirous", prayer: "Ucz mnie pokory i prostoty serca." },
+      { name: "Św. Andrzej Bobola", prayer: "Módl się, abym był wierny wierze mimo prześladowań." },
+      { name: "Św. Monika (matka św. Augustyna)", prayer: "Ucz mnie modlitwy wytrwałej i pełnej nadziei." },
+      { name: "Św. Dominik Guzmán", prayer: "Módl się, abym umiłował prawdę i głosił Ewangelię z radością." },
+      { name: "Św. Jadwiga Królowa", prayer: "Ucz mnie łączyć wiarę z mądrością i służbą innym." },
+      { name: "Św. Teresa z Ávili", prayer: "Módl się, abym szukał Boga w głębi serca i modlitwy." },
+      { name: "Św. Brat Albert (Adam Chmielowski)", prayer: "Ucz mnie być dobrym jak chleb." },
+      { name: "Bł. Pier Giorgio Frassati", prayer: "Módl się, abym żył pełnią życia w przyjaźni z Bogiem." },
+      { name: "Bł. Karolina Kózkówna", prayer: "Ucz mnie czystości i odwagi w obronie dobra." },
+      { name: "Bł. Jerzy Popiełuszko", prayer: "Módl się, abym zwyciężał zło dobrem." },
+      { name: "Bł. Chiara Badano", prayer: "Ucz mnie radości w cierpieniu i ufności w Boży plan." }
     ];
 
-    // jeśli użytkownik życzy sobie, mogę usunąć wpisy 'bł.' i zamienić na 'św.' dla kanonizowanych — zostawiłem kilka błogosławionych, jak poprosiłeś
-
-    // --- elementy DOM ---
-    const drawBtn = document.getElementById('drawBtn');
-    const patronBox = document.getElementById('patronBox');
-    const countdownDiv = document.getElementById('countdown');
-    const historyList = document.getElementById('historyList');
-    const toggleHistoryBtn = document.getElementById('toggleHistoryBtn');
-
-    // --- stan i funkcje ---
-    const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
-    let countdownIntervalId = null;
-    const HISTORY_SHOW = 6;
-    let historyExpanded = false;
-
-    function escapeHtml(s){ return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
-
-    function renderPatron(p){
-      patronBox.innerHTML = `<h2>${escapeHtml(p.name)}</h2><p>${escapeHtml(p.prayer)}</p>`;
-    }
-
-    function pushHistory(entry){
-      const raw = localStorage.getItem('patronHistory');
-      const arr = raw ? JSON.parse(raw) : [];
-      arr.unshift(entry);
-      if(arr.length > 200) arr.length = 200;
-      localStorage.setItem('patronHistory', JSON.stringify(arr));
-      renderHistory();
-    }
-
-    function renderHistory(){
-      const raw = localStorage.getItem('patronHistory');
-      const arr = raw ? JSON.parse(raw) : [];
-      if(arr.length === 0){
-        historyList.innerHTML = '<div class="history-item">Brak zapisów</div>';
-        toggleHistoryBtn.style.display = 'none';
-        return;
+    const colorSchemes = {
+      blue: {
+        name: "Niebieski (domyślny)",
+        bg: "#9fc6e2",
+        bgSecondary: "#cfe8f8",
+        text: "#1e3a8a",
+        gradientStart: "#3b5998",
+        gradientEnd: "#5a8dee",
+        accent: "#2b7bd6"
+      },
+      lightBlue: {
+        name: "Jasny błękit",
+        bg: "#bfdbfe",
+        bgSecondary: "#dbeafe",
+        text: "#1e40af",
+        gradientStart: "#60a5fa",
+        gradientEnd: "#3b82f6",
+        accent: "#2563eb"
+      },
+      green: {
+        name: "Zielony",
+        bg: "#a7f3d0",
+        bgSecondary: "#d1fae5",
+        text: "#064e3b",
+        gradientStart: "#059669",
+        gradientEnd: "#10b981",
+        accent: "#047857"
+      },
+      oliveGreen: {
+        name: "Spleśniała zieleń",
+        bg: "#8b9467",
+        bgSecondary: "#a8b584",
+        text: "#3d4a2b",
+        gradientStart: "#6b7c4f",
+        gradientEnd: "#5a6b42",
+        accent: "#4a5635"
+      },
+      gray: {
+        name: "Szary",
+        bg: "#e5e7eb",
+        bgSecondary: "#f3f4f6",
+        text: "#111827",
+        gradientStart: "#4b5563",
+        gradientEnd: "#6b7280",
+        accent: "#374151"
+      },
+      blackWhite: {
+        name: "Czarno-biały",
+        bg: "#ffffff",
+        bgSecondary: "#f8f9fa",
+        text: "#000000",
+        gradientStart: "#000000",
+        gradientEnd: "#333333",
+        accent: "#666666"
+      },
+      pink: {
+        name: "Różowy",
+        bg: "#fce7f3",
+        bgSecondary: "#fdf2f8",
+        text: "#831843",
+        gradientStart: "#db2777",
+        gradientEnd: "#ec4899",
+        accent: "#be185d"
+      },
+      lightRose: {
+        name: "Jasny różany",
+        bg: "#ffe4e6",
+        bgSecondary: "#fef2f2",
+        text: "#881337",
+        gradientStart: "#f43f5e",
+        gradientEnd: "#e11d48",
+        accent: "#dc2626"
+      },
+      orange: {
+        name: "Pomarańczowy",
+        bg: "#fed7aa",
+        bgSecondary: "#fef3c7",
+        text: "#92400e",
+        gradientStart: "#f59e0b",
+        gradientEnd: "#f97316",
+        accent: "#d97706"
+      },
+      pumpkin: {
+        name: "Dojrzała dynia",
+        bg: "#ff6b35",
+        bgSecondary: "#ffedd5",
+        text: "#7c2d12",
+        gradientStart: "#ea580c",
+        gradientEnd: "#dc2626",
+        accent: "#c2410c"
+      },
+      purple: {
+        name: "Fioletowy",
+        bg: "#e9d5ff",
+        bgSecondary: "#f3e8ff",
+        text: "#581c87",
+        gradientStart: "#8b5cf6",
+        gradientEnd: "#a855f7",
+        accent: "#7c3aed"
+      },
+      plum: {
+        name: "Śliwkowy",
+        bg: "#c8b5d1",
+        bgSecondary: "#ebd9ea",
+        text: "#4a2c5a",
+        gradientStart: "#8e4a9c",
+        gradientEnd: "#6b3775",
+        accent: "#7a4285"
+      },
+      beige: {
+        name: "Beżowy",
+        bg: "#f7f3e9",
+        bgSecondary: "#fdf9f1",
+        text: "#8b4513",
+        gradientStart: "#e6d7c3",
+        gradientEnd: "#d4b896",
+        accent: "#c19a6b"
+      },
+      latte: {
+        name: "Spienione latte",
+        bg: "#d4b896",
+        bgSecondary: "#e8d5b7",
+        text: "#5d4037",
+        gradientStart: "#8d6e63",
+        gradientEnd: "#6d4c41",
+        accent: "#795548"
       }
-      const toShow = historyExpanded ? arr : arr.slice(0, HISTORY_SHOW);
-      historyList.innerHTML = toShow.map(h => {
-        const dt = new Date(h.time);
-        const dateStr = dt.toLocaleString();
-        return `<div class="history-item"><strong>${escapeHtml(h.name)}</strong><small>${escapeHtml(h.prayer)}</small><small>${dateStr}</small></div>`;
-      }).join('');
-      if(arr.length > HISTORY_SHOW){
-        toggleHistoryBtn.style.display = 'inline-block';
-        toggleHistoryBtn.textContent = historyExpanded ? 'Pokaż mniej' : 'Pokaż więcej';
-      } else {
-        toggleHistoryBtn.style.display = 'none';
+    };
+
+    const defaultConfig = {
+      main_title: "Patron Tygodnia",
+      draw_button_text: "Losuj",
+      instruction_text: "Wylosuj swojego Patrona na ten tydzień",
+      primary_color: "#3b5998",
+      secondary_color: "#5a8dee",
+      navy_color: "#1e3a8a",
+      point_blue: "#2b7bd6",
+      font_family: "Roboto",
+      font_size: 16,
+      color_scheme: "blue"
+    };
+
+    let currentData = null;
+    let countdownInterval = null;
+    let savedPatrons = [];
+
+    const dataHandler = {
+      onDataChanged(data) {
+        // Rozdziel dane na aktualnego patrona i zapisanych patronów
+        const currentPatronData = data.find(item => item.type === 'current');
+        savedPatrons = data.filter(item => item.type === 'saved');
+        
+        if (currentPatronData) {
+          currentData = currentPatronData;
+          displaySavedPatron();
+          updateCountdown();
+        }
+        
+        updateSavedPatronsList();
+      }
+    };
+
+    async function initApp() {
+      const initResult = await window.dataSdk.init(dataHandler);
+      if (!initResult.isOk) {
+        console.error("Nie udało się zainicjalizować SDK");
       }
     }
 
-    function toggleHistory(){ historyExpanded = !historyExpanded; renderHistory(); }
+    function displaySavedPatron() {
+      if (!currentData) return;
 
-    function clearHistoryConfirm(){ if(confirm('Na pewno usunąć całą historię wylosowań?')) { localStorage.removeItem('patronHistory'); renderHistory(); } }
+      const resultCard = document.getElementById('resultCard');
+      const patronName = document.getElementById('patronName');
+      const patronPrayer = document.getElementById('patronPrayer');
+      const countdownCard = document.getElementById('countdownCard');
+      const drawButton = document.getElementById('drawButton');
 
-    function getCurrentWeekIndex(){ return Math.floor(Date.now() / WEEK_MS); }
+      patronName.textContent = currentData.current_patron_name;
+      patronPrayer.textContent = currentData.current_patron_prayer;
+      resultCard.classList.add('show');
+      countdownCard.classList.add('show');
 
-    function ensureWeeklyPatronOnLoad(){
-      const storedWeek = localStorage.getItem('patronWeekIndex');
-      const lastDraw = localStorage.getItem('lastDraw');
-      const pName = localStorage.getItem('patronName');
-      const pPrayer = localStorage.getItem('patronPrayer');
-
-      if(storedWeek && parseInt(storedWeek) === getCurrentWeekIndex() && lastDraw && pName && pPrayer){
-        renderPatron({name: pName, prayer: pPrayer});
-        startCountdown(parseInt(lastDraw));
-        drawBtn.disabled = true;
-      } else {
-        drawBtn.disabled = false;
-        countdownDiv.textContent = 'Jeszcze nie wylosowano patrona na ten tydzień.';
-        localStorage.removeItem('patronWeekIndex');
-      }
-    }
-
-    function drawPatron(){
-      const idx = Math.floor(Math.random() * patrons.length);
-      const p = patrons[idx];
       const now = Date.now();
-      localStorage.setItem('patronName', p.name);
-      localStorage.setItem('patronPrayer', p.prayer);
-      localStorage.setItem('lastDraw', now.toString());
-      localStorage.setItem('patronWeekIndex', getCurrentWeekIndex().toString());
-      renderPatron(p);
-      pushHistory({name: p.name, prayer: p.prayer, time: now});
-      startCountdown(now);
-      drawBtn.disabled = true;
+      const weekInMs = 7 * 24 * 60 * 60 * 1000;
+      const timeSinceLastDraw = now - currentData.last_draw_timestamp;
+
+      if (timeSinceLastDraw >= weekInMs) {
+        drawButton.disabled = false;
+      } else {
+        drawButton.disabled = true;
+      }
     }
 
-    function startCountdown(startTimestamp){
-      if(countdownIntervalId){ clearInterval(countdownIntervalId); countdownIntervalId = null; }
-      const nextDraw = parseInt(startTimestamp) + WEEK_MS;
-      function tick(){
+    function updateCountdown() {
+      if (!currentData) return;
+
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+      }
+
+      countdownInterval = setInterval(() => {
         const now = Date.now();
-        const distance = nextDraw - now;
-        if(distance <= 0){
-          countdownDiv.textContent = "Możesz już losować nowego patrona!";
-          drawBtn.disabled = false;
-          clearInterval(countdownIntervalId);
-          countdownIntervalId = null;
+        const weekInMs = 7 * 24 * 60 * 60 * 1000;
+        const nextDrawTime = currentData.last_draw_timestamp + weekInMs;
+        const timeLeft = nextDrawTime - now;
+
+        if (timeLeft <= 0) {
+          document.getElementById('countdownTime').textContent = 'Możesz losować!';
+          document.getElementById('drawButton').disabled = false;
+          clearInterval(countdownInterval);
           return;
         }
-        const days = Math.floor(distance / (1000*60*60*24));
-        const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-        const seconds = Math.floor((distance % (1000*60)) / 1000);
-        countdownDiv.textContent = `Możesz losować ponownie za: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+        const days = Math.floor(timeLeft / (24 * 60 * 60 * 1000));
+        const hours = Math.floor((timeLeft % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+        const minutes = Math.floor((timeLeft % (60 * 60 * 1000)) / (60 * 1000));
+        const seconds = Math.floor((timeLeft % (60 * 1000)) / 1000);
+
+        document.getElementById('countdownTime').textContent = 
+          `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }, 1000);
+    }
+
+    async function drawPatron() {
+      const drawButton = document.getElementById('drawButton');
+      const instructionText = document.getElementById('instructionText');
+      
+      drawButton.disabled = true;
+
+      let spinCount = 0;
+      const maxSpins = 30;
+      const spinInterval = setInterval(() => {
+        const randomPatron = patrons[Math.floor(Math.random() * patrons.length)];
+        instructionText.textContent = randomPatron.name;
+        instructionText.classList.add('spinning');
+        
+        setTimeout(() => {
+          instructionText.classList.remove('spinning');
+        }, 50);
+
+        spinCount++;
+        if (spinCount >= maxSpins) {
+          clearInterval(spinInterval);
+          finalizePatron();
+        }
+      }, 100);
+    }
+
+    async function finalizePatron() {
+      const selectedPatron = patrons[Math.floor(Math.random() * patrons.length)];
+      const instructionText = document.getElementById('instructionText');
+      const resultCard = document.getElementById('resultCard');
+      const patronName = document.getElementById('patronName');
+      const patronPrayer = document.getElementById('patronPrayer');
+      const countdownCard = document.getElementById('countdownCard');
+
+      instructionText.textContent = selectedPatron.name;
+      patronName.textContent = selectedPatron.name;
+      patronPrayer.textContent = selectedPatron.prayer;
+
+      resultCard.classList.add('show');
+      countdownCard.classList.add('show');
+
+      const now = Date.now();
+      
+      if (currentData) {
+        currentData.last_draw_timestamp = now;
+        currentData.current_patron_name = selectedPatron.name;
+        currentData.current_patron_prayer = selectedPatron.prayer;
+        
+        const updateResult = await window.dataSdk.update(currentData);
+        if (updateResult.isOk) {
+          updateCountdown();
+        }
+      } else {
+        const createResult = await window.dataSdk.create({
+          last_draw_timestamp: now,
+          current_patron_name: selectedPatron.name,
+          current_patron_prayer: selectedPatron.prayer,
+          type: 'current'
+        });
+        
+        if (createResult.isOk) {
+          updateCountdown();
+        }
       }
-      tick();
-      countdownIntervalId = setInterval(tick, 1000);
     }
 
-    function init(){
-      renderHistory();
-      ensureWeeklyPatronOnLoad();
-      drawBtn.setAttribute('aria-label', 'Losuj patrona na tydzień');
-      console.info('Patron Tygodnia — zaktualizowano listę patronów oraz responsywność i strzałkę.');
+    async function saveCurrentPatron() {
+      if (!currentData) return;
+
+      // Sprawdź czy patron już nie jest zapisany
+      const alreadySaved = savedPatrons.some(patron => 
+        patron.patron_name === currentData.current_patron_name
+      );
+
+      if (alreadySaved) {
+        showMessage('Ten patron jest już zapisany!');
+        return;
+      }
+
+      const saveResult = await window.dataSdk.create({
+        patron_name: currentData.current_patron_name,
+        patron_prayer: currentData.current_patron_prayer,
+        saved_at: new Date().toISOString(),
+        type: 'saved'
+      });
+
+      if (saveResult.isOk) {
+        showMessage('Patron został zapisany!');
+      } else {
+        showMessage('Błąd podczas zapisywania patrona');
+      }
     }
-    init();
+
+    function showMessage(text) {
+      const existingMessage = document.querySelector('.message');
+      if (existingMessage) {
+        existingMessage.remove();
+      }
+
+      const message = document.createElement('div');
+      message.className = 'message';
+      message.textContent = text;
+      message.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        color: #1e3a8a;
+        padding: 16px 32px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        z-index: 2000;
+        font-weight: 700;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        animation: messageSlideIn 0.3s ease forwards;
+      `;
+
+      document.body.appendChild(message);
+
+      setTimeout(() => {
+        message.style.animation = 'messageSlideOut 0.3s ease forwards';
+        setTimeout(() => {
+          message.remove();
+        }, 300);
+      }, 2700);
+    }
+
+    function updateSavedPatronsList() {
+      const modalBody = document.getElementById('modalBody');
+      
+      if (savedPatrons.length === 0) {
+        modalBody.innerHTML = '<p class="no-patrons">Nie masz jeszcze zapisanych patronów<br>Naciśnij + przy wylosowanym patronie, aby go zapisać</p>';
+        return;
+      }
+
+      const patronsHtml = savedPatrons.map(patron => `
+        <div class="saved-patron-item">
+          <button class="delete-patron-button" onclick="deletePatron('${patron.__backendId}')">Usuń</button>
+          <h4 class="saved-patron-name">${patron.patron_name}</h4>
+          <p class="saved-patron-prayer">${patron.patron_prayer}</p>
+          <p class="saved-patron-date">Zapisano: ${new Date(patron.saved_at).toLocaleDateString('pl-PL')}</p>
+        </div>
+      `).join('');
+
+      modalBody.innerHTML = patronsHtml;
+    }
+
+    async function deletePatron(patronId) {
+      const patronToDelete = savedPatrons.find(p => p.__backendId === patronId);
+      if (!patronToDelete) return;
+
+      const deleteResult = await window.dataSdk.delete(patronToDelete);
+      if (deleteResult.isOk) {
+        showMessage('Patron został usunięty');
+      } else {
+        showMessage('Błąd podczas usuwania patrona');
+      }
+    }
+
+    function openModal() {
+      document.getElementById('modalOverlay').classList.add('show');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('show');
+    }
+
+    function openSettingsModal() {
+      document.getElementById('settingsModal').classList.add('show');
+      renderColorSchemes();
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.remove('show');
+    }
+
+    function renderColorSchemes() {
+      const container = document.getElementById('colorSchemes');
+      const currentScheme = window.elementSdk?.config?.color_scheme || defaultConfig.color_scheme;
+      
+      container.innerHTML = Object.entries(colorSchemes).map(([key, scheme]) => `
+        <div class="color-scheme ${key === currentScheme ? 'active' : ''}" onclick="changeColorScheme('${key}')">
+          <div class="color-preview" style="background: ${scheme.gradientStart}"></div>
+          <div class="color-scheme-name">${scheme.name}</div>
+        </div>
+      `).join('');
+    }
+
+    function changeColorScheme(schemeKey) {
+      const scheme = colorSchemes[schemeKey];
+      if (!scheme) return;
+
+      if (window.elementSdk) {
+        window.elementSdk.setConfig({
+          color_scheme: schemeKey,
+          primary_color: scheme.gradientStart,
+          secondary_color: scheme.gradientEnd,
+          navy_color: scheme.text,
+          point_blue: scheme.accent
+        });
+      }
+
+      applyColorScheme(scheme);
+      renderColorSchemes(); // Odśwież aktywny schemat
+      showMessage(`Zmieniono na: ${scheme.name}`);
+    }
+
+    function applyColorScheme(scheme) {
+      // Zmień tło strony
+      document.body.style.background = scheme.bg;
+      
+      // Zmień kolory tekstu
+      const textElements = document.querySelectorAll('.title, .instruction, .countdown-label, .settings-header h3, .color-scheme-name, .settings-body p');
+      textElements.forEach(el => {
+        el.style.color = scheme.text;
+      });
+
+      // Zmień kolory przycisków z gradientem
+      const gradientElements = document.querySelectorAll('.draw-button, .result-card');
+      gradientElements.forEach(el => {
+        el.style.background = `linear-gradient(135deg, ${scheme.gradientStart} 0%, ${scheme.gradientEnd} 100%)`;
+      });
+
+      // Zmień kolor akcentów
+      const accentElements = document.querySelectorAll('.countdown-time');
+      accentElements.forEach(el => {
+        el.style.color = scheme.accent;
+      });
+
+      // Zmień kolor przycisku ustawień
+      const settingsButton = document.getElementById('settingsButton');
+      if (settingsButton) {
+        settingsButton.style.color = scheme.text;
+      }
+
+      // Zmień kolory w modalach
+      const modalTextElements = document.querySelectorAll('.modal-header h3, .no-patrons, .saved-patron-name, .saved-patron-prayer, .saved-patron-date');
+      modalTextElements.forEach(el => {
+        el.style.color = scheme.text;
+      });
+
+      // Zmień kolor przycisku zapisanych patronów
+      const savedPatronsButton = document.querySelector('.saved-patrons-button');
+      if (savedPatronsButton) {
+        savedPatronsButton.style.background = `linear-gradient(135deg, ${scheme.text} 0%, ${scheme.accent} 100%)`;
+      }
+    }
+
+    // Event listeners
+    document.getElementById('drawButton').addEventListener('click', drawPatron);
+    document.getElementById('plusButton').addEventListener('click', saveCurrentPatron);
+    document.getElementById('savedPatronsButton').addEventListener('click', openModal);
+    document.getElementById('closeButton').addEventListener('click', closeModal);
+    document.getElementById('settingsButton').addEventListener('click', openSettingsModal);
+    document.getElementById('closeSettingsButton').addEventListener('click', closeSettingsModal);
+    
+    document.getElementById('modalOverlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('modalOverlay')) {
+        closeModal();
+      }
+    });
+
+    document.getElementById('settingsModal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('settingsModal')) {
+        closeSettingsModal();
+      }
+    });
+
+    async function onConfigChange(config) {
+      const mainTitle = document.getElementById('mainTitle');
+      const drawButton = document.getElementById('drawButton');
+      const instructionText = document.getElementById('instructionText');
+
+      mainTitle.textContent = config.main_title || defaultConfig.main_title;
+      drawButton.textContent = config.draw_button_text || defaultConfig.draw_button_text;
+      
+      if (!currentData) {
+        instructionText.textContent = config.instruction_text || defaultConfig.instruction_text;
+      }
+
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+
+      mainTitle.style.fontFamily = `Pacifico, ${customFont}, cursive`;
+      mainTitle.style.fontSize = `${baseSize * 2.25}px`;
+      
+      instructionText.style.fontSize = `${baseSize * 1.125}px`;
+      drawButton.style.fontSize = `${baseSize * 1.125}px`;
+      document.querySelector('.patron-name').style.fontSize = `${baseSize * 1.5}px`;
+      document.querySelector('.patron-prayer').style.fontSize = `${baseSize}px`;
+      document.querySelector('.countdown-label').style.fontSize = `${baseSize * 0.875}px`;
+      document.querySelector('.countdown-time').style.fontSize = `${baseSize * 2}px`;
+
+      // Zastosuj schemat kolorów jeśli został zmieniony
+      const colorScheme = config.color_scheme || defaultConfig.color_scheme;
+      const scheme = colorSchemes[colorScheme];
+      if (scheme) {
+        applyColorScheme(scheme);
+      } else {
+        // Fallback do starych kolorów
+        const primaryColor = config.primary_color || defaultConfig.primary_color;
+        const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+        const navyColor = config.navy_color || defaultConfig.navy_color;
+        const pointBlue = config.point_blue || defaultConfig.point_blue;
+
+        mainTitle.style.color = navyColor;
+        instructionText.style.color = navyColor;
+        drawButton.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+        document.querySelector('.result-card').style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+        document.querySelector('.countdown-label').style.color = navyColor;
+        document.querySelector('.countdown-time').style.color = pointBlue;
+      }
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.navy_color || defaultConfig.navy_color,
+              set: (value) => {
+                config.navy_color = value;
+                window.elementSdk.setConfig({ navy_color: value });
+              }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_color || defaultConfig.secondary_color,
+              set: (value) => {
+                config.secondary_color = value;
+                window.elementSdk.setConfig({ secondary_color: value });
+              }
+            },
+            {
+              get: () => config.point_blue || defaultConfig.point_blue,
+              set: (value) => {
+                config.point_blue = value;
+                window.elementSdk.setConfig({ point_blue: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["main_title", config.main_title || defaultConfig.main_title],
+          ["draw_button_text", config.draw_button_text || defaultConfig.draw_button_text],
+          ["instruction_text", config.instruction_text || defaultConfig.instruction_text]
+        ])
+      });
+    }
+
+    initApp();
   </script>
-</body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'998caaa896dfc137',t:'MTc2MjE4MTI0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-

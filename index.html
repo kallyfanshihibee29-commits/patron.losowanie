@@ -3,17 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Patron Tygodnia</title>
+  <title>Patron Tygodnia — Ustawienia kolorów</title>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root{
+      /* default: Niebieski */
       --bg: #9fc6e2;
       --bg2: #cfe8f8;
       --navy: #1e3a8a;
       --quote-grad-start: #3b5998;
       --quote-grad-end: #5a8dee;
       --point-blue: #2b7bd6;
-      --card: #ffffff;
+
+      --card: rgba(255,255,255,0.92); /* cards remain white / semi-transparent */
       --radius-min: 8px;
       --radius-max: 16px;
       --shadow-1: 0 10px 30px rgba(6,21,52,0.12);
@@ -64,7 +66,7 @@
     }
 
     .card{
-      background: #fff; /* card white */
+      background: var(--card); /* enforced semi-transparent white */
       border-radius:var(--radius-max);
       padding:14px;
       color:var(--navy);
@@ -137,17 +139,12 @@
       align-items:center;
       justify-content:center;
       box-shadow:var(--shadow-2);
-      background: linear-gradient(90deg, var(--point-blue), rgba(43,123,214,0.92));
+      background: linear-gradient(90deg, var(--quote-grad-start), var(--quote-grad-end));
       color:white;
       transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
       min-width:140px;
     }
-    .btn.secondary{
-      background:transparent;
-      color:var(--navy);
-      border:1px solid rgba(30,58,138,0.08);
-      box-shadow:none;
-    }
+    .btn.secondary{ background: var(--card); color:var(--navy); border:1px solid rgba(6,21,52,0.06); box-shadow: var(--shadow-2); }
     .btn:active{transform:translateY(1px) scale(.997)}
     .btn[disabled]{opacity:0.6; cursor:not-allowed}
 
@@ -190,8 +187,45 @@
     .history-item{padding:10px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));}
     .history-meta{font-size:12px;color:rgba(30,58,138,0.7);margin-bottom:6px}
 
+    /* SETTINGS UI */
+    .settings-btn{
+      position:fixed;right:18px;top:50%;transform:translateY(-50%);
+      width:56px;height:56px;border-radius:50%;
+      background:rgba(255,255,255,0.12);backdrop-filter:blur(8px) saturate(120%);
+      display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(6,21,52,0.08);
+      border:1px solid rgba(255,255,255,0.18);z-index:60;cursor:pointer
+    }
+    .settings-btn svg{width:22px;height:22px;opacity:0.98;fill:var(--navy)}
+    .settings-emoji{font-size:22px;line-height:1;color:var(--navy)}
+
+    .settings-panel{
+      position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:transparent;z-index:61;padding:18px;
+      /* zamiast przyciemnienia — blur tła */
+      backdrop-filter: blur(8px) saturate(120%);
+      -webkit-backdrop-filter: blur(8px) saturate(120%);
+    }
+    .settings-panel.show{display:flex}
+    .settings-card{
+      width:360px;max-width:92vw;background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+      border-radius:14px;padding:12px;backdrop-filter: blur(12px) saturate(120%);box-shadow:0 12px 36px rgba(6,21,52,0.14);position:relative;max-height:70vh;overflow:auto;border:1px solid rgba(255,255,255,0.75);
+    }
+    .settings-card h4{margin:4px 0 8px 0;color:var(--navy);font-size:15px} 
+    .settings-panel h4{margin:4px 0 8px 0;color:var(--navy);font-size:15px}
+
+    .theme-list{display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow:auto;padding-right:6px}
+    .theme-tile{display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px;cursor:pointer;border:1px solid transparent}
+    .theme-tile:hover{transform:translateY(-2px);}
+    .theme-preview{width:72px;height:44px;border-radius:8px;flex:0 0 72px;box-shadow:0 6px 18px rgba(6,21,52,0.06);overflow:hidden}
+    .theme-info{display:flex;flex-direction:column}
+    .theme-name{font-weight:700;color:var(--navy);font-size:13px}
+    .theme-meta{font-size:12px;color:rgba(30,58,138,0.7)}
+    .theme-radio{margin-left:auto}
+
+    /* responsive small screens */
     @media (max-width:520px){
-      .app{padding:12px;}
+      .settings-btn{right:12px;top:auto;bottom:18px;transform:none}
+      /* keep modal centered on small screens, just reduce padding */
+      .settings-panel{padding:12px}
       header h1{font-size:30px}
       .ticker .name{font-size:18px}
       .ticker .prayer{font-size:14px}
@@ -232,6 +266,20 @@
       <button id="historyBtn" class="btn secondary">Historia Patronów</button>
     </div>
   </main>
+
+  <!-- settings floating button -->
+  <button id="settingsBtn" class="settings-btn" title="Ustawienia" aria-label="Ustawienia">
+    <span class="settings-emoji" aria-hidden="true">⚙️</span>
+  </button>
+
+  <div id="settingsPanel" class="settings-panel" role="dialog" aria-hidden="true">
+    <div class="settings-card" role="document">
+      <button class="close-x" id="closeSettings" aria-label="Zamknij">✕</button>
+      <h4>Motyw kolorystyczny</h4>
+      <div class="theme-list" id="themeList"></div>
+    </div>
+  </div> 
+  </div>
 
   <!-- history modal -->
   <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-hidden="true">
@@ -276,11 +324,16 @@
     const closeHistory = document.getElementById('closeHistory');
     const historyList = document.getElementById('historyList');
 
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsPanel = document.getElementById('settingsPanel');
+    // themeListEl will be queried inside buildThemeList() to avoid timing surprises
+
     const DRAW_DURATION = 4000; // ms
     const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
     const STORAGE_KEY = 'patron_unlock_ts_v3';
     const LAST_SELECTED_KEY = 'patron_last_selected_v3';
     const HISTORY_KEY = 'patron_history_v3';
+    const THEME_KEY = 'patron_theme_v1';
 
     let cycleInterval = null;
 
@@ -302,6 +355,7 @@
 
     function startCountdown(untilTs){
       countdownBox.style.display='inline-block';
+      let intervalHandle = null;
       function tick(){
         const now = Date.now();
         const diff = untilTs - now;
@@ -309,7 +363,7 @@
           countdownBox.style.display='none';
           drawBtn.disabled=false;
           localStorage.removeItem(STORAGE_KEY);
-          clearInterval(intervalHandle);
+          if(intervalHandle) clearInterval(intervalHandle);
           return;
         }
         const days = Math.floor(diff / (24*60*60*1000));
@@ -319,7 +373,7 @@
         countdownBox.textContent = `Możesz losować ponownie za: ${days}d ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
       }
       tick();
-      const intervalHandle = setInterval(tick,1000);
+      intervalHandle = setInterval(tick,1000);
     }
 
     function disableWhileDrawing(){
@@ -400,17 +454,121 @@
     historyBtn.addEventListener('click', openHistory);
     closeHistory.addEventListener('click', closeHistoryModal);
     overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeHistoryModal(); });
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeHistoryModal(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') { closeHistoryModal(); hideSettings(); } });
 
-    // on load restore
+    // THEMES definition (rainbow order) — keys and variables
+    const THEMES = [
+      {
+        id:'dojrzala-dynia', name:'Dojrzała dynia', vars:{
+          '--bg':'#ff6b35','--bg2':'#ffedd5','--navy':'#7c2d12','--quote-grad-start':'#ea580c','--quote-grad-end':'#dc2626','--point-blue':'#C2410c'
+        }
+      },
+      { id:'pomaranczowy', name:'Pomarańczowy', vars:{ '--bg':'#fed7aa','--bg2':'#fef3c7','--navy':'#92400e','--quote-grad-start':'#f59e0b','--quote-grad-end':'#f97316','--point-blue':'#d97706' } },
+      { id:'zolty', name:'Żółty', vars:{ '--bg':'#fef08a','--bg2':'#fef9c3','--navy':'#713f12','--quote-grad-start':'#eab308','--quote-grad-end':'#facc15','--point-blue':'#ca8a04' } },
+      { id:'musztardziany', name:'Musztardziany', vars:{ '--bg':'#d4a574','--bg2':'#e8c9a1','--navy':'#5a3e1b','--quote-grad-start':'#b8860b','--quote-grad-end':'#daa520','--point-blue':'#996515' } },
+      { id:'zielony', name:'Zielony', vars:{ '--bg':'#a7f3d0','--bg2':'#d1fae5','--navy':'#064e3b','--quote-grad-start':'#059669','--quote-grad-end':'#10b981','--point-blue':'#047857' } },
+      { id:'splesniala-zielen', name:'Spleśniała zieleń', vars:{ '--bg':'#8b9467','--bg2':'#a8b584','--navy':'#3d4a2b','--quote-grad-start':'#6b7c4f','--quote-grad-end':'#5a6b42','--point-blue':'#4a5635' } },
+      { id:'jasny-turkus', name:'Jasny niebieski turkusowy', vars:{ '--bg':'#a5f3fc','--bg2':'#cffafe','--navy':'#164e63','--quote-grad-start':'#06b6d4','--quote-grad-end':'#0891b2','--point-blue':'#0e7490' } },
+      { id:'jasny-blykit', name:'Jasny błękit', vars:{ '--bg':'#bfdbfe','--bg2':'#dbeafe','--navy':'#1e40af','--quote-grad-start':'#60a5fa','--quote-grad-end':'#3b82f6','--point-blue':'#2563eb' } },
+      { id:'granatowy', name:'Granatowy', vars:{ '--bg':'#93c5fd','--bg2':'#bfdbfe','--navy':'#1e3a8a','--quote-grad-start':'#1e40af','--quote-grad-end':'#1e3a8a','--point-blue':'#1d4ed8' } },
+      { id:'niebieski', name:'Niebieski (domyślny)', vars:{ '--bg':'#9fc6e2','--bg2':'#cfe8f8','--navy':'#1e3a8a','--quote-grad-start':'#3b5998','--quote-grad-end':'#5a8dee','--point-blue':'#2b7bd6' } },
+      { id:'fioletowy', name:'Fioletowy', vars:{ '--bg':'#e9d5ff','--bg2':'#f3e8ff','--navy':'#581c87','--quote-grad-start':'#8b5cf6','--quote-grad-end':'#a855f7','--point-blue':'#7c3aed' } },
+      { id:'sliwkowy', name:'Śliwkowy', vars:{ '--bg':'#c8b5d1','--bg2':'#e6d9ea','--navy':'#4a2c5a','--quote-grad-start':'#8e4a9c','--quote-grad-end':'#6b3775','--point-blue':'#7a4285' } },
+      { id:'rozowy', name:'Różowy', vars:{ '--bg':'#fce7f3','--bg2':'#fdf2f8','--navy':'#831843','--quote-grad-start':'#db2777','--quote-grad-end':'#ec4899','--point-blue':'#be185d' } },
+      { id:'jasny-rozowy', name:'Jasny różany', vars:{ '--bg':'#ffe4e6','--bg2':'#fef2f2','--navy':'#881337','--quote-grad-start':'#f43f5e','--quote-grad-end':'#e11d48','--point-blue':'#dc2626' } },
+      { id:'bezowy', name:'Beżowy', vars:{ '--bg':'#f7f3e9','--bg2':'#fdf9f1','--navy':'#8b4513','--quote-grad-start':'#e6d7c3','--quote-grad-end':'#d4b896','--point-blue':'#c19a6b' } },
+      { id:'spienione-latte', name:'Spienione latte', vars:{ '--bg':'#d4b896','--bg2':'#e8d5b7','--navy':'#5d4037','--quote-grad-start':'#8d6e63','--quote-grad-end':'#6d4c41','--point-blue':'#795548' } },
+      { id:'szary', name:'Szary', vars:{ '--bg':'#e5e7eb','--bg2':'#f3f4f6','--navy':'#111827','--quote-grad-start':'#4b5563','--quote-grad-end':'#6b7280','--point-blue':'#374151' } },
+      { id:'czarno-bialy', name:'Czarno-biały', vars:{ '--bg':'#ffffff','--bg2':'#f8f9fa','--navy':'#000000','--quote-grad-start':'#000000','--quote-grad-end':'#333333','--point-blue':'#666666' } }
+    ];
+
+    // create theme tiles in the panel
+    function buildThemeList(){
+      const themeListEl = document.getElementById('themeList');
+      if(!themeListEl) return;
+      themeListEl.innerHTML = '';
+      THEMES.forEach(t =>{
+        const tile = document.createElement('label');
+        tile.className = 'theme-tile';
+        tile.setAttribute('data-id', t.id);
+
+        const preview = document.createElement('div'); preview.className='theme-preview';
+        preview.style.background = `linear-gradient(135deg, ${t.vars['--bg']}, ${t.vars['--quote-grad-start']})`;
+
+        const info = document.createElement('div'); info.className='theme-info';
+        const name = document.createElement('div'); name.className='theme-name'; name.textContent = t.name;
+        const meta = document.createElement('div'); meta.className='theme-meta'; meta.textContent = `${t.vars['--bg']} • ${t.vars['--quote-grad-start']}`;
+        info.appendChild(name); info.appendChild(meta);
+
+        const radio = document.createElement('input'); radio.type='radio'; radio.name='theme'; radio.className='theme-radio'; radio.value = t.id;
+
+        tile.appendChild(preview); tile.appendChild(info); tile.appendChild(radio);
+
+        tile.addEventListener('click', ()=>{ selectTheme(t.id); });
+
+        themeListEl.appendChild(tile);
+      });
+    }
+
+    function applyThemeVars(vars){
+      Object.keys(vars).forEach(k=>{ document.documentElement.style.setProperty(k, vars[k]); });
+      // ensure buttons update
+      document.querySelectorAll('.btn').forEach(b=>{
+        b.style.background = `linear-gradient(90deg, var(--quote-grad-start), var(--quote-grad-end))`;
+      });
+    }
+
+    function selectTheme(id, persist=true){
+      const t = THEMES.find(x=>x.id===id);
+      if(!t) return;
+      applyThemeVars(t.vars);
+      // mark radio
+      document.querySelectorAll('.theme-radio').forEach(r=> r.checked = (r.value===id));
+      if(persist) localStorage.setItem(THEME_KEY, id);
+    }
+
+    function showSettings(){
+      // rebuild the list each time in case the panel was empty
+      buildThemeList();
+      settingsPanel.classList.add('show'); settingsPanel.setAttribute('aria-hidden','false');
+    }
+    function hideSettings(){ settingsPanel.classList.remove('show'); settingsPanel.setAttribute('aria-hidden','true'); }
+
+    settingsBtn.addEventListener('click', ()=>{
+      if(settingsPanel.classList.contains('show')) hideSettings(); else showSettings();
+    });
+
+    // initialize
     window.addEventListener('load', ()=>{
+      
+      buildThemeList();
+      // restore theme
+      const storedTheme = localStorage.getItem(THEME_KEY);
+      if(storedTheme && THEMES.find(t=>t.id===storedTheme)) selectTheme(storedTheme, false);
+      else selectTheme('niebieski', false);
+
       const last = localStorage.getItem(LAST_SELECTED_KEY);
       const stored = localStorage.getItem(STORAGE_KEY);
       if(last){ try{ const obj = JSON.parse(last); setTicker(obj); }catch(e){} }
       if(stored){ const ts = Number(stored); if(!isNaN(ts) && ts > Date.now()){ drawBtn.disabled=true; startCountdown(ts);} else { localStorage.removeItem(STORAGE_KEY); drawBtn.disabled=false; } }
       // ensure mobile-friendly focus targets
+    
+      // wire closeSettings button for modal
+      const closeSettingsBtn = document.getElementById('closeSettings');
+      if(closeSettingsBtn) closeSettingsBtn.addEventListener('click', hideSettings);
+      // ensure mobile-friendly focus targets
     });
+
+    // settings: close if clicked away
+    document.addEventListener('click', (e)=>{
+      if(settingsPanel.classList.contains('show')){
+        // if user clicked on the backdrop (settingsPanel itself), close modal
+        if(e.target === settingsPanel) hideSettings();
+      }
+    });
+
   </script>
 </body>
 </html>
+
 

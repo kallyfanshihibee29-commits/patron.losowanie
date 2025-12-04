@@ -1,574 +1,2018 @@
 <!doctype html>
 <html lang="pl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Patron Tygodnia — Ustawienia kolorów</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patron Tygodnia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
   <style>
-    :root{
-      /* default: Niebieski */
-      --bg: #9fc6e2;
-      --bg2: #cfe8f8;
-      --navy: #1e3a8a;
-      --quote-grad-start: #3b5998;
-      --quote-grad-end: #5a8dee;
-      --point-blue: #2b7bd6;
-
-      --card: rgba(255,255,255,0.92); /* cards remain white / semi-transparent */
-      --radius-min: 8px;
-      --radius-max: 16px;
-      --shadow-1: 0 10px 30px rgba(6,21,52,0.12);
-      --shadow-2: 0 6px 18px rgba(59,89,152,0.12);
+    body {
+      box-sizing: border-box;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: Roboto, system-ui, -apple-system, 'Segoe UI', Arial;
-      background: linear-gradient(180deg,var(--bg),var(--bg2));
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:12px;
-      color:var(--navy);
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    .app{
-      width:100%;
-      max-width:720px;
-      border-radius:18px;
-      padding:14px;
-      background: var(--card); /* white modal */
-      box-shadow: var(--shadow-1), var(--shadow-2);
-      backdrop-filter: blur(6px) saturate(110%);
-      max-height: 90vh; /* shortened */
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      overflow:auto;
+    html, body {
+      width: 100%;
+      height: 100%;
     }
 
-    header{ text-align:center }
-    header h1{
-      margin:10px 0 0 0;
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(180deg, #9fc6e2 0%, #cfe8f8 100%);
+      color: #1e3a8a;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 20px;
+      padding-top: 40px;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    .app-wrapper {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .app-title {
       font-family: 'Pacifico', cursive;
-      color:var(--navy);
-      font-size:34px;
-      letter-spacing:0.6px;
-    }
-    header p.lead{
-      margin:6px 0 0 0;
-      font-size:13px;
-      color:rgba(30,58,138,0.9);
+      font-size: 42px;
+      color: #1e3a8a;
+      margin-bottom: 24px;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(6, 21, 52, 0.15);
+      transition: color 0.5s ease;
     }
 
-    .card{
-      background: var(--card); /* enforced semi-transparent white */
-      border-radius:var(--radius-max);
-      padding:14px;
-      color:var(--navy);
-      box-shadow: 0 10px 28px rgba(35,63,114,0.06);
-      transform-origin:center;
-      overflow:hidden;
-      position:relative;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
+    .app-container {
+      width: 100%;
+      background: white;
+      border-radius: 16px;
+      padding: 35px 30px;
+      box-shadow: 
+        0 8px 24px rgba(6, 21, 52, 0.12),
+        0 16px 48px rgba(59, 89, 152, 0.12);
     }
 
-    .ticker-area{
-      border-radius:12px;
-      padding:12px;
-      min-height:96px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
-      background: linear-gradient(180deg, rgba(59,89,238,0.04), rgba(90,141,238,0.02));
+    .patron-display {
+      background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);
+      border-radius: 12px;
+      padding: 32px 24px;
+      margin-bottom: 24px;
+      box-shadow: 
+        0 4px 12px rgba(6, 21, 52, 0.1),
+        0 8px 24px rgba(59, 89, 152, 0.1);
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.5s ease;
     }
 
-    .ticker{
-      text-align:center;
-      width:100%;
-      padding:8px 6px;
-      border-radius:10px;
-    }
-    .ticker .name{
-      font-weight:700;
-      font-size:20px;
-      color:var(--navy);
-      opacity:0.98;
-      transition: opacity .12s ease, transform .12s ease;
-      word-break:break-word;
-    }
-    .ticker .prayer{
-      margin-top:8px;
-      font-weight:400;
-      font-size:14px;
-      color:rgba(30,58,138,0.9);
-      opacity:0.9;
-      transition: opacity .12s ease, transform .12s ease;
+    .patron-content {
+      width: 100%;
+      text-align: center;
     }
 
-    /* flashing / cycling effect */
-    .flash-in{ animation:flashIn .18s ease forwards; }
-    .flash-out{ animation:flashOut .18s ease forwards; }
-    @keyframes flashIn{ from{opacity:0; transform:translateY(6px) scale(.995)} to{opacity:1; transform:translateY(0) scale(1)} }
-    @keyframes flashOut{ from{opacity:1; transform:translateY(0) scale(1)} to{opacity:0; transform:translateY(-6px) scale(.995)} }
-
-    .controls{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:center;
-      flex-wrap:wrap;
+    .patron-name {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: white;
+      margin-bottom: 12px;
+      line-height: 1.3;
     }
 
-    .btn{
-      border:0;
-      padding:12px 18px;
-      border-radius:12px;
-      font-weight:700;
-      font-size:15px;
-      cursor:pointer;
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      justify-content:center;
-      box-shadow:var(--shadow-2);
-      background: linear-gradient(90deg, var(--quote-grad-start), var(--quote-grad-end));
-      color:white;
-      transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
-      min-width:140px;
-    }
-    .btn.secondary{ background: var(--card); color:var(--navy); border:1px solid rgba(6,21,52,0.06); box-shadow: var(--shadow-2); }
-    .btn:active{transform:translateY(1px) scale(.997)}
-    .btn[disabled]{opacity:0.6; cursor:not-allowed}
-
-    .dots{display:inline-flex;gap:6px;align-items:center;height:12px}
-    .dot{width:6px;height:6px;border-radius:50%;background:white;opacity:.9;animation:dotPulse 1s infinite}
-    .dot:nth-child(2){animation-delay:.15s}
-    .dot:nth-child(3){animation-delay:.3s}
-    @keyframes dotPulse{0%{transform:scale(.6);opacity:.6}50%{transform:scale(1.1);opacity:1}100%{transform:scale(.6);opacity:.6}}
-
-    .countdown{
-      color:var(--navy);
-      font-weight:700;
-      font-size:13px;
-      background: rgba(30,58,138,0.04);
-      padding:8px 10px;
-      border-radius:10px;
+    .patron-prayer {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.95);
+      line-height: 1.5;
     }
 
-    /* history modal (glass) */
-    .overlay{
-      position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:transparent;z-index:40;padding:18px;
+    .placeholder-text {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.8);
     }
-    .overlay.show{display:flex}
-    .history-card{
-      width:100%;max-width:560px;
-      /* glass effect */
-      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
-      border-radius:14px;
-      padding:14px;
-      position:relative;
-      max-height:70vh;
-      overflow:auto;
-      backdrop-filter: blur(12px) saturate(120%);
-      border: 1px solid rgba(255,255,255,0.75);
-      box-shadow: 0 8px 30px rgba(255,255,255,0.08), 0 18px 48px rgba(6,21,52,0.06);
-    }
-    .history-card h3{margin:0 0 8px 0;font-size:18px;font-weight:700;color:var(--navy)}
-    .close-x{position:absolute;right:12px;top:10px;border:0;background:transparent;font-size:20px;cursor:pointer;color:var(--navy)}
-    .history-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
-    .history-item{padding:10px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));}
-    .history-meta{font-size:12px;color:rgba(30,58,138,0.7);margin-bottom:6px}
 
-    /* SETTINGS UI */
-    .settings-btn{
-      position:fixed;right:18px;top:50%;transform:translateY(-50%);
-      width:56px;height:56px;border-radius:50%;
-      background:rgba(255,255,255,0.12);backdrop-filter:blur(8px) saturate(120%);
-      display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(6,21,52,0.08);
-      border:1px solid rgba(255,255,255,0.18);z-index:60;cursor:pointer
+    .draw-button-container {
+      text-align: center;
+      margin-bottom: 24px;
     }
-    .settings-btn svg{width:22px;height:22px;opacity:0.98;fill:var(--navy)}
-    .settings-emoji{font-size:22px;line-height:1;color:var(--navy)}
 
-    .settings-panel{
-      position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:transparent;z-index:61;padding:18px;
-      /* zamiast przyciemnienia — blur tła */
-      backdrop-filter: blur(8px) saturate(120%);
-      -webkit-backdrop-filter: blur(8px) saturate(120%);
+    .draw-button {
+      background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 50px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 
+        0 4px 12px rgba(6, 21, 52, 0.12),
+        0 6px 20px rgba(59, 89, 152, 0.12);
+      transition: all 0.3s ease;
     }
-    .settings-panel.show{display:flex}
-    .settings-card{
-      width:360px;max-width:92vw;background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
-      border-radius:14px;padding:12px;backdrop-filter: blur(12px) saturate(120%);box-shadow:0 12px 36px rgba(6,21,52,0.14);position:relative;max-height:70vh;overflow:auto;border:1px solid rgba(255,255,255,0.75);
+
+    .draw-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 6px 16px rgba(6, 21, 52, 0.16),
+        0 8px 28px rgba(59, 89, 152, 0.16);
     }
-    .settings-card h4{margin:4px 0 8px 0;color:var(--navy);font-size:15px} 
-    .settings-panel h4{margin:4px 0 8px 0;color:var(--navy);font-size:15px}
 
-    .theme-list{display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow:auto;padding-right:6px}
-    .theme-tile{display:flex;gap:10px;align-items:center;padding:8px;border-radius:10px;cursor:pointer;border:1px solid transparent}
-    .theme-tile:hover{transform:translateY(-2px);}
-    .theme-preview{width:72px;height:44px;border-radius:8px;flex:0 0 72px;box-shadow:0 6px 18px rgba(6,21,52,0.06);overflow:hidden}
-    .theme-info{display:flex;flex-direction:column}
-    .theme-name{font-weight:700;color:var(--navy);font-size:13px}
-    .theme-meta{font-size:12px;color:rgba(30,58,138,0.7)}
-    .theme-radio{margin-left:auto}
+    .draw-button:active:not(:disabled) {
+      transform: translateY(0);
+    }
 
-    /* responsive small screens */
-    @media (max-width:520px){
-      .settings-btn{right:12px;top:auto;bottom:18px;transform:none}
-      /* keep modal centered on small screens, just reduce padding */
-      .settings-panel{padding:12px}
-      header h1{font-size:30px}
-      .ticker .name{font-size:18px}
-      .ticker .prayer{font-size:14px}
-      .controls{flex-direction:column}
-      .btn{width:100%}
-      .history-card{padding:12px}
+    .draw-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .countdown-container {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      border: 2px solid #e9ecef;
+    }
+
+    .countdown-label {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      color: #1e3a8a;
+      margin-bottom: 10px;
+      opacity: 0.85;
+      transition: color 0.5s ease;
+    }
+
+    .countdown-timer {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: #2b7bd6;
+      letter-spacing: 0.5px;
+      transition: color 0.5s ease;
+    }
+
+    .history-button-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .history-button {
+      background: white;
+      color: #3b5998;
+      border: 2px solid #3b5998;
+      border-radius: 12px;
+      padding: 14px 40px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .history-button:hover {
+      background: white;
+      color: #3b5998;
+      border-color: #3b5998;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 89, 152, 0.2);
+    }
+
+    .settings-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 500;
+      border: none;
+      font-size: 22px;
+    }
+
+    .settings-button:hover {
+      background: rgba(255, 255, 255, 0.5);
+      transform: scale(1.15);
+    }
+
+    .settings-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .settings-modal-content {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      width: 100%;
+      max-width: 500px;
+      max-height: 80%;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 
+        0 8px 32px rgba(31, 38, 135, 0.15),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
+      animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 24px 16px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .settings-title {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: #1e3a8a;
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+      transition: color 0.5s ease;
+    }
+
+    .settings-content {
+      padding: 20px 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .settings-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+      position: relative;
+    }
+
+    .tab-indicator {
+      position: absolute;
+      bottom: -2px;
+      height: 3px;
+      background: #3b5998;
+      transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+      border-radius: 3px 3px 0 0;
+      z-index: 1;
+    }
+
+    .settings-tab {
+      flex: 1;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 8px 8px 0 0;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: #1e3a8a;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      position: relative;
+    }
+
+    .settings-tab:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .settings-tab.active {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .settings-tab-content {
+      display: none;
+      animation: fadeSlideIn 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    .settings-tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      0% {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .settings-section-title {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: #1e3a8a;
+      margin-bottom: 16px;
+      transition: color 0.5s ease;
+    }
+
+    #allHistoryList,
+    #favoritesHistoryList {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .color-themes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .color-theme-card {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 12px;
+      padding: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      opacity: 0;
+      transform: scale(0.5) translateY(20px);
+      animation: cardPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .color-theme-card:nth-child(1) { animation-delay: 0.05s; }
+    .color-theme-card:nth-child(2) { animation-delay: 0.1s; }
+    .color-theme-card:nth-child(3) { animation-delay: 0.15s; }
+    .color-theme-card:nth-child(4) { animation-delay: 0.2s; }
+    .color-theme-card:nth-child(5) { animation-delay: 0.25s; }
+    .color-theme-card:nth-child(6) { animation-delay: 0.3s; }
+    .color-theme-card:nth-child(7) { animation-delay: 0.35s; }
+    .color-theme-card:nth-child(8) { animation-delay: 0.4s; }
+    .color-theme-card:nth-child(9) { animation-delay: 0.45s; }
+    .color-theme-card:nth-child(10) { animation-delay: 0.5s; }
+    .color-theme-card:nth-child(11) { animation-delay: 0.55s; }
+    .color-theme-card:nth-child(12) { animation-delay: 0.6s; }
+    .color-theme-card:nth-child(13) { animation-delay: 0.65s; }
+    .color-theme-card:nth-child(14) { animation-delay: 0.7s; }
+    .color-theme-card:nth-child(15) { animation-delay: 0.75s; }
+    .color-theme-card:nth-child(16) { animation-delay: 0.8s; }
+    .color-theme-card:nth-child(17) { animation-delay: 0.85s; }
+    .color-theme-card:nth-child(18) { animation-delay: 0.9s; }
+
+    @keyframes cardPopIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(20px) rotate(-5deg);
+      }
+      70% {
+        transform: scale(1.05) translateY(-5px) rotate(2deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0) rotate(0deg);
+      }
+    }
+
+    .color-theme-card:hover {
+      border-color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.5);
+      transform: translateY(-2px) scale(1.05);
+    }
+
+    .color-theme-card.active {
+      border-color: #3b5998;
+      border-width: 3px;
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .color-theme-name {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 600;
+      font-size: 11px;
+      color: #1e3a8a;
+      transition: color 0.5s ease;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .color-theme-subtitle {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      font-size: 9px;
+      color: #666;
+      text-align: center;
+      margin-top: 2px;
+      opacity: 0.8;
+    }
+
+    .color-preview {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .confirm-delete-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .confirm-delete-content {
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      padding: 32px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 
+        0 8px 32px rgba(31, 38, 135, 0.15),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
+      text-align: center;
+    }
+
+    .confirm-delete-title {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: #1e3a8a;
+      margin-bottom: 16px;
+      transition: color 0.5s ease;
+    }
+
+    .confirm-delete-message {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .confirm-delete-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .confirm-delete-btn {
+      padding: 12px 32px;
+      border-radius: 8px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .confirm-delete-yes {
+      background: #dc3545;
+      color: white;
+    }
+
+    .confirm-delete-yes:hover {
+      background: #c82333;
+      transform: translateY(-2px);
+    }
+
+    .confirm-delete-no {
+      background: white;
+      color: #333;
+      border: 2px solid #ddd;
+    }
+
+    .confirm-delete-no:hover {
+      background: #f8f9fa;
+      border-color: #999;
+      transform: translateY(-2px);
+    }
+
+    .history-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .history-modal-content {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      width: 100%;
+      max-width: 500px;
+      max-height: 80%;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 
+        0 8px 32px rgba(31, 38, 135, 0.15),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 24px 16px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .history-title {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: #1e3a8a;
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+      transition: color 0.5s ease;
+    }
+
+    .close-button {
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: #666;
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .close-button:hover {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .history-list {
+      padding: 16px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .no-history-text {
+      text-align: center;
+      color: #666;
+      padding: 40px 20px;
+      font-size: 16px;
+    }
+
+    .history-item {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      transition: all 0.2s ease;
+      opacity: 0;
+      transform: scale(0.8) translateY(20px);
+      animation: patronPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .history-item:nth-child(1) { animation-delay: 0.05s; }
+    .history-item:nth-child(2) { animation-delay: 0.1s; }
+    .history-item:nth-child(3) { animation-delay: 0.15s; }
+    .history-item:nth-child(4) { animation-delay: 0.2s; }
+    .history-item:nth-child(5) { animation-delay: 0.25s; }
+    .history-item:nth-child(6) { animation-delay: 0.3s; }
+    .history-item:nth-child(7) { animation-delay: 0.35s; }
+    .history-item:nth-child(8) { animation-delay: 0.4s; }
+    .history-item:nth-child(9) { animation-delay: 0.45s; }
+    .history-item:nth-child(10) { animation-delay: 0.5s; }
+
+    @keyframes patronPopIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px) rotate(-3deg);
+      }
+      70% {
+        transform: scale(1.03) translateY(-5px) rotate(1deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0) rotate(0deg);
+      }
+    }
+
+    .history-item:hover {
+      border-color: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .history-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .history-item-name {
+      font-family: 'Roboto', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: #1e3a8a;
+      flex: 1;
+      margin-right: 12px;
+      transition: color 0.5s ease;
+    }
+
+    .history-item-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .star-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+      padding: 4px;
+      transition: transform 0.2s ease;
+      line-height: 1;
+    }
+
+    .star-button:hover {
+      transform: scale(1.2);
+    }
+
+    .star-button.favorited {
+      animation: starPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .star-button.filled {
+      transition: color 0.5s ease;
+    }
+
+    @keyframes starPop {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.4) rotate(15deg);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .delete-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: all 0.2s ease;
+      border-radius: 6px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .delete-button:hover {
+      background: #dc3545;
+      transform: scale(1.1);
+    }
+
+    .delete-button:hover svg {
+      fill: white;
+    }
+
+    .delete-icon {
+      width: 18px;
+      height: 18px;
+      fill: #dc3545;
+      transition: fill 0.2s ease;
+    }
+
+    .history-item-prayer {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .history-item-date {
+      font-family: 'Roboto', sans-serif;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Animacja przelatujących patronów */
+    .patron-display.slot-machine .patron-content {
+      animation: slotRoll 0.08s linear infinite;
+    }
+
+    @keyframes slotRoll {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-10px);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(10px);
+        opacity: 1;
+      }
+    }
+
+    .patron-display.final-reveal .patron-content {
+      animation: revealPatron 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes revealPatron {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 16px;
+      }
+
+      .app-wrapper {
+        max-width: 100%;
+      }
+
+      .app-title {
+        font-size: 36px;
+        margin-bottom: 20px;
+      }
+
+      .app-container {
+        padding: 28px 22px;
+      }
+
+      .patron-display {
+        padding: 28px 20px;
+        min-height: 160px;
+        margin-bottom: 20px;
+      }
+
+      .patron-name {
+        font-size: 22px;
+        margin-bottom: 10px;
+      }
+
+      .patron-prayer {
+        font-size: 14px;
+      }
+
+      .placeholder-text {
+        font-size: 15px;
+      }
+
+      .draw-button-container {
+        margin-bottom: 20px;
+      }
+
+      .draw-button {
+        padding: 15px 45px;
+        font-size: 17px;
+      }
+
+      .countdown-container {
+        padding: 18px;
+      }
+
+      .countdown-label {
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      .countdown-timer {
+        font-size: 22px;
+      }
+
+      .settings-button {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+      }
+
+      .color-themes-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
   </style>
-</head>
-<body>
-  <main class="app" role="main">
-    <header>
-      <h1>Patron Tygodnia</h1>
-      <p class="lead">Wylosuj swojego patrona — jeden na tydzień. Kliknij „Losuj” i poczuj, który patron dziś Ci towarzyszy.</p>
-    </header>
-
-    <section class="card" aria-labelledby="card-title">
-      <div style="min-height:6px"></div>
-
-      <div class="ticker-area" aria-live="polite">
-        <div class="ticker" id="ticker">
-          <div class="name" id="tickerName">—</div>
-          <div class="prayer" id="tickerPrayer"></div>
-        </div>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body><button class="settings-button" id="settingsButton">⚙️</button>
+  <div class="app-wrapper">
+   <h1 class="app-title" id="mainTitle">Patron Tygodnia</h1>
+   <div class="app-container">
+    <div class="patron-display" id="patronDisplay">
+     <div class="patron-content" id="patronContent">
+      <p class="placeholder-text">Wylosuj swojego patrona na ten tydzień</p>
+     </div>
+     <div id="loadingSpinner" class="loading-spinner hidden"></div>
+    </div>
+    <div class="draw-button-container"><button class="draw-button" id="drawButton">Losuj</button>
+    </div>
+    <div class="countdown-container" id="countdownContainer" style="display: none;">
+     <div class="countdown-label" id="countdownLabel">
+      Następne losowanie za:
+     </div>
+     <div class="countdown-timer" id="countdownTimer">
+      -
+     </div>
+    </div>
+    <div class="history-button-container"><button class="history-button" id="historyButton">Historia Patronów</button>
+    </div>
+   </div>
+   <div class="settings-modal hidden" id="settingsModal">
+    <div class="settings-modal-content">
+     <div class="settings-header">
+      <h2 class="settings-title">Ustawienia</h2><button class="close-button" id="closeSettingsButton">✕</button>
+     </div>
+     <div class="settings-content">
+      <div class="settings-tabs" id="settingsTabs">
+       <div class="tab-indicator" id="settingsTabIndicator"></div><button class="settings-tab active" data-tab="regular">Kolorowe Tematy</button> <button class="settings-tab" data-tab="seasonal">Kolory Sezonowe</button>
       </div>
-
-      <div class="controls">
-        <button id="drawBtn" class="btn" aria-live="polite"><span id="btnText">Losuj</span><span id="btnDots" style="display:none" class="dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></button>
-        <div id="countdown" class="countdown" style="display:none">Możesz losować ponownie za: 7d 00:00:00</div>
+      <div class="settings-tab-content active" id="regularTab">
+       <div class="settings-section-title">
+        Wybierz schemat kolorów
+       </div>
+       <div class="color-themes-grid" id="colorThemesGrid"></div>
       </div>
-
-      <!-- small hint area (optional) -->
-      <div id="hint" style="font-size:13px;color:rgba(30,58,138,0.7);text-align:center">Naciśnij "Historia Patronów", aby zobaczyć swoich poprzednich wylosowanych Świętych lub Błogosławionych</div>
-    </section>
-
-    <!-- history button placed below everything -->
-    <div style="display:flex;justify-content:center;margin-top:6px">
-      <button id="historyBtn" class="btn secondary">Historia Patronów</button>
+      <div class="settings-tab-content" id="seasonalTab">
+       <div class="settings-section-title">
+        Wybierz motyw sezonowy
+       </div>
+       <div class="color-themes-grid" id="seasonalThemesGrid"></div>
+      </div>
+     </div>
     </div>
-  </main>
-
-  <!-- settings floating button -->
-  <button id="settingsBtn" class="settings-btn" title="Ustawienia" aria-label="Ustawienia">
-    <span class="settings-emoji" aria-hidden="true">⚙️</span>
-  </button>
-
-  <div id="settingsPanel" class="settings-panel" role="dialog" aria-hidden="true">
-    <div class="settings-card" role="document">
-      <button class="close-x" id="closeSettings" aria-label="Zamknij">✕</button>
-      <h4>Motyw kolorystyczny</h4>
-      <div class="theme-list" id="themeList"></div>
+   </div>
+   <div class="history-modal hidden" id="historyModal">
+    <div class="history-modal-content">
+     <div class="history-header">
+      <h2 class="history-title">Historia Patronów</h2><button class="close-button" id="closeHistoryButton">✕</button>
+     </div>
+     <div class="settings-content">
+      <div class="settings-tabs" id="historyTabs">
+       <div class="tab-indicator" id="historyTabIndicator"></div><button class="settings-tab active" data-tab="recent">Ostatnie Losowanie</button> <button class="settings-tab" data-tab="allhistory">Cała Historia</button> <button class="settings-tab" data-tab="favorites">Oznaczeni Gwiazdką</button>
+      </div>
+      <div class="settings-tab-content active" id="recentTab">
+       <div class="history-list" id="historyList">
+        <p class="no-history-text">Brak historii losowań</p>
+       </div>
+      </div>
+      <div class="settings-tab-content" id="allHistoryTab">
+       <div id="allHistoryList"></div>
+      </div>
+      <div class="settings-tab-content" id="favoritesTab">
+       <div id="favoritesHistoryList"></div>
+      </div>
+     </div>
     </div>
-  </div> 
+   </div>
+   <div class="confirm-delete-modal hidden" id="confirmDeleteModal">
+    <div class="confirm-delete-content">
+     <h3 class="confirm-delete-title">Potwierdź usunięcie</h3>
+     <p class="confirm-delete-message">Czy na pewno chcesz usunąć tego patrona z historii?</p>
+     <div class="confirm-delete-buttons"><button class="confirm-delete-btn confirm-delete-no" id="cancelDeleteBtn">Anuluj</button> <button class="confirm-delete-btn confirm-delete-yes" id="confirmDeleteBtn">Usuń</button>
+     </div>
+    </div>
+   </div>
   </div>
-
-  <!-- history modal -->
-  <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="history-card" role="document">
-      <button class="close-x" id="closeHistory" aria-label="Zamknij">✕</button>
-      <h3>Historia Patronów</h3>
-      <div id="historyList" class="history-list"></div>
-    </div>
-  </div>
-
   <script>
-    const patrons = [
-      {name: 'Św. Antoni Padewski', prayer: 'módl się za mną o odnalezienie dobra w każdej zagubionej chwili.'},
-      {name: 'Św. Rita z Cascii', prayer: 'módl się za mną o pokój w trudnościach, które wydają się niemożliwe.'},
-      {name: 'Św. Ojciec Pio', prayer: 'módl się nade mną o siłę, gdy serce się męczy.'},
-      {name: 'Św. Franciszek z Asyżu', prayer: 'módl się za mną o łagodność i wdzięk w codzienności.'},
-      {name: 'Św. Jan Paweł II', prayer: 'módl się nade mną o odwagę i serce otwarte na ludzi.'},
-      {name: 'Św. Teresa z Lisieux', prayer: 'módl się za mną o prostą, cichą radość.'},
-      {name: 'Św. Józef', prayer: 'módl się nade mną o stabilność, spokój i mądrą troskę.'},
-      {name: 'Św. Michał Archanioł', prayer: 'módl się za mną o ochronę przed tym, co mroczne.'},
-      {name: 'Św. Faustyna Kowalska', prayer: 'módl się nade mną o ufność, nawet gdy świat drży.'},
-      {name: 'Św. Katarzyna ze Sieny', prayer: 'módl się za mną o jasność myśli i serca.'},
-      {name: 'Św. Stanisław Kostka', prayer: 'módl się nade mną o młodzieńczą odwagę i świeże siły.'},
-      {name: 'Św. Jadwiga Królowa', prayer: 'módl się za mną o mądrość w trudnych decyzjach.'},
-      {name: 'Bł. Carlo Acutis', prayer: 'módl się nade mną o czystość intencji i pogodę ducha.'},
-      {name: 'Św. Ojciec Maksymilian Kolbe', prayer: 'módl się za mną o miłość zdolną do poświęceń.'},
-      {name: 'Św. Benedykta od Krzyża (Edyta Stein)', prayer: 'módl się nade mną o głębię wiary i rozumu.'},
-      {name: 'Św. Ignacy Loyola', prayer: 'módl się za mną o rozeznanie drogi, którą mam iść.'},
-      {name: 'Św. Brat Albert Chmielowski', prayer: 'módl się nade mną o serce hojniejsze niż moje lęki.'},
-      {name: 'Św. Filomena', prayer: 'módl się za mną o nadzieję nawet w cieniu smutku.'},
-      {name: 'Bł. Pier Giorgio Frassati', prayer: 'módl się nade mną o radość, która pociąga ku dobru.'}
+    const defaultConfig = {
+      main_title: "Patron Tygodnia",
+      draw_button_text: "Losuj",
+      time_remaining_label: "Następne losowanie za:",
+      history_button_text: "Historia Patronów",
+      background_color: "#9fc6e2",
+      background_color_end: "#cfe8f8",
+      primary_color: "#3b5998",
+      primary_color_end: "#5a8dee",
+      accent_color: "#2b7bd6",
+      navy_color: "#1e3a8a",
+      modal_background: "#ffffff",
+      font_family: "Roboto",
+      font_size: 16,
+      color_theme: "blue",
+      is_seasonal: false
+    };
+
+    const seasonalThemes = {
+      christmas: {
+        name: "Świąteczna Harmonia 🎄",
+        subtitle: "Do 1 Stycznia",
+        bg: "#1a472a",
+        bgEnd: "#2d5a3d",
+        text: "#c41e3a",
+        gradientStart: "#c41e3a",
+        gradientEnd: "#8b0000",
+        accent: "#c41e3a",
+        textShadow: "none",
+        titleColor: "#ffffff",
+        titleShadow: "0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6)",
+        isSeasonal: true
+      },
+      snow: {
+        name: "Śnieżna Zadyma ❄️",
+        subtitle: "Do 2 Lutego",
+        bg: "#e0f2fe",
+        bgEnd: "#f0f9ff",
+        text: "#0c4a6e",
+        gradientStart: "#0ea5e9",
+        gradientEnd: "#38bdf8",
+        accent: "#0284c7",
+        textShadow: "none"
+      }
+    };
+
+    const colorThemes = {
+      rose: {
+        name: "Jasny różany",
+        bg: "#ffe4e6",
+        bgEnd: "#fef2f2",
+        text: "#881337",
+        gradientStart: "#f43f5e",
+        gradientEnd: "#e11d48",
+        accent: "#dc2626",
+        textShadow: "none"
+      },
+      pink: {
+        name: "Różowy",
+        bg: "#fce7f3",
+        bgEnd: "#fdf2f8",
+        text: "#831843",
+        gradientStart: "#db2777",
+        gradientEnd: "#ec4899",
+        accent: "#be185d",
+        textShadow: "none"
+      },
+      pumpkin: {
+        name: "Dojrzała dynia",
+        bg: "#ff6b35",
+        bgEnd: "#ffedd5",
+        text: "#7c2d12",
+        gradientStart: "#ea580c",
+        gradientEnd: "#dc2626",
+        accent: "#c2410c",
+        textShadow: "none"
+      },
+      orange: {
+        name: "Pomarańczowy",
+        bg: "#fed7aa",
+        bgEnd: "#fef3c7",
+        text: "#92400e",
+        gradientStart: "#f59e0b",
+        gradientEnd: "#f97316",
+        accent: "#d97706",
+        textShadow: "none"
+      },
+      yellow: {
+        name: "Żółty",
+        bg: "#fef08a",
+        bgEnd: "#fef9c3",
+        text: "#713f12",
+        gradientStart: "#eab308",
+        gradientEnd: "#facc15",
+        accent: "#ca8a04",
+        textShadow: "none"
+      },
+      mustard: {
+        name: "Musztardowy",
+        bg: "#d4a574",
+        bgEnd: "#e8c9a1",
+        text: "#5a3e1b",
+        gradientStart: "#b8860b",
+        gradientEnd: "#daa520",
+        accent: "#996515",
+        textShadow: "none"
+      },
+      beige: {
+        name: "Beżowy",
+        bg: "#f7f3e9",
+        bgEnd: "#fdf9f1",
+        text: "#8b4513",
+        gradientStart: "#e6d7c3",
+        gradientEnd: "#d4b896",
+        accent: "#c19a6b",
+        textShadow: "none"
+      },
+      latte: {
+        name: "Spienione latte",
+        bg: "#d4b896",
+        bgEnd: "#e8d5b7",
+        text: "#5d4037",
+        gradientStart: "#8d6e63",
+        gradientEnd: "#6d4c41",
+        accent: "#795548",
+        textShadow: "none"
+      },
+      olive: {
+        name: "Spleśniała zieleń",
+        bg: "#8b9467",
+        bgEnd: "#a8b584",
+        text: "#3d4a2b",
+        gradientStart: "#6b7c4f",
+        gradientEnd: "#5a6b42",
+        accent: "#4a5635",
+        textShadow: "none"
+      },
+      green: {
+        name: "Zielony",
+        bg: "#a7f3d0",
+        bgEnd: "#d1fae5",
+        text: "#064e3b",
+        gradientStart: "#059669",
+        gradientEnd: "#10b981",
+        accent: "#047857",
+        textShadow: "none"
+      },
+      turquoise: {
+        name: "Jasny turkusowy",
+        bg: "#a5f3fc",
+        bgEnd: "#cffafe",
+        text: "#164e63",
+        gradientStart: "#06b6d4",
+        gradientEnd: "#0891b2",
+        accent: "#0e7490",
+        textShadow: "none"
+      },
+      lightBlue: {
+        name: "Jasny błękit",
+        bg: "#bfdbfe",
+        bgEnd: "#dbeafe",
+        text: "#1e40af",
+        gradientStart: "#60a5fa",
+        gradientEnd: "#3b82f6",
+        accent: "#2563eb",
+        textShadow: "none"
+      },
+      blue: {
+        name: "Niebieski",
+        bg: "#9fc6e2",
+        bgEnd: "#cfe8f8",
+        text: "#1e3a8a",
+        gradientStart: "#3b5998",
+        gradientEnd: "#5a8dee",
+        accent: "#2b7bd6",
+        textShadow: "none"
+      },
+      navy: {
+        name: "Granatowy",
+        bg: "#93c5fd",
+        bgEnd: "#bfdbfe",
+        text: "#1e3a8a",
+        gradientStart: "#1e40af",
+        gradientEnd: "#1e3a8a",
+        accent: "#1d4ed8",
+        textShadow: "none"
+      },
+      purple: {
+        name: "Fioletowy",
+        bg: "#e9d5ff",
+        bgEnd: "#f3e8ff",
+        text: "#581c87",
+        gradientStart: "#8b5cf6",
+        gradientEnd: "#a855f7",
+        accent: "#7c3aed",
+        textShadow: "none"
+      },
+      plum: {
+        name: "Śliwkowy",
+        bg: "#c8b5d1",
+        bgEnd: "#e6d9ea",
+        text: "#4a2c5a",
+        gradientStart: "#8e4a9c",
+        gradientEnd: "#6b3775",
+        accent: "#7a4285",
+        textShadow: "none"
+      },
+      gray: {
+        name: "Szary",
+        bg: "#e5e7eb",
+        bgEnd: "#f3f4f6",
+        text: "#111827",
+        gradientStart: "#4b5563",
+        gradientEnd: "#6b7280",
+        accent: "#374151",
+        textShadow: "none"
+      },
+      blackWhite: {
+        name: "Czarno-biały",
+        bg: "#ffffff",
+        bgEnd: "#f8f9fa",
+        text: "#000000",
+        gradientStart: "#000000",
+        gradientEnd: "#333333",
+        accent: "#666666",
+        textShadow: "none"
+      }
+    };
+
+    const saints = [
+      { name: "Św. Jan Paweł II", prayer: "módl się nade mną o mądrość i dobre wybory." },
+      { name: "Św. Franciszek z Asyżu", prayer: "czuwaj nade mną, bym miał(a) w sercu pokój." },
+      { name: "Św. Antoni z Padwy", prayer: "prowadź mnie, gdy czegoś szukam." },
+      { name: "Św. Ojciec Pio", prayer: "módl się o wewnętrzną siłę dla mnie." },
+      { name: "Św. Matka Teresa z Kalkuty", prayer: "czuwaj, abym nie tracił(a) wrażliwości." },
+      { name: "Św. Józef", prayer: "módl się o stabilność i bezpieczeństwo w moim życiu." },
+      { name: "Św. Rita z Cascii", prayer: "wspieraj mnie w trudnych momentach." },
+      { name: "Św. Faustyna", prayer: "módl się o pok��j w moim sercu." },
+      { name: "Św. Maksymilian Kolbe", prayer: "czuwaj nade mną, gdy potrzebuję odwagi." },
+      { name: "Św. Katarzyna ze Sieny", prayer: "módl się o jasność myśli dla mnie." },
+      { name: "Św. Benedykt", prayer: "prowadź mnie ku uporz���dkowaniu spraw." },
+      { name: "Św. Klara", prayer: "módl się o prostotę i równowagę w moim życiu." },
+      { name: "Św. Andrzej Bobola", prayer: "czuwaj nade mną, abym potrafił(a) budować zgodę." },
+      { name: "Św. Krzysztof", prayer: "módl się o bezpieczeństwo na moich drogach." },
+      { name: "Św. Cecylia", prayer: "otaczaj mnie harmonią i spokojem." },
+      { name: "Św. Łukasz", prayer: "módl się o zdrowie i siłę do codzienności." },
+      { name: "Św. Piotr Apostoł", prayer: "czuwaj i umacniaj mnie w wierze." },
+      { name: "Św. Paweł", prayer: "módl się, abym miał(a) serce otwarte." },
+      { name: "Św. Tomasz Apostoł", prayer: "prowadź mnie w chwilach wątpliwości." },
+      { name: "Św. Michał Archanioł", prayer: "czuwaj nade mną i chroń mnie." },
+      { name: "Św. Gabriel Archanioł", prayer: "módl się o dobre wiadomości dla mnie." },
+      { name: "Św. Rafał Archanioł", prayer: "prowadź mnie ku równowadze i spokojowi." },
+      { name: "Św. Patryk", prayer: "módl się o odwagę w zmianach." },
+      { name: "Św. Miko����aj", prayer: "czuwaj nade mną i obudzaj dobro w moim życiu." },
+      { name: "Św. Teresa z Lisieux", prayer: "módl się o ufność i lekkie serce." },
+      { name: "Św. Teresa z Ávili", prayer: "wspieraj mnie, gdy mam dużo na głowie." },
+      { name: "Św. Marcin z Tours", prayer: "prowadź mnie do czynienia dobra." },
+      { name: "Św. Florian", prayer: "módl się o ochronę i spokój wokół mnie." },
+      { name: "Św. Hildegarda", prayer: "czuwaj nade mną, abym podejmował(a) mądre decyzje." },
+      { name: "Św. Carlo Acutis", prayer: "módl się o równowagę i dobre korzystanie z tego, co mnie otacza." }
     ];
 
-    const tickerName = document.getElementById('tickerName');
-    const tickerPrayer = document.getElementById('tickerPrayer');
-    const drawBtn = document.getElementById('drawBtn');
-    const btnText = document.getElementById('btnText');
-    const btnDots = document.getElementById('btnDots');
-    const countdownBox = document.getElementById('countdown');
-    const historyBtn = document.getElementById('historyBtn');
-    const overlay = document.getElementById('overlay');
-    const closeHistory = document.getElementById('closeHistory');
-    const historyList = document.getElementById('historyList');
+    let currentPatron = null;
+    let countdownInterval = null;
+    let isAnimating = false;
+    let allPatrons = [];
 
-    const settingsBtn = document.getElementById('settingsBtn');
-    const settingsPanel = document.getElementById('settingsPanel');
-    // themeListEl will be queried inside buildThemeList() to avoid timing surprises
+    const dataHandler = {
+      onDataChanged(data) {
+        allPatrons = data;
+        
+        const hadActivePatron = currentPatron !== null;
+        const now = Date.now();
+        
+        if (data.length > 0) {
+          const latestDraw = data[data.length - 1];
+          
+          if (now < latestDraw.expires_timestamp) {
+            if (!hadActivePatron || 
+                currentPatron.name !== latestDraw.patron_name || 
+                currentPatron.expiresAt !== latestDraw.expires_timestamp) {
+              currentPatron = {
+                name: latestDraw.patron_name,
+                prayer: latestDraw.patron_prayer,
+                expiresAt: latestDraw.expires_timestamp
+              };
+              displayPatron(currentPatron);
+              startCountdown(currentPatron.expiresAt);
+            }
+          } else {
+            if (hadActivePatron && now >= currentPatron.expiresAt) {
+              currentPatron = null;
+              resetDisplay();
+            }
+          }
+        } else {
+          if (hadActivePatron && now >= currentPatron.expiresAt) {
+            currentPatron = null;
+            resetDisplay();
+          }
+        }
 
-    const DRAW_DURATION = 4000; // ms
-    const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
-    const STORAGE_KEY = 'patron_unlock_ts_v3';
-    const LAST_SELECTED_KEY = 'patron_last_selected_v3';
-    const HISTORY_KEY = 'patron_history_v3';
-    const THEME_KEY = 'patron_theme_v1';
+        updateHistoryDisplay();
+      }
+    };
 
-    let cycleInterval = null;
-
-    function setTicker(item){
-      // animate change
-      tickerName.classList.remove('flash-in','flash-out');
-      tickerPrayer.classList.remove('flash-in','flash-out');
-      tickerName.classList.add('flash-out');
-      tickerPrayer.classList.add('flash-out');
-      setTimeout(()=>{
-        tickerName.textContent = item.name;
-        tickerPrayer.textContent = item.prayer;
-        tickerName.classList.remove('flash-out');
-        tickerPrayer.classList.remove('flash-out');
-        tickerName.classList.add('flash-in');
-        tickerPrayer.classList.add('flash-in');
-      }, 140);
+    function displayPatron(patron) {
+      const patronContent = document.getElementById('patronContent');
+      patronContent.innerHTML = `
+        <div class="patron-name">${patron.name}</div>
+        <div class="patron-prayer">${patron.prayer}</div>
+      `;
+      document.getElementById('drawButton').disabled = true;
+      document.getElementById('countdownContainer').style.display = 'block';
     }
 
-    function startCountdown(untilTs){
-      countdownBox.style.display='inline-block';
-      let intervalHandle = null;
-      function tick(){
+    function resetDisplay() {
+      const patronContent = document.getElementById('patronContent');
+      patronContent.innerHTML = '<p class="placeholder-text">Wylosuj swojego patrona na ten tydzień</p>';
+      document.getElementById('drawButton').disabled = false;
+      document.getElementById('countdownContainer').style.display = 'none';
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
+    }
+
+    function startCountdown(expiresAt) {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+      }
+
+      function updateCountdown() {
         const now = Date.now();
-        const diff = untilTs - now;
-        if(diff<=0){
-          countdownBox.style.display='none';
-          drawBtn.disabled=false;
-          localStorage.removeItem(STORAGE_KEY);
-          if(intervalHandle) clearInterval(intervalHandle);
+        const remaining = expiresAt - now;
+
+        if (remaining <= 0) {
+          clearInterval(countdownInterval);
+          currentPatron = null;
+          resetDisplay();
           return;
         }
-        const days = Math.floor(diff / (24*60*60*1000));
-        const h = Math.floor((diff % (24*60*60*1000)) / (60*60*1000));
-        const m = Math.floor((diff % (60*60*1000)) / (60*1000));
-        const s = Math.floor((diff % (60*1000)) / 1000);
-        countdownBox.textContent = `Możesz losować ponownie za: ${days}d ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+        const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+        document.getElementById('countdownTimer').textContent = 
+          `${days}d ${hours}h ${minutes}m ${seconds}s`;
       }
-      tick();
-      intervalHandle = setInterval(tick,1000);
+
+      updateCountdown();
+      countdownInterval = setInterval(updateCountdown, 1000);
     }
 
-    function disableWhileDrawing(){
-      drawBtn.disabled=true;
-      btnText.textContent='Losowanie...';
-      btnDots.style.display='inline-flex';
-    }
-    function enableAfterDrawing(){
-      btnDots.style.display='none';
-      btnText.textContent='Losuj';
+    async function performDraw() {
+      if (isAnimating) return;
+      
+      isAnimating = true;
+      const patronDisplay = document.getElementById('patronDisplay');
+      const patronContent = document.getElementById('patronContent');
+      const drawButton = document.getElementById('drawButton');
+
+      drawButton.disabled = true;
+      
+      patronDisplay.classList.add('slot-machine');
+
+      let currentIndex = 0;
+      let cycles = 0;
+      const totalCycles = 40;
+      
+      const rollInterval = setInterval(() => {
+        const saint = saints[currentIndex];
+        patronContent.innerHTML = `
+          <div class="patron-name">${saint.name}</div>
+          <div class="patron-prayer">${saint.prayer}</div>
+        `;
+
+        currentIndex = (currentIndex + 1) % saints.length;
+        cycles++;
+
+        if (cycles >= totalCycles) {
+          clearInterval(rollInterval);
+          patronDisplay.classList.remove('slot-machine');
+          finalizeDraw();
+        }
+      }, 80);
     }
 
-    function cycleTexts(speed=120){
-      let i = 0;
-      cycleInterval = setInterval(()=>{
-        const item = patrons[i % patrons.length];
-        setTicker(item);
-        i++;
-      }, speed);
+    async function finalizeDraw() {
+      const selectedSaint = saints[Math.floor(Math.random() * saints.length)];
+      const now = Date.now();
+      const expiresAt = now + (7 * 24 * 60 * 60 * 1000);
+
+      const patronDisplay = document.getElementById('patronDisplay');
+      const patronContent = document.getElementById('patronContent');
+
+      patronDisplay.classList.add('final-reveal');
+      patronContent.innerHTML = `
+        <div class="patron-name">${selectedSaint.name}</div>
+        <div class="patron-prayer">${selectedSaint.prayer}</div>
+      `;
+
+      setTimeout(() => {
+        patronDisplay.classList.remove('final-reveal');
+      }, 600);
+
+      const result = await window.dataSdk.create({
+        patron_name: selectedSaint.name,
+        patron_prayer: selectedSaint.prayer,
+        draw_timestamp: now,
+        expires_timestamp: expiresAt,
+        is_favorite: false
+      });
+
+      if (result.isOk) {
+        currentPatron = {
+          name: selectedSaint.name,
+          prayer: selectedSaint.prayer,
+          expiresAt: expiresAt
+        };
+        startCountdown(expiresAt);
+        document.getElementById('countdownContainer').style.display = 'block';
+      } else {
+        patronContent.innerHTML = '<p class="placeholder-text">Wystąpił błąd. Spróbuj ponownie.</p>';
+        document.getElementById('drawButton').disabled = false;
+      }
+
+      isAnimating = false;
     }
 
-    function stopCycle(){
-      if(cycleInterval) { clearInterval(cycleInterval); cycleInterval = null; }
-    }
-
-    function saveHistory(item){
-      try{
-        const raw = localStorage.getItem(HISTORY_KEY);
-        const arr = raw ? JSON.parse(raw) : [];
-        arr.unshift({ts:Date.now(), name:item.name, prayer:item.prayer});
-        localStorage.setItem(HISTORY_KEY, JSON.stringify(arr.slice(0,50))); // keep last 50
-      }catch(e){console.warn(e)}
-    }
-
-    function renderHistory(){
-      const raw = localStorage.getItem(HISTORY_KEY);
-      const arr = raw ? JSON.parse(raw) : [];
-      historyList.innerHTML='';
-      if(arr.length===0){
-        historyList.innerHTML = '<div style="color:rgba(30,58,138,0.7)">Brak historii.</div>';
+    function updateHistoryDisplay() {
+      const historyList = document.getElementById('historyList');
+      
+      if (allPatrons.length === 0) {
+        historyList.innerHTML = '<p class="no-history-text">Brak historii losowań</p>';
         return;
       }
-      arr.forEach(h =>{
-        const item = document.createElement('div');
-        item.className='history-item';
-        const d = new Date(h.ts);
-        const meta = document.createElement('div'); meta.className='history-meta'; meta.textContent = `${d.toLocaleString()}`;
-        const title = document.createElement('div'); title.style.fontWeight='700'; title.textContent = h.name;
-        const prayer = document.createElement('div'); prayer.style.marginTop='6px'; prayer.style.fontSize='13px'; prayer.style.color='rgba(30,58,138,0.85)'; prayer.textContent = h.prayer;
-        item.appendChild(meta); item.appendChild(title); item.appendChild(prayer);
-        historyList.appendChild(item);
-      });
-    }
 
-    function openHistory(){ renderHistory(); overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
-    function closeHistoryModal(){ overlay.classList.remove('show'); overlay.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
-
-    function draw(){
-      disableWhileDrawing();
-      cycleTexts(100);
-
-      setTimeout(()=>{
-        stopCycle();
-        const chosen = patrons[Math.floor(Math.random()*patrons.length)];
-        setTicker(chosen);
-        // persist last selection
-        localStorage.setItem(LAST_SELECTED_KEY, JSON.stringify(chosen));
-        saveHistory(chosen);
-        const unlockTs = Date.now() + WEEK_MS;
-        localStorage.setItem(STORAGE_KEY, String(unlockTs));
-        startCountdown(unlockTs);
-        enableAfterDrawing();
-      }, DRAW_DURATION);
-    }
-
-    // events
-    drawBtn.addEventListener('click', ()=>{ if(drawBtn.disabled) return; draw(); });
-    historyBtn.addEventListener('click', openHistory);
-    closeHistory.addEventListener('click', closeHistoryModal);
-    overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeHistoryModal(); });
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') { closeHistoryModal(); hideSettings(); } });
-
-    // THEMES definition (rainbow order) — keys and variables
-    const THEMES = [
-      {
-        id:'dojrzala-dynia', name:'Dojrzała dynia', vars:{
-          '--bg':'#ff6b35','--bg2':'#ffedd5','--navy':'#7c2d12','--quote-grad-start':'#ea580c','--quote-grad-end':'#dc2626','--point-blue':'#C2410c'
-        }
-      },
-      { id:'pomaranczowy', name:'Pomarańczowy', vars:{ '--bg':'#fed7aa','--bg2':'#fef3c7','--navy':'#92400e','--quote-grad-start':'#f59e0b','--quote-grad-end':'#f97316','--point-blue':'#d97706' } },
-      { id:'zolty', name:'Żółty', vars:{ '--bg':'#fef08a','--bg2':'#fef9c3','--navy':'#713f12','--quote-grad-start':'#eab308','--quote-grad-end':'#facc15','--point-blue':'#ca8a04' } },
-      { id:'musztardziany', name:'Musztardziany', vars:{ '--bg':'#d4a574','--bg2':'#e8c9a1','--navy':'#5a3e1b','--quote-grad-start':'#b8860b','--quote-grad-end':'#daa520','--point-blue':'#996515' } },
-      { id:'zielony', name:'Zielony', vars:{ '--bg':'#a7f3d0','--bg2':'#d1fae5','--navy':'#064e3b','--quote-grad-start':'#059669','--quote-grad-end':'#10b981','--point-blue':'#047857' } },
-      { id:'splesniala-zielen', name:'Spleśniała zieleń', vars:{ '--bg':'#8b9467','--bg2':'#a8b584','--navy':'#3d4a2b','--quote-grad-start':'#6b7c4f','--quote-grad-end':'#5a6b42','--point-blue':'#4a5635' } },
-      { id:'jasny-turkus', name:'Jasny niebieski turkusowy', vars:{ '--bg':'#a5f3fc','--bg2':'#cffafe','--navy':'#164e63','--quote-grad-start':'#06b6d4','--quote-grad-end':'#0891b2','--point-blue':'#0e7490' } },
-      { id:'jasny-blykit', name:'Jasny błękit', vars:{ '--bg':'#bfdbfe','--bg2':'#dbeafe','--navy':'#1e40af','--quote-grad-start':'#60a5fa','--quote-grad-end':'#3b82f6','--point-blue':'#2563eb' } },
-      { id:'granatowy', name:'Granatowy', vars:{ '--bg':'#93c5fd','--bg2':'#bfdbfe','--navy':'#1e3a8a','--quote-grad-start':'#1e40af','--quote-grad-end':'#1e3a8a','--point-blue':'#1d4ed8' } },
-      { id:'niebieski', name:'Niebieski (domyślny)', vars:{ '--bg':'#9fc6e2','--bg2':'#cfe8f8','--navy':'#1e3a8a','--quote-grad-start':'#3b5998','--quote-grad-end':'#5a8dee','--point-blue':'#2b7bd6' } },
-      { id:'fioletowy', name:'Fioletowy', vars:{ '--bg':'#e9d5ff','--bg2':'#f3e8ff','--navy':'#581c87','--quote-grad-start':'#8b5cf6','--quote-grad-end':'#a855f7','--point-blue':'#7c3aed' } },
-      { id:'sliwkowy', name:'Śliwkowy', vars:{ '--bg':'#c8b5d1','--bg2':'#e6d9ea','--navy':'#4a2c5a','--quote-grad-start':'#8e4a9c','--quote-grad-end':'#6b3775','--point-blue':'#7a4285' } },
-      { id:'rozowy', name:'Różowy', vars:{ '--bg':'#fce7f3','--bg2':'#fdf2f8','--navy':'#831843','--quote-grad-start':'#db2777','--quote-grad-end':'#ec4899','--point-blue':'#be185d' } },
-      { id:'jasny-rozowy', name:'Jasny różany', vars:{ '--bg':'#ffe4e6','--bg2':'#fef2f2','--navy':'#881337','--quote-grad-start':'#f43f5e','--quote-grad-end':'#e11d48','--point-blue':'#dc2626' } },
-      { id:'bezowy', name:'Beżowy', vars:{ '--bg':'#f7f3e9','--bg2':'#fdf9f1','--navy':'#8b4513','--quote-grad-start':'#e6d7c3','--quote-grad-end':'#d4b896','--point-blue':'#c19a6b' } },
-      { id:'spienione-latte', name:'Spienione latte', vars:{ '--bg':'#d4b896','--bg2':'#e8d5b7','--navy':'#5d4037','--quote-grad-start':'#8d6e63','--quote-grad-end':'#6d4c41','--point-blue':'#795548' } },
-      { id:'szary', name:'Szary', vars:{ '--bg':'#e5e7eb','--bg2':'#f3f4f6','--navy':'#111827','--quote-grad-start':'#4b5563','--quote-grad-end':'#6b7280','--point-blue':'#374151' } },
-      { id:'czarno-bialy', name:'Czarno-biały', vars:{ '--bg':'#ffffff','--bg2':'#f8f9fa','--navy':'#000000','--quote-grad-start':'#000000','--quote-grad-end':'#333333','--point-blue':'#666666' } }
-    ];
-
-    // create theme tiles in the panel
-    function buildThemeList(){
-      const themeListEl = document.getElementById('themeList');
-      if(!themeListEl) return;
-      themeListEl.innerHTML = '';
-      THEMES.forEach(t =>{
-        const tile = document.createElement('label');
-        tile.className = 'theme-tile';
-        tile.setAttribute('data-id', t.id);
-
-        const preview = document.createElement('div'); preview.className='theme-preview';
-        preview.style.background = `linear-gradient(135deg, ${t.vars['--bg']}, ${t.vars['--quote-grad-start']})`;
-
-        const info = document.createElement('div'); info.className='theme-info';
-        const name = document.createElement('div'); name.className='theme-name'; name.textContent = t.name;
-        const meta = document.createElement('div'); meta.className='theme-meta'; meta.textContent = `${t.vars['--bg']} • ${t.vars['--quote-grad-start']}`;
-        info.appendChild(name); info.appendChild(meta);
-
-        const radio = document.createElement('input'); radio.type='radio'; radio.name='theme'; radio.className='theme-radio'; radio.value = t.id;
-
-        tile.appendChild(preview); tile.appendChild(info); tile.appendChild(radio);
-
-        tile.addEventListener('click', ()=>{ selectTheme(t.id); });
-
-        themeListEl.appendChild(tile);
-      });
-    }
-
-    function applyThemeVars(vars){
-      Object.keys(vars).forEach(k=>{ document.documentElement.style.setProperty(k, vars[k]); });
-      // ensure buttons update
-      document.querySelectorAll('.btn').forEach(b=>{
-        b.style.background = `linear-gradient(90deg, var(--quote-grad-start), var(--quote-grad-end))`;
-      });
-    }
-
-    function selectTheme(id, persist=true){
-      const t = THEMES.find(x=>x.id===id);
-      if(!t) return;
-      applyThemeVars(t.vars);
-      // mark radio
-      document.querySelectorAll('.theme-radio').forEach(r=> r.checked = (r.value===id));
-      if(persist) localStorage.setItem(THEME_KEY, id);
-    }
-
-    function showSettings(){
-      // rebuild the list each time in case the panel was empty
-      buildThemeList();
-      settingsPanel.classList.add('show'); settingsPanel.setAttribute('aria-hidden','false');
-    }
-    function hideSettings(){ settingsPanel.classList.remove('show'); settingsPanel.setAttribute('aria-hidden','true'); }
-
-    settingsBtn.addEventListener('click', ()=>{
-      if(settingsPanel.classList.contains('show')) hideSettings(); else showSettings();
-    });
-
-    // initialize
-    window.addEventListener('load', ()=>{
+      const sortedPatrons = [...allPatrons].sort((a, b) => b.draw_timestamp - a.draw_timestamp);
       
-      buildThemeList();
-      // restore theme
-      const storedTheme = localStorage.getItem(THEME_KEY);
-      if(storedTheme && THEMES.find(t=>t.id===storedTheme)) selectTheme(storedTheme, false);
-      else selectTheme('niebieski', false);
+      const currentTheme = window.elementSdk?.config?.color_theme || defaultConfig.color_theme;
+      const isSeasonal = window.elementSdk?.config?.is_seasonal || false;
+      const theme = isSeasonal ? seasonalThemes[currentTheme] : colorThemes[currentTheme];
+      const starColor = theme ? theme.accent : '#5a8dee';
 
-      const last = localStorage.getItem(LAST_SELECTED_KEY);
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if(last){ try{ const obj = JSON.parse(last); setTicker(obj); }catch(e){} }
-      if(stored){ const ts = Number(stored); if(!isNaN(ts) && ts > Date.now()){ drawBtn.disabled=true; startCountdown(ts);} else { localStorage.removeItem(STORAGE_KEY); drawBtn.disabled=false; } }
-      // ensure mobile-friendly focus targets
-    
-      // wire closeSettings button for modal
-      const closeSettingsBtn = document.getElementById('closeSettings');
-      if(closeSettingsBtn) closeSettingsBtn.addEventListener('click', hideSettings);
-      // ensure mobile-friendly focus targets
+      historyList.innerHTML = sortedPatrons.map(patron => {
+        const date = new Date(patron.draw_timestamp);
+        const dateStr = date.toLocaleDateString('pl-PL', { 
+          day: '2-digit', 
+          month: '2-digit', 
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        const starIcon = patron.is_favorite ? '★' : '☆';
+        const starClass = patron.is_favorite ? 'star-button filled' : 'star-button';
+        const starStyle = patron.is_favorite ? `style="color: ${starColor}"` : '';
+        
+        return `
+          <div class="history-item">
+            <div class="history-item-header">
+              <div class="history-item-name">${patron.patron_name}</div>
+              <div class="history-item-actions">
+                <button class="${starClass}" data-id="${patron.__backendId}" ${starStyle}>${starIcon}</button>
+                <button class="delete-button" data-id="${patron.__backendId}">
+                  <svg class="delete-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="history-item-prayer">${patron.patron_prayer}</div>
+            <div class="history-item-date">${dateStr}</div>
+          </div>
+        `;
+      }).join('');
+
+      attachHistoryEventListeners();
+    }
+
+    let patronToDelete = null;
+
+    function attachHistoryEventListeners() {
+      document.querySelectorAll('.star-button').forEach(button => {
+        button.addEventListener('click', async (e) => {
+          const id = e.currentTarget.dataset.id;
+          const patron = allPatrons.find(p => p.__backendId === id);
+          if (patron) {
+            e.currentTarget.classList.add('favorited');
+            setTimeout(() => e.currentTarget.classList.remove('favorited'), 400);
+            
+            patron.is_favorite = !patron.is_favorite;
+            
+            if (patron.is_favorite) {
+              e.currentTarget.textContent = '★';
+              e.currentTarget.classList.add('filled');
+              const currentTheme = window.elementSdk?.config?.color_theme || defaultConfig.color_theme;
+              const isSeasonal = window.elementSdk?.config?.is_seasonal || false;
+              const theme = isSeasonal ? seasonalThemes[currentTheme] : colorThemes[currentTheme];
+              if (theme) {
+                e.currentTarget.style.color = theme.accent;
+              }
+            } else {
+              e.currentTarget.textContent = '☆';
+              e.currentTarget.classList.remove('filled');
+              e.currentTarget.style.color = '';
+            }
+            
+            const result = await window.dataSdk.update(patron);
+            if (!result.isOk) {
+              patron.is_favorite = !patron.is_favorite;
+              if (patron.is_favorite) {
+                e.currentTarget.textContent = '★';
+                e.currentTarget.classList.add('filled');
+              } else {
+                e.currentTarget.textContent = '☆';
+                e.currentTarget.classList.remove('filled');
+              }
+            }
+          }
+        });
+      });
+
+      document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const deleteBtn = e.currentTarget;
+          const id = deleteBtn.dataset.id;
+          const patron = allPatrons.find(p => p.__backendId === id);
+          if (patron) {
+            patronToDelete = patron;
+            document.getElementById('confirmDeleteModal').classList.remove('hidden');
+          }
+        });
+      });
+    }
+
+    function applyColorTheme(themeKey, isSeasonalTheme = false) {
+      const theme = isSeasonalTheme ? seasonalThemes[themeKey] : colorThemes[themeKey];
+      if (!theme) return;
+
+      document.body.style.background = `linear-gradient(180deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`;
+      document.body.style.color = theme.text;
+
+      const mainTitle = document.getElementById('mainTitle');
+      if (mainTitle) {
+        if (theme.isSeasonal) {
+          mainTitle.style.color = '#ffffff';
+          mainTitle.style.textShadow = '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6)';
+        } else {
+          mainTitle.style.color = theme.text;
+          mainTitle.style.textShadow = '2px 2px 4px rgba(6, 21, 52, 0.15)';
+        }
+      }
+
+      const textElements = [
+        document.querySelector('.countdown-label'),
+        document.querySelector('.settings-title'),
+        document.querySelector('.history-title'),
+        document.querySelector('.confirm-delete-title'),
+        document.querySelector('.settings-section-title')
+      ];
+      textElements.forEach(el => {
+        if (el) {
+          el.style.color = theme.text;
+          el.style.textShadow = theme.textShadow || 'none';
+        }
+      });
+
+      const historyItemNames = document.querySelectorAll('.history-item-name');
+      historyItemNames.forEach(el => {
+        el.style.color = theme.text;
+        el.style.textShadow = theme.textShadow || 'none';
+      });
+
+      const colorThemeNames = document.querySelectorAll('.color-theme-name');
+      colorThemeNames.forEach(el => {
+        el.style.color = theme.text;
+        el.style.textShadow = theme.textShadow || 'none';
+      });
+
+      const gradientElements = [
+        document.getElementById('patronDisplay'),
+        document.getElementById('drawButton')
+      ];
+      gradientElements.forEach(el => {
+        if (el) el.style.background = `linear-gradient(135deg, ${theme.gradientStart} 0%, ${theme.gradientEnd} 100%)`;
+      });
+
+      const countdownTimer = document.getElementById('countdownTimer');
+      if (countdownTimer) {
+        countdownTimer.style.color = theme.accent;
+        countdownTimer.style.textShadow = theme.textShadow || 'none';
+      }
+
+      const historyButton = document.getElementById('historyButton');
+      if (historyButton) {
+        historyButton.style.color = theme.gradientStart;
+        historyButton.style.borderColor = theme.gradientStart;
+      }
+
+      const filledStars = document.querySelectorAll('.star-button.filled');
+      filledStars.forEach(star => {
+        star.style.color = theme.accent;
+      });
+
+      if (window.elementSdk && window.elementSdk.config) {
+        window.elementSdk.setConfig({
+          background_color: theme.bg,
+          background_color_end: theme.bgEnd,
+          primary_color: theme.gradientStart,
+          primary_color_end: theme.gradientEnd,
+          accent_color: theme.accent,
+          navy_color: theme.text,
+          color_theme: themeKey,
+          is_seasonal: isSeasonalTheme
+        });
+      }
+    }
+
+    function renderColorThemes() {
+      const grid = document.getElementById('colorThemesGrid');
+      const currentTheme = (window.elementSdk && window.elementSdk.config) ? 
+        window.elementSdk.config.color_theme || defaultConfig.color_theme : 
+        defaultConfig.color_theme;
+      const isCurrentSeasonal = (window.elementSdk && window.elementSdk.config) ? 
+        window.elementSdk.config.is_seasonal || false : false;
+      
+      grid.innerHTML = Object.entries(colorThemes).map(([key, theme]) => {
+        const isActive = key === currentTheme && !isCurrentSeasonal;
+        return `
+          <div class="color-theme-card ${isActive ? 'active' : ''}" data-theme="${key}">
+            <div class="color-preview" style="background: ${theme.gradientStart}"></div>
+            <div class="color-theme-name">${theme.name}</div>
+          </div>
+        `;
+      }).join('');
+
+      document.querySelectorAll('#colorThemesGrid .color-theme-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const themeKey = card.dataset.theme;
+          applyColorTheme(themeKey, false);
+          
+          document.querySelectorAll('.color-theme-card').forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+        });
+      });
+    }
+
+    function renderSeasonalThemes() {
+      const grid = document.getElementById('seasonalThemesGrid');
+      const currentTheme = (window.elementSdk && window.elementSdk.config) ? 
+        window.elementSdk.config.color_theme || defaultConfig.color_theme : 
+        defaultConfig.color_theme;
+      const isCurrentSeasonal = (window.elementSdk && window.elementSdk.config) ? 
+        window.elementSdk.config.is_seasonal || false : false;
+      
+      grid.innerHTML = Object.entries(seasonalThemes).map(([key, theme]) => {
+        const isActive = key === currentTheme && isCurrentSeasonal;
+        const subtitle = theme.subtitle ? `<div class="color-theme-subtitle">${theme.subtitle}</div>` : '';
+        return `
+          <div class="color-theme-card ${isActive ? 'active' : ''}" data-theme="${key}" data-seasonal="true">
+            <div class="color-preview" style="background: ${theme.gradientStart}"></div>
+            <div class="color-theme-name">${theme.name}</div>
+            ${subtitle}
+          </div>
+        `;
+      }).join('');
+
+      document.querySelectorAll('#seasonalThemesGrid .color-theme-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const themeKey = card.dataset.theme;
+          applyColorTheme(themeKey, true);
+          
+          document.querySelectorAll('.color-theme-card').forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+        });
+      });
+    }
+
+    function renderAllHistoryInSettings() {
+      const container = document.getElementById('allHistoryList');
+      
+      if (allPatrons.length === 0) {
+        container.innerHTML = '<p class="no-history-text">Brak historii losowań</p>';
+        return;
+      }
+
+      const sortedPatrons = [...allPatrons].sort((a, b) => b.draw_timestamp - a.draw_timestamp);
+      
+      const currentTheme = window.elementSdk?.config?.color_theme || defaultConfig.color_theme;
+      const isSeasonal = window.elementSdk?.config?.is_seasonal || false;
+      const theme = isSeasonal ? seasonalThemes[currentTheme] : colorThemes[currentTheme];
+      const starColor = theme ? theme.accent : '#5a8dee';
+
+      container.innerHTML = sortedPatrons.map(patron => {
+        const date = new Date(patron.draw_timestamp);
+        const dateStr = date.toLocaleDateString('pl-PL', { 
+          day: '2-digit', 
+          month: '2-digit', 
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        const starIcon = patron.is_favorite ? '★' : '☆';
+        const starClass = patron.is_favorite ? 'star-button filled' : 'star-button';
+        const starStyle = patron.is_favorite ? `style="color: ${starColor}"` : '';
+        
+        return `
+          <div class="history-item">
+            <div class="history-item-header">
+              <div class="history-item-name">${patron.patron_name}</div>
+              <div class="history-item-actions">
+                <button class="${starClass}" data-id="${patron.__backendId}" ${starStyle}>${starIcon}</button>
+                <button class="delete-button" data-id="${patron.__backendId}">
+                  <svg class="delete-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="history-item-prayer">${patron.patron_prayer}</div>
+            <div class="history-item-date">${dateStr}</div>
+          </div>
+        `;
+      }).join('');
+
+      attachHistoryEventListeners();
+    }
+
+    function renderFavoritesInSettings() {
+      const container = document.getElementById('favoritesHistoryList');
+      
+      const favorites = allPatrons.filter(p => p.is_favorite);
+      
+      if (favorites.length === 0) {
+        container.innerHTML = '<p class="no-history-text">Brak ulubionych patronów</p>';
+        return;
+      }
+
+      const sortedFavorites = [...favorites].sort((a, b) => b.draw_timestamp - a.draw_timestamp);
+      
+      const currentTheme = window.elementSdk?.config?.color_theme || defaultConfig.color_theme;
+      const isSeasonal = window.elementSdk?.config?.is_seasonal || false;
+      const theme = isSeasonal ? seasonalThemes[currentTheme] : colorThemes[currentTheme];
+      const starColor = theme ? theme.accent : '#5a8dee';
+
+      container.innerHTML = sortedFavorites.map(patron => {
+        const date = new Date(patron.draw_timestamp);
+        const dateStr = date.toLocaleDateString('pl-PL', { 
+          day: '2-digit', 
+          month: '2-digit', 
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        
+        return `
+          <div class="history-item">
+            <div class="history-item-header">
+              <div class="history-item-name">${patron.patron_name}</div>
+              <div class="history-item-actions">
+                <button class="star-button filled" data-id="${patron.__backendId}" style="color: ${starColor}">★</button>
+                <button class="delete-button" data-id="${patron.__backendId}">
+                  <svg class="delete-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="history-item-prayer">${patron.patron_prayer}</div>
+            <div class="history-item-date">${dateStr}</div>
+          </div>
+        `;
+      }).join('');
+
+      attachHistoryEventListeners();
+    }
+
+    document.getElementById('settingsButton').addEventListener('click', () => {
+      document.getElementById('settingsModal').classList.remove('hidden');
+      renderColorThemes();
+      renderSeasonalThemes();
+      
+      setTimeout(() => {
+        const settingsTabs = document.getElementById('settingsTabs');
+        const settingsIndicator = document.getElementById('settingsTabIndicator');
+        const activeSettingsTab = settingsTabs.querySelector('.settings-tab.active');
+        if (settingsIndicator && activeSettingsTab) {
+          updateTabIndicator(settingsTabs, settingsIndicator, activeSettingsTab);
+        }
+      }, 50);
     });
 
-    // settings: close if clicked away
-    document.addEventListener('click', (e)=>{
-      if(settingsPanel.classList.contains('show')){
-        // if user clicked on the backdrop (settingsPanel itself), close modal
-        if(e.target === settingsPanel) hideSettings();
+    function updateTabIndicator(tabsContainer, indicator, activeTab) {
+      const tabs = Array.from(tabsContainer.querySelectorAll('.settings-tab'));
+      const activeIndex = tabs.indexOf(activeTab);
+      
+      if (activeIndex !== -1) {
+        const tabWidth = activeTab.offsetWidth;
+        const tabLeft = activeTab.offsetLeft;
+        
+        indicator.style.width = `${tabWidth}px`;
+        indicator.style.left = `${tabLeft}px`;
+      }
+    }
+
+    document.querySelectorAll('.settings-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.dataset.tab;
+        
+        const parentModal = tab.closest('.settings-modal, .history-modal');
+        const tabsInModal = parentModal.querySelectorAll('.settings-tab');
+        const contentsInModal = parentModal.querySelectorAll('.settings-tab-content');
+        
+        tabsInModal.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        const tabsContainer = tab.closest('.settings-tabs');
+        const indicator = tabsContainer.querySelector('.tab-indicator');
+        if (indicator) {
+          updateTabIndicator(tabsContainer, indicator, tab);
+        }
+        
+        contentsInModal.forEach(content => content.classList.remove('active'));
+        
+        if (tabName === 'regular') {
+          document.getElementById('regularTab').classList.add('active');
+        } else if (tabName === 'seasonal') {
+          document.getElementById('seasonalTab').classList.add('active');
+        } else if (tabName === 'recent') {
+          document.getElementById('recentTab').classList.add('active');
+          updateHistoryDisplay();
+        } else if (tabName === 'allhistory') {
+          document.getElementById('allHistoryTab').classList.add('active');
+          renderAllHistoryInSettings();
+        } else if (tabName === 'favorites') {
+          document.getElementById('favoritesTab').classList.add('active');
+          renderFavoritesInSettings();
+        }
+      });
+    });
+
+    document.getElementById('closeSettingsButton').addEventListener('click', () => {
+      document.getElementById('settingsModal').classList.add('hidden');
+    });
+
+    document.getElementById('settingsModal').addEventListener('click', (e) => {
+      if (e.target.id === 'settingsModal') {
+        document.getElementById('settingsModal').classList.add('hidden');
       }
     });
 
-  </script>
-</body>
-</html>
+    document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
+      document.getElementById('confirmDeleteModal').classList.add('hidden');
+      patronToDelete = null;
+    });
 
+    document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+      if (patronToDelete) {
+        const wasCurrentPatron = currentPatron && 
+          patronToDelete.patron_name === currentPatron.name && 
+          patronToDelete.expires_timestamp === currentPatron.expiresAt;
+        
+        const result = await window.dataSdk.delete(patronToDelete);
+        if (!result.isOk) {
+          console.error('Błąd usuwania patrona');
+        }
+        document.getElementById('confirmDeleteModal').classList.add('hidden');
+        patronToDelete = null;
+      }
+    });
+
+    document.getElementById('confirmDeleteModal').addEventListener('click', (e) => {
+      if (e.target.id === 'confirmDeleteModal') {
+        document.getElementById('confirmDeleteModal').classList.add('hidden');
+        patronToDelete = null;
+      }
+    });
+
+    document.getElementById('historyButton').addEventListener('click', () => {
+      document.getElementById('historyModal').classList.remove('hidden');
+      updateHistoryDisplay();
+      
+      setTimeout(() => {
+        const historyTabs = document.getElementById('historyTabs');
+        const historyIndicator = document.getElementById('historyTabIndicator');
+        const activeHistoryTab = historyTabs.querySelector('.settings-tab.active');
+        if (historyIndicator && activeHistoryTab) {
+          updateTabIndicator(historyTabs, historyIndicator, activeHistoryTab);
+        }
+      }, 50);
+    });
+
+    document.getElementById('closeHistoryButton').addEventListener('click', () => {
+      document.getElementById('historyModal').classList.add('hidden');
+    });
+
+    document.getElementById('historyModal').addEventListener('click', (e) => {
+      if (e.target.id === 'historyModal') {
+        document.getElementById('historyModal').classList.add('hidden');
+      }
+    });
+
+    document.getElementById('drawButton').addEventListener('click', (e) => {
+      e.preventDefault();
+      performDraw();
+    });
+
+    async function onConfigChange(config) {
+      document.getElementById('mainTitle').textContent = config.main_title || defaultConfig.main_title;
+      document.getElementById('drawButton').textContent = config.draw_button_text || defaultConfig.draw_button_text;
+      document.getElementById('countdownLabel').textContent = config.time_remaining_label || defaultConfig.time_remaining_label;
+      document.getElementById('historyButton').textContent = config.history_button_text || defaultConfig.history_button_text;
+
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = 'Arial, sans-serif';
+      const baseSize = config.font_size || defaultConfig.font_size;
+
+      document.getElementById('mainTitle').style.fontFamily = `Pacifico, ${baseFontStack}`;
+      document.body.style.fontSize = `${baseSize}px`;
+      
+      const patronNames = document.querySelectorAll('.patron-name');
+      const patronPrayers = document.querySelectorAll('.patron-prayer');
+      const countdownTimers = document.querySelectorAll('.countdown-timer');
+      
+      patronNames.forEach(el => el.style.fontSize = `${baseSize * 1.75}px`);
+      patronPrayers.forEach(el => el.style.fontSize = `${baseSize}px`);
+      countdownTimers.forEach(el => el.style.fontSize = `${baseSize * 1.75}px`);
+
+      const themeKey = config.color_theme || defaultConfig.color_theme;
+      const isSeasonalTheme = config.is_seasonal || defaultConfig.is_seasonal;
+      applyColorTheme(themeKey, isSeasonalTheme);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                window.elementSdk.config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                window.elementSdk.config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                window.elementSdk.config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            },
+            {
+              get: () => config.navy_color || defaultConfig.navy_color,
+              set: (value) => {
+                window.elementSdk.config.navy_color = value;
+                window.elementSdk.setConfig({ navy_color: value });
+              }
+            },
+            {
+              get: () => config.modal_background || defaultConfig.modal_background,
+              set: (value) => {
+                window.elementSdk.config.modal_background = value;
+                window.elementSdk.setConfig({ modal_background: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              window.elementSdk.config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              window.elementSdk.config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["main_title", config.main_title || defaultConfig.main_title],
+          ["draw_button_text", config.draw_button_text || defaultConfig.draw_button_text],
+          ["time_remaining_label", config.time_remaining_label || defaultConfig.time_remaining_label],
+          ["history_button_text", config.history_button_text || defaultConfig.history_button_text]
+        ])
+      });
+    }
+
+    async function init() {
+      const result = await window.dataSdk.init(dataHandler);
+      if (!result.isOk) {
+        console.error("Nie udało się zainicjować Data SDK");
+      }
+    }
+
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8e0b961416bf36',t:'MTc2NDg4MDA1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
 

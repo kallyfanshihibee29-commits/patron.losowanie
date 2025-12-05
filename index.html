@@ -480,6 +480,10 @@
       border: 2px solid rgba(255, 255, 255, 0.8);
     }
 
+    .color-theme-card {
+      position: relative;
+    }
+
     .confirm-delete-modal {
       position: fixed;
       top: 0;
@@ -812,7 +816,6 @@
       display: none;
     }
 
-    /* Animacja przelatujących patronów */
     .patron-display.slot-machine .patron-content {
       animation: slotRoll 0.08s linear infinite;
     }
@@ -950,7 +953,7 @@
      </div>
      <div class="settings-content">
       <div class="settings-tabs" id="settingsTabs">
-       <div class="tab-indicator" id="settingsTabIndicator"></div><button class="settings-tab active" data-tab="regular">Kolorowe Tematy</button> <button class="settings-tab" data-tab="seasonal">Kolory Sezonowe</button>
+       <div class="tab-indicator" id="settingsTabIndicator"></div><button class="settings-tab active" data-tab="regular">Kolory Strony</button> <button class="settings-tab" data-tab="seasonal">Kolory Sezonowe</button>
       </div>
       <div class="settings-tab-content active" id="regularTab">
        <div class="settings-section-title">
@@ -1237,10 +1240,10 @@
       { name: "Św. Matka Teresa z Kalkuty", prayer: "czuwaj, abym nie tracił(a) wrażliwości." },
       { name: "Św. Józef", prayer: "módl się o stabilność i bezpieczeństwo w moim życiu." },
       { name: "Św. Rita z Cascii", prayer: "wspieraj mnie w trudnych momentach." },
-      { name: "Św. Faustyna", prayer: "módl się o pok��j w moim sercu." },
+      { name: "Św. Faustyna", prayer: "módl się o pokój w moim sercu." },
       { name: "Św. Maksymilian Kolbe", prayer: "czuwaj nade mną, gdy potrzebuję odwagi." },
       { name: "Św. Katarzyna ze Sieny", prayer: "módl się o jasność myśli dla mnie." },
-      { name: "Św. Benedykt", prayer: "prowadź mnie ku uporz���dkowaniu spraw." },
+      { name: "Św. Benedykt", prayer: "prowadź mnie ku uporządkowaniu spraw." },
       { name: "Św. Klara", prayer: "módl się o prostotę i równowagę w moim życiu." },
       { name: "Św. Andrzej Bobola", prayer: "czuwaj nade mną, abym potrafił(a) budować zgodę." },
       { name: "Św. Krzysztof", prayer: "módl się o bezpieczeństwo na moich drogach." },
@@ -1253,7 +1256,7 @@
       { name: "Św. Gabriel Archanioł", prayer: "módl się o dobre wiadomości dla mnie." },
       { name: "Św. Rafał Archanioł", prayer: "prowadź mnie ku równowadze i spokojowi." },
       { name: "Św. Patryk", prayer: "módl się o odwagę w zmianach." },
-      { name: "Św. Miko����aj", prayer: "czuwaj nade mną i obudzaj dobro w moim życiu." },
+      { name: "Św. Mikołaj", prayer: "czuwaj nade mną i obudzaj dobro w moim życiu." },
       { name: "Św. Teresa z Lisieux", prayer: "módl się o ufność i lekkie serce." },
       { name: "Św. Teresa z Ávili", prayer: "wspieraj mnie, gdy mam dużo na głowie." },
       { name: "Św. Marcin z Tours", prayer: "prowadź mnie do czynienia dobra." },
@@ -1271,35 +1274,26 @@
       onDataChanged(data) {
         allPatrons = data;
         
-        const hadActivePatron = currentPatron !== null;
         const now = Date.now();
         
         if (data.length > 0) {
           const latestDraw = data[data.length - 1];
           
           if (now < latestDraw.expires_timestamp) {
-            if (!hadActivePatron || 
-                currentPatron.name !== latestDraw.patron_name || 
-                currentPatron.expiresAt !== latestDraw.expires_timestamp) {
-              currentPatron = {
-                name: latestDraw.patron_name,
-                prayer: latestDraw.patron_prayer,
-                expiresAt: latestDraw.expires_timestamp
-              };
-              displayPatron(currentPatron);
-              startCountdown(currentPatron.expiresAt);
-            }
+            currentPatron = {
+              name: latestDraw.patron_name,
+              prayer: latestDraw.patron_prayer,
+              expiresAt: latestDraw.expires_timestamp
+            };
+            displayPatron(currentPatron);
+            startCountdown(currentPatron.expiresAt);
           } else {
-            if (hadActivePatron && now >= currentPatron.expiresAt) {
-              currentPatron = null;
-              resetDisplay();
-            }
-          }
-        } else {
-          if (hadActivePatron && now >= currentPatron.expiresAt) {
             currentPatron = null;
             resetDisplay();
           }
+        } else {
+          currentPatron = null;
+          resetDisplay();
         }
 
         updateHistoryDisplay();
@@ -1379,6 +1373,10 @@
           <div class="patron-prayer">${saint.prayer}</div>
         `;
 
+        if (navigator.vibrate) {
+          navigator.vibrate(30);
+        }
+
         currentIndex = (currentIndex + 1) % saints.length;
         cycles++;
 
@@ -1397,6 +1395,10 @@
 
       const patronDisplay = document.getElementById('patronDisplay');
       const patronContent = document.getElementById('patronContent');
+
+      if (navigator.vibrate) {
+        navigator.vibrate([100, 50, 150]);
+      }
 
       patronDisplay.classList.add('final-reveal');
       patronContent.innerHTML = `
@@ -1456,7 +1458,7 @@
           hour: '2-digit',
           minute: '2-digit'
         });
-        const starIcon = patron.is_favorite ? '★' : '☆';
+        const starIcon = patron.is_favorite ? '&#9733;' : '&#9734;';
         const starClass = patron.is_favorite ? 'star-button filled' : 'star-button';
         const starStyle = patron.is_favorite ? `style="color: ${starColor}"` : '';
         
@@ -1496,7 +1498,7 @@
             patron.is_favorite = !patron.is_favorite;
             
             if (patron.is_favorite) {
-              e.currentTarget.textContent = '★';
+              e.currentTarget.innerHTML = '&#9733;';
               e.currentTarget.classList.add('filled');
               const currentTheme = window.elementSdk?.config?.color_theme || defaultConfig.color_theme;
               const isSeasonal = window.elementSdk?.config?.is_seasonal || false;
@@ -1505,7 +1507,7 @@
                 e.currentTarget.style.color = theme.accent;
               }
             } else {
-              e.currentTarget.textContent = '☆';
+              e.currentTarget.innerHTML = '&#9734;';
               e.currentTarget.classList.remove('filled');
               e.currentTarget.style.color = '';
             }
@@ -1514,10 +1516,10 @@
             if (!result.isOk) {
               patron.is_favorite = !patron.is_favorite;
               if (patron.is_favorite) {
-                e.currentTarget.textContent = '★';
+                e.currentTarget.innerHTML = '&#9733;';
                 e.currentTarget.classList.add('filled');
               } else {
-                e.currentTarget.textContent = '☆';
+                e.currentTarget.innerHTML = '&#9734;';
                 e.currentTarget.classList.remove('filled');
               }
             }
@@ -1539,88 +1541,7 @@
       });
     }
 
-    function applyColorTheme(themeKey, isSeasonalTheme = false) {
-      const theme = isSeasonalTheme ? seasonalThemes[themeKey] : colorThemes[themeKey];
-      if (!theme) return;
 
-      document.body.style.background = `linear-gradient(180deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`;
-      document.body.style.color = theme.text;
-
-      const mainTitle = document.getElementById('mainTitle');
-      if (mainTitle) {
-        if (theme.isSeasonal) {
-          mainTitle.style.color = '#ffffff';
-          mainTitle.style.textShadow = '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6)';
-        } else {
-          mainTitle.style.color = theme.text;
-          mainTitle.style.textShadow = '2px 2px 4px rgba(6, 21, 52, 0.15)';
-        }
-      }
-
-      const textElements = [
-        document.querySelector('.countdown-label'),
-        document.querySelector('.settings-title'),
-        document.querySelector('.history-title'),
-        document.querySelector('.confirm-delete-title'),
-        document.querySelector('.settings-section-title')
-      ];
-      textElements.forEach(el => {
-        if (el) {
-          el.style.color = theme.text;
-          el.style.textShadow = theme.textShadow || 'none';
-        }
-      });
-
-      const historyItemNames = document.querySelectorAll('.history-item-name');
-      historyItemNames.forEach(el => {
-        el.style.color = theme.text;
-        el.style.textShadow = theme.textShadow || 'none';
-      });
-
-      const colorThemeNames = document.querySelectorAll('.color-theme-name');
-      colorThemeNames.forEach(el => {
-        el.style.color = theme.text;
-        el.style.textShadow = theme.textShadow || 'none';
-      });
-
-      const gradientElements = [
-        document.getElementById('patronDisplay'),
-        document.getElementById('drawButton')
-      ];
-      gradientElements.forEach(el => {
-        if (el) el.style.background = `linear-gradient(135deg, ${theme.gradientStart} 0%, ${theme.gradientEnd} 100%)`;
-      });
-
-      const countdownTimer = document.getElementById('countdownTimer');
-      if (countdownTimer) {
-        countdownTimer.style.color = theme.accent;
-        countdownTimer.style.textShadow = theme.textShadow || 'none';
-      }
-
-      const historyButton = document.getElementById('historyButton');
-      if (historyButton) {
-        historyButton.style.color = theme.gradientStart;
-        historyButton.style.borderColor = theme.gradientStart;
-      }
-
-      const filledStars = document.querySelectorAll('.star-button.filled');
-      filledStars.forEach(star => {
-        star.style.color = theme.accent;
-      });
-
-      if (window.elementSdk && window.elementSdk.config) {
-        window.elementSdk.setConfig({
-          background_color: theme.bg,
-          background_color_end: theme.bgEnd,
-          primary_color: theme.gradientStart,
-          primary_color_end: theme.gradientEnd,
-          accent_color: theme.accent,
-          navy_color: theme.text,
-          color_theme: themeKey,
-          is_seasonal: isSeasonalTheme
-        });
-      }
-    }
 
     function renderColorThemes() {
       const grid = document.getElementById('colorThemesGrid');
@@ -1632,18 +1553,34 @@
       
       grid.innerHTML = Object.entries(colorThemes).map(([key, theme]) => {
         const isActive = key === currentTheme && !isCurrentSeasonal;
+        const previewStyle = theme.previewPattern ? 
+          `background: ${theme.previewPattern}` : 
+          `background: ${theme.gradientStart}`;
         return `
           <div class="color-theme-card ${isActive ? 'active' : ''}" data-theme="${key}">
-            <div class="color-preview" style="background: ${theme.gradientStart}"></div>
+            <div class="color-preview" style="${previewStyle}"></div>
             <div class="color-theme-name">${theme.name}</div>
           </div>
         `;
       }).join('');
 
       document.querySelectorAll('#colorThemesGrid .color-theme-card').forEach(card => {
-        card.addEventListener('click', () => {
+        card.addEventListener('click', async () => {
           const themeKey = card.dataset.theme;
-          applyColorTheme(themeKey, false);
+          const theme = colorThemes[themeKey];
+          
+          if (window.elementSdk) {
+            await window.elementSdk.setConfig({
+              background_color: theme.bg,
+              background_color_end: theme.bgEnd,
+              primary_color: theme.gradientStart,
+              primary_color_end: theme.gradientEnd,
+              accent_color: theme.accent,
+              navy_color: theme.text,
+              color_theme: themeKey,
+              is_seasonal: false
+            });
+          }
           
           document.querySelectorAll('.color-theme-card').forEach(c => c.classList.remove('active'));
           card.classList.add('active');
@@ -1672,9 +1609,22 @@
       }).join('');
 
       document.querySelectorAll('#seasonalThemesGrid .color-theme-card').forEach(card => {
-        card.addEventListener('click', () => {
+        card.addEventListener('click', async () => {
           const themeKey = card.dataset.theme;
-          applyColorTheme(themeKey, true);
+          const theme = seasonalThemes[themeKey];
+          
+          if (window.elementSdk) {
+            await window.elementSdk.setConfig({
+              background_color: theme.bg,
+              background_color_end: theme.bgEnd,
+              primary_color: theme.gradientStart,
+              primary_color_end: theme.gradientEnd,
+              accent_color: theme.accent,
+              navy_color: theme.text,
+              color_theme: themeKey,
+              is_seasonal: true
+            });
+          }
           
           document.querySelectorAll('.color-theme-card').forEach(c => c.classList.remove('active'));
           card.classList.add('active');
@@ -1706,7 +1656,7 @@
           hour: '2-digit',
           minute: '2-digit'
         });
-        const starIcon = patron.is_favorite ? '★' : '☆';
+        const starIcon = patron.is_favorite ? '&#9733;' : '&#9734;';
         const starClass = patron.is_favorite ? 'star-button filled' : 'star-button';
         const starStyle = patron.is_favorite ? `style="color: ${starColor}"` : '';
         
@@ -1764,7 +1714,7 @@
             <div class="history-item-header">
               <div class="history-item-name">${patron.patron_name}</div>
               <div class="history-item-actions">
-                <button class="star-button filled" data-id="${patron.__backendId}" style="color: ${starColor}">★</button>
+                <button class="star-button filled" data-id="${patron.__backendId}" style="color: ${starColor}">&#9733;</button>
                 <button class="delete-button" data-id="${patron.__backendId}">
                   <svg class="delete-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
@@ -1934,7 +1884,74 @@
 
       const themeKey = config.color_theme || defaultConfig.color_theme;
       const isSeasonalTheme = config.is_seasonal || defaultConfig.is_seasonal;
-      applyColorTheme(themeKey, isSeasonalTheme);
+      
+      const theme = isSeasonalTheme ? seasonalThemes[themeKey] : colorThemes[themeKey];
+      if (theme) {
+        document.body.style.background = `linear-gradient(180deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`;
+        document.body.style.color = theme.text;
+
+        const mainTitle = document.getElementById('mainTitle');
+        if (mainTitle) {
+          if (theme.isSeasonal) {
+            mainTitle.style.color = '#ffffff';
+            mainTitle.style.textShadow = '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.6)';
+          } else {
+            mainTitle.style.color = theme.text;
+            mainTitle.style.textShadow = '2px 2px 4px rgba(6, 21, 52, 0.15)';
+          }
+        }
+
+        const textElements = [
+          document.querySelector('.countdown-label'),
+          document.querySelector('.settings-title'),
+          document.querySelector('.history-title'),
+          document.querySelector('.confirm-delete-title'),
+          document.querySelector('.settings-section-title')
+        ];
+        textElements.forEach(el => {
+          if (el) {
+            el.style.color = theme.text;
+            el.style.textShadow = theme.textShadow || 'none';
+          }
+        });
+
+        const historyItemNames = document.querySelectorAll('.history-item-name');
+        historyItemNames.forEach(el => {
+          el.style.color = theme.text;
+          el.style.textShadow = theme.textShadow || 'none';
+        });
+
+        const colorThemeNames = document.querySelectorAll('.color-theme-name');
+        colorThemeNames.forEach(el => {
+          el.style.color = theme.text;
+          el.style.textShadow = theme.textShadow || 'none';
+        });
+
+        const gradientElements = [
+          document.getElementById('patronDisplay'),
+          document.getElementById('drawButton')
+        ];
+        gradientElements.forEach(el => {
+          if (el) el.style.background = `linear-gradient(135deg, ${theme.gradientStart} 0%, ${theme.gradientEnd} 100%)`;
+        });
+
+        const countdownTimer = document.getElementById('countdownTimer');
+        if (countdownTimer) {
+          countdownTimer.style.color = theme.accent;
+          countdownTimer.style.textShadow = theme.textShadow || 'none';
+        }
+
+        const historyButton = document.getElementById('historyButton');
+        if (historyButton) {
+          historyButton.style.color = theme.gradientStart;
+          historyButton.style.borderColor = theme.gradientStart;
+        }
+
+        const filledStars = document.querySelectorAll('.star-button.filled');
+        filledStars.forEach(star => {
+          star.style.color = theme.accent;
+        });
+      }
     }
 
     if (window.elementSdk) {
@@ -2013,6 +2030,6 @@
 
     init();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8e0b961416bf36',t:'MTc2NDg4MDA1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a96e54dd021bbc6',t:'MTc2NDk3Mjg1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
 

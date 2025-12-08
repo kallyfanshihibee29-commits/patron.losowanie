@@ -850,394 +850,6 @@
       }
     }
 
-    .mission-card {
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 16px;
-      border: 2px solid rgba(255, 255, 255, 0.5);
-      transition: all 0.3s ease;
-    }
-
-    .mission-card.completed {
-      border-color: #22c55e;
-      background: rgba(34, 197, 94, 0.1);
-    }
-
-    .mission-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .mission-title {
-      font-family: 'Roboto', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
-      color: #1e3a8a;
-      transition: color 0.5s ease;
-    }
-
-    .mission-xp {
-      background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);
-      color: white;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 14px;
-      transition: background 0.5s ease;
-    }
-
-    .mission-description {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 12px;
-      line-height: 1.5;
-    }
-
-    .mission-progress {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .progress-bar-container {
-      flex: 1;
-      height: 24px;
-      background: rgba(0, 0, 0, 0.1);
-      border-radius: 12px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
-      transition: width 0.5s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 600;
-      font-size: 12px;
-    }
-
-    .progress-bar.completed {
-      background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
-    }
-
-    .progress-text {
-      font-weight: 600;
-      font-size: 14px;
-      color: #1e3a8a;
-      min-width: 60px;
-      text-align: right;
-      transition: color 0.5s ease;
-    }
-
-    .reward-level-container {
-      display: flex;
-      gap: 16px;
-      overflow-x: auto;
-      padding: 20px 0;
-      scroll-snap-type: x mandatory;
-    }
-
-    .reward-level-card {
-      min-width: 280px;
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-radius: 16px;
-      padding: 24px;
-      border: 3px solid rgba(255, 255, 255, 0.5);
-      scroll-snap-align: center;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .reward-level-card.unlocked {
-      border-width: 4px;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-    }
-
-    .reward-level-card.locked {
-      opacity: 0.6;
-    }
-
-    .reward-level-number {
-      position: absolute;
-      top: -12px;
-      left: 20px;
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 18px;
-      border: 3px solid white;
-    }
-
-    .reward-level-title {
-      font-family: 'Roboto', sans-serif;
-      font-weight: 700;
-      font-size: 20px;
-      color: #1e3a8a;
-      margin-top: 16px;
-      margin-bottom: 12px;
-      transition: color 0.5s ease;
-    }
-
-    .reward-level-xp {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 16px;
-    }
-
-    .reward-preview {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    .reward-preview-button {
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      border: 3px solid;
-      background: white;
-      transition: all 0.3s ease;
-    }
-
-    .level-yellow {
-      border-color: #eab308 !important;
-      box-shadow: 0 0 15px rgba(234, 179, 8, 0.3);
-    }
-
-    .level-green {
-      border-color: #22c55e !important;
-      box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
-    }
-
-    .level-lightblue {
-      border-color: #60a5fa !important;
-      box-shadow: 0 0 15px rgba(96, 165, 250, 0.3);
-    }
-
-    .level-pink {
-      border-color: #ec4899 !important;
-      box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
-    }
-
-    .level-saturatedgreen {
-      border-color: #16a34a !important;
-      box-shadow: 0 0 15px rgba(22, 163, 74, 0.3);
-    }
-
-    .xp-display {
-      text-align: center;
-      padding: 16px;
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-radius: 12px;
-      margin-bottom: 20px;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-    }
-
-    .xp-display-title {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 8px;
-    }
-
-    .xp-display-value {
-      font-size: 32px;
-      font-weight: 700;
-      color: #3b5998;
-      transition: color 0.5s ease;
-    }
-
-    .unlock-badge {
-      background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 14px;
-      margin-top: 12px;
-      display: inline-block;
-      transition: background 0.5s ease;
-    }
-
-    .lock-badge {
-      background: rgba(0, 0, 0, 0.2);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 14px;
-      margin-top: 12px;
-      display: inline-block;
-      transition: background 0.5s ease;
-    }
-
-    .claim-button {
-      background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 24px;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 12px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(59, 89, 152, 0.3);
-    }
-
-    .claim-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(59, 89, 152, 0.4);
-    }
-
-    .claim-button:active {
-      transform: translateY(0);
-    }
-
-    .claim-level-button {
-      background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 20px;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      margin-top: 12px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(59, 89, 152, 0.3);
-    }
-
-    .claim-level-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(59, 89, 152, 0.4);
-    }
-
-    .claim-level-button:active {
-      transform: translateY(0);
-    }
-
-    .titles-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      margin-top: 20px;
-    }
-
-    .title-card {
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-radius: 12px;
-      padding: 20px;
-      border: 3px solid rgba(255, 255, 255, 0.5);
-      transition: all 0.3s ease;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .title-card.active {
-      border-width: 4px;
-      box-shadow: 0 0 20px rgba(59, 89, 152, 0.4);
-    }
-
-    .title-card.locked {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .title-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .title-card-name {
-      font-family: 'Roboto', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
-      color: #1e3a8a;
-      transition: color 0.5s ease;
-    }
-
-    .title-card-level {
-      background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);
-      color: white;
-      padding: 4px 12px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 12px;
-      transition: background 0.5s ease;
-    }
-
-    .title-card-status {
-      font-size: 14px;
-      color: #666;
-      margin-top: 8px;
-    }
-
-    .title-card-active-badge {
-      position: absolute;
-      top: -10px;
-      right: 20px;
-      background: linear-gradient(135deg, #3b5998 0%, #5a8dee 100%);
-      color: white;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 12px;
-      box-shadow: 0 2px 8px rgba(59, 89, 152, 0.3);
-      transition: background 0.5s ease;
-    }
-
-    .no-title-card {
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-radius: 12px;
-      padding: 20px;
-      border: 3px solid rgba(255, 255, 255, 0.5);
-      transition: all 0.3s ease;
-      cursor: pointer;
-      text-align: center;
-    }
-
-    .no-title-card.active {
-      border-width: 4px;
-      box-shadow: 0 0 20px rgba(59, 89, 152, 0.4);
-    }
-
-    .no-title-card-text {
-      font-family: 'Roboto', sans-serif;
-      font-weight: 700;
-      font-size: 18px;
-      color: #1e3a8a;
-      transition: color 0.5s ease;
-    }
-
     @media (max-width: 600px) {
       body {
         padding: 16px;
@@ -1333,8 +945,6 @@
     </div>
     <div class="history-button-container"><button class="history-button" id="historyButton">Historia Patronów</button>
     </div>
-    <div class="history-button-container" style="margin-top: 12px;"><button class="history-button" id="rewardsButton">Aleja Nagród</button>
-    </div>
    </div>
    <div class="settings-modal hidden" id="settingsModal">
     <div class="settings-modal-content">
@@ -1391,27 +1001,6 @@
      </div>
     </div>
    </div>
-   <div class="history-modal hidden" id="rewardsModal">
-    <div class="history-modal-content">
-     <div class="history-header">
-      <h2 class="history-title">Aleja Nagród</h2><button class="close-button" id="closeRewardsButton">✕</button>
-     </div>
-     <div class="settings-content">
-      <div class="settings-tabs" id="rewardsTabs">
-       <div class="tab-indicator" id="rewardsTabIndicator"></div><button class="settings-tab active" data-tab="missions">Misje</button> <button class="settings-tab" data-tab="rewards">Aleja Nagród</button> <button class="settings-tab" data-tab="titles">Twoje Tytuły</button>
-      </div>
-      <div class="settings-tab-content active" id="missionsTab">
-       <div id="missionsList"></div>
-      </div>
-      <div class="settings-tab-content" id="rewardsTab">
-       <div id="rewardsAlley"></div>
-      </div>
-      <div class="settings-tab-content" id="titlesTab">
-       <div id="titlesList"></div>
-      </div>
-     </div>
-    </div>
-   </div>
   </div>
   <script>
     const defaultConfig = {
@@ -1429,24 +1018,7 @@
       font_family: "Roboto",
       font_size: 16,
       color_theme: "blue",
-      is_seasonal: false,
-      total_xp: 0,
-      current_level: 0,
-      mission1_stage: 1,
-      mission1_progress: 0,
-      mission1_can_claim: false,
-      mission2_completed: false,
-      mission2_can_claim: false,
-      mission3_christmas_tried: false,
-      mission3_snow_tried: false,
-      mission3_can_claim: false,
-      mission4_stage: 1,
-      mission4_last_claim_date: null,
-      mission4_can_claim: false,
-      mission5_tried_themes: [],
-      mission5_completed: false,
-      mission5_can_claim: false,
-      active_title: null
+      is_seasonal: false
     };
 
     const seasonalThemes = {
@@ -1479,7 +1051,7 @@
 
     const colorThemes = {
       rose: {
-        name: "Jasny różany",
+        name: "Jasny różowy",
         bg: "#ffe4e6",
         bgEnd: "#fef2f2",
         text: "#881337",
@@ -1661,8 +1233,8 @@
     };
 
     const saints = [
-      { name: "Św. Jan Pawe�� II", prayer: "módl się nade mną o mądro���� i dobre wybory." },
-      { name: "Św. Franciszek z Asy��u", prayer: "czuwaj nade mną, bym miał(a) w sercu pokój." },
+      { name: "Św. Jan Paweł II", prayer: "módl się nade mną o mądrość i dobre wybory." },
+      { name: "Św. Franciszek z Asyżu", prayer: "czuwaj nade mną, bym miał(a) w sercu pokój." },
       { name: "Św. Antoni z Padwy", prayer: "prowadź mnie, gdy czegoś szukam." },
       { name: "Św. Ojciec Pio", prayer: "módl się o wewnętrzną siłę dla mnie." },
       { name: "Św. Matka Teresa z Kalkuty", prayer: "czuwaj, abym nie tracił(a) wrażliwości." },
@@ -1689,47 +1261,18 @@
       { name: "Św. Teresa z Ávili", prayer: "wspieraj mnie, gdy mam dużo na głowie." },
       { name: "Św. Marcin z Tours", prayer: "prowadź mnie do czynienia dobra." },
       { name: "Św. Florian", prayer: "módl się o ochronę i spokój wokół mnie." },
-      { name: "Św. Hildegarda", prayer: "czuwaj nade mną, abym podejmowa��(a) mądre decyzje." },
-      { name: "Św. Carlo Acutis", prayer: "módl si���� o równowagę i dobre korzystanie z tego, co mnie otacza." }
+      { name: "Św. Hildegarda", prayer: "czuwaj nade mną, abym podejmował(a) mądre decyzje." },
+      { name: "Św. Carlo Acutis", prayer: "módl się o równowagę i dobre korzystanie z tego, co mnie otacza." }
     ];
 
     let currentPatron = null;
     let countdownInterval = null;
     let isAnimating = false;
     let allPatrons = [];
-    let progressRecord = null;
 
     const dataHandler = {
       onDataChanged(data) {
-        allPatrons = data.filter(record => !record.is_progress);
-        progressRecord = data.find(record => record.is_progress === true);
-        
-        if (progressRecord && window.elementSdk) {
-          const mission5Themes = progressRecord.mission5_tried_themes ? 
-            progressRecord.mission5_tried_themes.split(',').filter(t => t) : [];
-          
-          const activeTitle = progressRecord.active_title !== undefined && progressRecord.active_title !== null && progressRecord.active_title !== -1 ? 
-            progressRecord.active_title : null;
-          
-          window.elementSdk.config.total_xp = progressRecord.total_xp || 0;
-          window.elementSdk.config.current_level = progressRecord.current_level || 0;
-          window.elementSdk.config.mission1_stage = progressRecord.mission1_stage || 1;
-          window.elementSdk.config.mission1_progress = progressRecord.mission1_progress || 0;
-          window.elementSdk.config.mission1_can_claim = progressRecord.mission1_can_claim || false;
-          window.elementSdk.config.mission2_completed = progressRecord.mission2_completed || false;
-          window.elementSdk.config.mission2_can_claim = progressRecord.mission2_can_claim || false;
-          window.elementSdk.config.mission3_christmas_tried = progressRecord.mission3_christmas_tried || false;
-          window.elementSdk.config.mission3_snow_tried = progressRecord.mission3_snow_tried || false;
-          window.elementSdk.config.mission3_can_claim = progressRecord.mission3_can_claim || false;
-          window.elementSdk.config.mission4_stage = progressRecord.mission4_stage || 1;
-          window.elementSdk.config.mission4_last_claim_date = progressRecord.mission4_last_claim_date || null;
-          window.elementSdk.config.mission4_can_claim = progressRecord.mission4_can_claim || false;
-          window.elementSdk.config.mission5_tried_themes = mission5Themes;
-          window.elementSdk.config.mission5_completed = progressRecord.mission5_completed || false;
-          window.elementSdk.config.mission5_can_claim = progressRecord.mission5_can_claim || false;
-          window.elementSdk.config.active_title = activeTitle;
-        }
-        
+        allPatrons = data;
         const now = Date.now();
         
         if (allPatrons.length > 0) {
@@ -1871,8 +1414,7 @@
         patron_prayer: selectedSaint.prayer,
         draw_timestamp: now,
         expires_timestamp: expiresAt,
-        is_favorite: false,
-        is_progress: false
+        is_favorite: false
       });
 
       if (result.isOk) {
@@ -1883,16 +1425,6 @@
         };
         startCountdown(expiresAt);
         document.getElementById('countdownContainer').style.display = 'block';
-
-        if (window.elementSdk) {
-          const config = window.elementSdk.config;
-          const newProgress = (config.mission1_progress || 0) + 1;
-          await window.elementSdk.setConfig({
-            mission1_progress: newProgress
-          });
-          
-          await checkAndUpdateMissions();
-        }
       } else {
         patronContent.innerHTML = '<p class="placeholder-text">Wystąpił błąd. Spróbuj ponownie.</p>';
         document.getElementById('drawButton').disabled = false;
@@ -2008,8 +1540,6 @@
       });
     }
 
-
-
     function renderColorThemes() {
       const grid = document.getElementById('colorThemesGrid');
       const currentTheme = (window.elementSdk && window.elementSdk.config) ? 
@@ -2047,9 +1577,6 @@
               color_theme: themeKey,
               is_seasonal: false
             });
-            
-            await trackColorChange();
-            await trackRegularTheme(themeKey);
           }
           
           document.querySelectorAll('.color-theme-card').forEach(c => c.classList.remove('active'));
@@ -2094,9 +1621,6 @@
               color_theme: themeKey,
               is_seasonal: true
             });
-            
-            await trackSeasonalTheme(themeKey);
-            await trackColorChange();
           }
           
           document.querySelectorAll('.color-theme-card').forEach(c => c.classList.remove('active'));
@@ -2285,10 +1809,6 @@
 
     document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
       if (patronToDelete) {
-        const wasCurrentPatron = currentPatron && 
-          patronToDelete.patron_name === currentPatron.name && 
-          patronToDelete.expires_timestamp === currentPatron.expiresAt;
-        
         const result = await window.dataSdk.delete(patronToDelete);
         if (!result.isOk) {
           console.error('Błąd usuwania patrona');
@@ -2329,689 +1849,11 @@
       }
     });
 
-    document.getElementById('rewardsButton').addEventListener('click', () => {
-      document.getElementById('rewardsModal').classList.remove('hidden');
-      renderMissions();
-      renderRewardsAlley();
-      
-      const rewardsTabs = document.querySelectorAll('#rewardsTabs .settings-tab');
-      rewardsTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          const tabName = tab.dataset.tab;
-          
-          const tabsInModal = document.querySelectorAll('#rewardsTabs .settings-tab');
-          const contentsInModal = document.querySelectorAll('#rewardsModal .settings-tab-content');
-          
-          tabsInModal.forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          
-          const tabsContainer = tab.closest('.settings-tabs');
-          const indicator = tabsContainer.querySelector('.tab-indicator');
-          if (indicator) {
-            updateTabIndicator(tabsContainer, indicator, tab);
-          }
-          
-          contentsInModal.forEach(content => content.classList.remove('active'));
-          
-          if (tabName === 'missions') {
-            document.getElementById('missionsTab').classList.add('active');
-            renderMissions();
-          } else if (tabName === 'rewards') {
-            document.getElementById('rewardsTab').classList.add('active');
-            renderRewardsAlley();
-          } else if (tabName === 'titles') {
-            document.getElementById('titlesTab').classList.add('active');
-            renderTitles();
-          }
-        });
-      });
-      
-      setTimeout(() => {
-        const rewardsTabs = document.getElementById('rewardsTabs');
-        const rewardsIndicator = document.getElementById('rewardsTabIndicator');
-        const activeRewardsTab = rewardsTabs.querySelector('.settings-tab.active');
-        if (rewardsIndicator && activeRewardsTab) {
-          updateTabIndicator(rewardsTabs, rewardsIndicator, activeRewardsTab);
-        }
-      }, 50);
-    });
-
-    document.getElementById('closeRewardsButton').addEventListener('click', () => {
-      document.getElementById('rewardsModal').classList.add('hidden');
-    });
-
-    document.getElementById('rewardsModal').addEventListener('click', (e) => {
-      if (e.target.id === 'rewardsModal') {
-        document.getElementById('rewardsModal').classList.add('hidden');
-      }
-    });
-
-    function renderMissions() {
-      const container = document.getElementById('missionsList');
-      const config = window.elementSdk?.config || defaultConfig;
-      
-      const totalXP = config.total_xp || 0;
-      
-      const mission1Stage = config.mission1_stage || 1;
-      const mission1Progress = config.mission1_progress || 0;
-      const previousStageDraws = Math.max(0, mission1Stage - 1);
-      const mission1Target = mission1Stage;
-      const totalDrawsCompleted = previousStageDraws + mission1Progress;
-      const mission1Completed = totalDrawsCompleted >= mission1Target;
-      const mission1Percent = Math.min((totalDrawsCompleted / mission1Target) * 100, 100);
-      const mission1CanClaim = config.mission1_can_claim || false;
-      const mission1XP = Math.min(3000 + (mission1Stage - 1) * 150, 5000);
-
-      const mission2Completed = config.mission2_completed || false;
-      const mission2CanClaim = config.mission2_can_claim || false;
-
-      const mission3ChristmasTried = config.mission3_christmas_tried || false;
-      const mission3SnowTried = config.mission3_snow_tried || false;
-      const mission3Completed = mission3ChristmasTried && mission3SnowTried;
-      const mission3Progress = (mission3ChristmasTried ? 1 : 0) + (mission3SnowTried ? 1 : 0);
-      const mission3Percent = (mission3Progress / 2) * 100;
-      const mission3CanClaim = config.mission3_can_claim || false;
-
-      const mission4Stage = config.mission4_stage || 1;
-      const mission4CanClaim = config.mission4_can_claim || false;
-      const mission4LastClaim = config.mission4_last_claim_date;
-      
-      const mission4Cycle = Math.floor((mission4Stage - 1) / 101);
-      const mission4StageInCycle = ((mission4Stage - 1) % 101) + 1;
-      const mission4XP = 2000 + (mission4StageInCycle - 1) * 10;
-      
-      let mission4Countdown = '';
-      if (mission4LastClaim && !mission4CanClaim) {
-        const now = new Date();
-        const lastClaim = new Date(mission4LastClaim);
-        const nextMidnight = new Date(lastClaim.getFullYear(), lastClaim.getMonth(), lastClaim.getDate() + 1, 0, 0, 0);
-        const remaining = nextMidnight - now;
-        
-        if (remaining > 0) {
-          const hours = Math.floor(remaining / (1000 * 60 * 60));
-          const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-          mission4Countdown = `<div style="font-size: 14px; color: #666; margin-top: 8px;">⏳ Dostępne za: ${hours}h ${minutes}m</div>`;
-        }
-      }
-
-      const mission5TriedThemes = config.mission5_tried_themes || [];
-      const mission5Total = Object.keys(colorThemes).length;
-      const mission5Progress = mission5TriedThemes.length;
-      const mission5Percent = (mission5Progress / mission5Total) * 100;
-      const mission5Completed = mission5Progress >= mission5Total;
-      const mission5CanClaim = config.mission5_can_claim || false;
-
-      const activeMissions = [];
-      const completedMissions = [];
-
-      const mission1Html = `
-        <div class="mission-card ${mission1Completed && !mission1CanClaim ? 'completed' : ''}">
-          <div class="mission-header">
-            <div class="mission-title">Misja 1: Z zegarkiem w ręku</div>
-            <div class="mission-xp">+${mission1XP} XP</div>
-          </div>
-          <div class="mission-description">
-            Etap ${mission1Stage}: Wylosuj ${mission1Stage} ${mission1Stage === 1 ? 'Patrona' : 'Patronów'}
-          </div>
-          <div class="mission-progress">
-            <div class="progress-bar-container">
-              <div class="progress-bar ${mission1Completed ? 'completed' : ''}" style="width: ${mission1Percent}%">
-                ${mission1Percent >= 30 ? `${totalDrawsCompleted}/${mission1Target}` : ''}
-              </div>
-            </div>
-            <div class="progress-text">${totalDrawsCompleted}/${mission1Target}</div>
-          </div>
-          ${mission1CanClaim ? '<button class="claim-button" data-mission="1">🎁 Odbierz</button>' : ''}
-        </div>
-      `;
-      activeMissions.push(mission1Html);
-
-      const mission4Html = `
-        <div class="mission-card">
-          <div class="mission-header">
-            <div class="mission-title">Misja 2: Codzienny Patronik</div>
-            <div class="mission-xp">+${mission4XP} XP</div>
-          </div>
-          <div class="mission-description">
-            Etap ${mission4Stage}: Wchodź na aplikację ${mission4Stage} ${mission4Stage === 1 ? 'dzień' : 'dni'}
-          </div>
-          <div class="mission-progress">
-            <div class="progress-bar-container">
-              <div class="progress-bar ${mission4CanClaim ? 'completed' : ''}" style="width: ${mission4CanClaim ? 100 : 0}%">
-                ${mission4CanClaim ? `${mission4Stage}/${mission4Stage}` : ''}
-              </div>
-            </div>
-            <div class="progress-text">${mission4CanClaim ? mission4Stage : 0}/${mission4Stage}</div>
-          </div>
-          ${mission4CanClaim ? '<button class="claim-button" data-mission="4">🎁 Odbierz</button>' : ''}
-          ${mission4Countdown}
-        </div>
-      `;
-      activeMissions.push(mission4Html);
-
-      const mission2Html = `
-        <div class="mission-card ${mission2Completed && !mission2CanClaim ? 'completed' : ''}">
-          <div class="mission-header">
-            <div class="mission-title">Misja 3: Estetyk Porządkowy</div>
-            <div class="mission-xp">+1000 XP</div>
-          </div>
-          <div class="mission-description">
-            Zmień kolor strony po swojemu!
-          </div>
-          <div class="mission-progress">
-            <div class="progress-bar-container">
-              <div class="progress-bar ${mission2Completed ? 'completed' : ''}" style="width: ${mission2Completed ? 100 : 0}%">
-                ${mission2Completed ? '1/1' : ''}
-              </div>
-            </div>
-            <div class="progress-text">${mission2Completed ? '1/1' : '0/1'}</div>
-          </div>
-          ${mission2CanClaim ? '<button class="claim-button" data-mission="2">🎁 Odbierz</button>' : ''}
-        </div>
-      `;
-      
-      if (mission2Completed && !mission2CanClaim) {
-        completedMissions.push(mission2Html);
-      } else {
-        activeMissions.push(mission2Html);
-      }
-
-      const mission3Html = `
-        <div class="mission-card ${mission3Completed && !mission3CanClaim ? 'completed' : ''}">
-          <div class="mission-header">
-            <div class="mission-title">Misja 4: Świętujący</div>
-            <div class="mission-xp">+1000 XP</div>
-          </div>
-          <div class="mission-description">
-            Wypróbuj dwa kolory sezonowe: Świąteczna Harmonia i Śnieżna Zadyma
-          </div>
-          <div class="mission-progress">
-            <div class="progress-bar-container">
-              <div class="progress-bar ${mission3Completed ? 'completed' : ''}" style="width: ${mission3Percent}%">
-                ${mission3Percent >= 30 ? `${mission3Progress}/2` : ''}
-              </div>
-            </div>
-            <div class="progress-text">${mission3Progress}/2</div>
-          </div>
-          ${mission3CanClaim ? '<button class="claim-button" data-mission="3">🎁 Odbierz</button>' : ''}
-        </div>
-      `;
-      
-      if (mission3Completed && !mission3CanClaim) {
-        completedMissions.push(mission3Html);
-      } else {
-        activeMissions.push(mission3Html);
-      }
-
-      const mission5Html = `
-        <div class="mission-card ${mission5Completed && !mission5CanClaim ? 'completed' : ''}">
-          <div class="mission-header">
-            <div class="mission-title">Misja 5: Koneser Kolorów</div>
-            <div class="mission-xp">+3000 XP</div>
-          </div>
-          <div class="mission-description">
-            Przetestuj każdy motyw z zakładki Kolory Strony
-          </div>
-          <div class="mission-progress">
-            <div class="progress-bar-container">
-              <div class="progress-bar ${mission5Completed ? 'completed' : ''}" style="width: ${mission5Percent}%">
-                ${mission5Percent >= 30 ? `${mission5Progress}/${mission5Total}` : ''}
-              </div>
-            </div>
-            <div class="progress-text">${mission5Progress}/${mission5Total}</div>
-          </div>
-          ${mission5CanClaim ? '<button class="claim-button" data-mission="5">🎁 Odbierz</button>' : ''}
-        </div>
-      `;
-      
-      if (mission5Completed && !mission5CanClaim) {
-        completedMissions.push(mission5Html);
-      } else {
-        activeMissions.push(mission5Html);
-      }
-
-      container.innerHTML = `
-        <div class="xp-display">
-          <div class="xp-display-title">Całkowite XP</div>
-          <div class="xp-display-value">${totalXP} XP</div>
-        </div>
-        ${activeMissions.join('')}
-        ${completedMissions.join('')}
-      `;
-
-      document.querySelectorAll('.claim-button').forEach(button => {
-        button.addEventListener('click', async (e) => {
-          const mission = e.currentTarget.dataset.mission;
-          await claimMissionReward(mission);
-        });
-      });
-    }
-
-    function renderRewardsAlley() {
-      const container = document.getElementById('rewardsAlley');
-      const config = window.elementSdk?.config || defaultConfig;
-      
-      const totalXP = config.total_xp || 0;
-      const currentLevel = config.current_level || 0;
-
-      const levels = [
-        { level: 1, title: "Nowicjusz w Patronacie", xp: 2000, color: "yellow", borderColor: "#eab308" },
-        { level: 2, title: "Zasiane Ziarno", xp: 4000, color: "green", borderColor: "#22c55e" },
-        { level: 3, title: "Przyjaciel Świętych", xp: 6000, color: "lightblue", borderColor: "#60a5fa" },
-        { level: 4, title: "Mały Patroniak", xp: 8000, color: "pink", borderColor: "#ec4899" },
-        { level: 5, title: "Wspieracz Modlitwy", xp: 10000, color: "lightgreen", borderColor: "#86efac" },
-        { level: 6, title: "Cichy Wędrowiec", xp: 12000, color: "gray", borderColor: "#9ca3af" },
-        { level: 7, title: "Opiekun Patronatu", xp: 14000, color: "paleyellow", borderColor: "#fef08a" },
-        { level: 8, title: "Gorliwy Patronator", xp: 16000, color: "darknavy", borderColor: "#1e3a8a" },
-        { level: 9, title: "Patronacki Pielgrzym", xp: 18000, color: "orange", borderColor: "#f97316" },
-        { level: 10, title: "Arcymistrz Patronacki", xp: 20000, color: "brown", borderColor: "#92400e" },
-        { level: 11, title: "Patroniak Pierwszy", xp: 22000, color: "saturatedgreen", borderColor: "#16a34a" },
-        { level: 12, title: "Patronik Wędrowiec", xp: 24000, color: "cyan", borderColor: "#06b6d4" },
-        { level: 13, title: "Patronowy Towarzysz", xp: 26000, color: "skyblue", borderColor: "#0ea5e9" },
-        { level: 14, title: "Patroniacki Strażnik", xp: 28000, color: "indigo", borderColor: "#6366f1" },
-        { level: 15, title: "Wielki Patron", xp: 30000, color: "purple", borderColor: "#a855f7" }
-      ];
-
-      container.innerHTML = `
-        <div class="xp-display">
-          <div class="xp-display-title">Całkowite XP</div>
-          <div class="xp-display-value">${totalXP} XP</div>
-        </div>
-        <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 12px; padding: 16px; margin-bottom: 20px; text-align: center; border: 2px solid rgba(255, 255, 255, 0.7);">
-          <div style="font-weight: 700; font-size: 18px; color: #1e3a8a; margin-bottom: 4px;">🏆 Aleja 1: Patroniacki Skład</div>
-          <div style="font-size: 14px; color: #666;">Koniec Sezonu: 15 grudnia</div>
-        </div>
-        <div class="reward-level-container">
-          ${levels.map(level => {
-            const hasEnoughXP = totalXP >= level.xp;
-            const isUnlocked = currentLevel >= level.level;
-            const canClaim = hasEnoughXP && !isUnlocked;
-            
-            return `
-              <div class="reward-level-card ${isUnlocked ? 'unlocked level-' + level.color : 'locked'}">
-                <div class="reward-level-number">${level.level}</div>
-                <div class="reward-level-title">${level.title}</div>
-                <div class="reward-level-xp">Wymaga: ${level.xp} XP</div>
-                <div class="reward-preview">
-                  <div class="reward-preview-button" style="border-color: ${level.borderColor}; color: ${level.borderColor};">
-                    Losuj
-                  </div>
-                  <div class="reward-preview-button" style="border-color: ${level.borderColor}; color: ${level.borderColor};">
-                    Historia
-                  </div>
-                  <div class="reward-preview-button" style="border-color: ${level.borderColor}; color: ${level.borderColor};">
-                    Nagrody
-                  </div>
-                </div>
-                ${isUnlocked ? '<div class="unlock-badge">🎉 Odblokowane!</div>' : ''}
-                ${canClaim ? '<button class="claim-level-button" data-level="' + level.level + '">🎁 Odbierz tytuł</button>' : ''}
-                ${!hasEnoughXP && !isUnlocked ? '<div class="lock-badge">🔒 Zablokowane</div>' : ''}
-              </div>
-            `;
-          }).join('')}
-        </div>
-      `;
-
-      document.querySelectorAll('.claim-level-button').forEach(button => {
-        button.addEventListener('click', async (e) => {
-          const level = parseInt(e.currentTarget.dataset.level);
-          await claimLevelReward(level);
-        });
-      });
-    }
-
-    async function claimLevelReward(level) {
-      if (!window.elementSdk) return;
-      
-      const config = window.elementSdk.config;
-      const totalXP = config.total_xp || 0;
-
-      const levels = [
-        { level: 1, xp: 2000 },
-        { level: 2, xp: 4000 },
-        { level: 3, xp: 6000 },
-        { level: 4, xp: 8000 },
-        { level: 5, xp: 10000 },
-        { level: 6, xp: 12000 },
-        { level: 7, xp: 14000 },
-        { level: 8, xp: 16000 },
-        { level: 9, xp: 18000 },
-        { level: 10, xp: 20000 },
-        { level: 11, xp: 22000 },
-        { level: 12, xp: 24000 },
-        { level: 13, xp: 26000 },
-        { level: 14, xp: 28000 },
-        { level: 15, xp: 30000 }
-      ];
-
-      const targetLevel = levels.find(l => l.level === level);
-      if (!targetLevel) return;
-
-      const currentLevel = config.current_level || 0;
-      if (totalXP >= targetLevel.xp && currentLevel < level) {
-        window.elementSdk.config.current_level = level;
-        await window.elementSdk.setConfig({
-          current_level: level
-        });
-        await saveProgressToDatabase();
-        renderRewardsAlley();
-        renderTitles();
-      }
-    }
-
-    async function checkAndUpdateMissions() {
-      if (!window.elementSdk) return;
-      
-      const config = window.elementSdk.config;
-      let updates = {};
-
-      const mission1Progress = config.mission1_progress || 0;
-      const mission1Stage = config.mission1_stage || 1;
-      const previousStageDraws = Math.max(0, mission1Stage - 1);
-      const totalDrawsNeeded = mission1Stage;
-      const totalDrawsCompleted = previousStageDraws + mission1Progress;
-      
-      if (totalDrawsCompleted >= totalDrawsNeeded && !config.mission1_can_claim) {
-        updates.mission1_can_claim = true;
-      }
-
-      if (Object.keys(updates).length > 0) {
-        await window.elementSdk.setConfig(updates);
-        await saveProgressToDatabase();
-      }
-    }
-
-    async function saveProgressToDatabase() {
-      if (!window.elementSdk) return;
-      
-      const config = window.elementSdk.config;
-      const mission5ThemesString = (config.mission5_tried_themes || []).join(',');
-      
-      const progressData = {
-        patron_name: "PROGRESS_RECORD",
-        patron_prayer: "System progress data",
-        draw_timestamp: Date.now(),
-        expires_timestamp: Date.now(),
-        is_favorite: false,
-        is_progress: true,
-        total_xp: config.total_xp || 0,
-        current_level: config.current_level || 0,
-        mission1_stage: config.mission1_stage || 1,
-        mission1_progress: config.mission1_progress || 0,
-        mission1_can_claim: config.mission1_can_claim || false,
-        mission2_completed: config.mission2_completed || false,
-        mission2_can_claim: config.mission2_can_claim || false,
-        mission3_christmas_tried: config.mission3_christmas_tried || false,
-        mission3_snow_tried: config.mission3_snow_tried || false,
-        mission3_can_claim: config.mission3_can_claim || false,
-        mission4_stage: config.mission4_stage || 1,
-        mission4_last_claim_date: config.mission4_last_claim_date || "",
-        mission4_can_claim: config.mission4_can_claim || false,
-        mission5_tried_themes: mission5ThemesString,
-        mission5_completed: config.mission5_completed || false,
-        mission5_can_claim: config.mission5_can_claim || false,
-        active_title: config.active_title !== undefined && config.active_title !== null ? config.active_title : -1
-      };
-      
-      if (progressRecord) {
-        const updatedRecord = { ...progressRecord, ...progressData };
-        await window.dataSdk.update(updatedRecord);
-      } else {
-        await window.dataSdk.create(progressData);
-      }
-    }
-
-    async function claimMissionReward(missionNumber) {
-      if (!window.elementSdk) return;
-      
-      const config = window.elementSdk.config;
-      let updates = {};
-
-      if (missionNumber === '1' && config.mission1_can_claim) {
-        const currentStage = config.mission1_stage || 1;
-        const xpReward = Math.min(3000 + (currentStage - 1) * 150, 5000);
-        updates.total_xp = (config.total_xp || 0) + xpReward;
-        updates.mission1_can_claim = false;
-        updates.mission1_stage = currentStage + 1;
-        updates.mission1_progress = 0;
-      } else if (missionNumber === '2' && config.mission2_can_claim) {
-        updates.total_xp = (config.total_xp || 0) + 1000;
-        updates.mission2_can_claim = false;
-      } else if (missionNumber === '3' && config.mission3_can_claim) {
-        updates.total_xp = (config.total_xp || 0) + 1000;
-        updates.mission3_can_claim = false;
-      } else if (missionNumber === '4' && config.mission4_can_claim) {
-        const currentStage = config.mission4_stage || 1;
-        const stageInCycle = ((currentStage - 1) % 101) + 1;
-        const xpReward = 2000 + (stageInCycle - 1) * 10;
-        updates.total_xp = (config.total_xp || 0) + xpReward;
-        updates.mission4_can_claim = false;
-        updates.mission4_stage = currentStage + 1;
-        updates.mission4_last_claim_date = new Date().toISOString();
-      } else if (missionNumber === '5' && config.mission5_can_claim) {
-        updates.total_xp = (config.total_xp || 0) + 3000;
-        updates.mission5_can_claim = false;
-      }
-
-      if (Object.keys(updates).length > 0) {
-        await window.elementSdk.setConfig(updates);
-        await saveProgressToDatabase();
-        renderMissions();
-        renderRewardsAlley();
-      }
-    }
-
-    async function trackColorChange() {
-      if (!window.elementSdk) return;
-      
-      const config = window.elementSdk.config;
-      if (config.mission2_completed) return;
-
-      await window.elementSdk.setConfig({
-        mission2_completed: true,
-        mission2_can_claim: true
-      });
-      await saveProgressToDatabase();
-    }
-
-    async function trackSeasonalTheme(themeKey) {
-      if (!window.elementSdk) return;
-      
-      const config = window.elementSdk.config;
-      let updates = {};
-
-      if (themeKey === 'christmas' && !config.mission3_christmas_tried) {
-        updates.mission3_christmas_tried = true;
-        
-        if (config.mission3_snow_tried && !config.mission3_can_claim) {
-          updates.mission3_can_claim = true;
-        }
-      }
-
-      if (themeKey === 'snow' && !config.mission3_snow_tried) {
-        updates.mission3_snow_tried = true;
-        
-        if (config.mission3_christmas_tried && !config.mission3_can_claim) {
-          updates.mission3_can_claim = true;
-        }
-      }
-
-      if (Object.keys(updates).length > 0) {
-        await window.elementSdk.setConfig(updates);
-        await saveProgressToDatabase();
-      }
-    }
-
-    async function trackRegularTheme(themeKey) {
-      if (!window.elementSdk) return;
-      
-      const config = window.elementSdk.config;
-      const triedThemes = config.mission5_tried_themes || [];
-      
-      if (!triedThemes.includes(themeKey)) {
-        const updatedThemes = [...triedThemes, themeKey];
-        const totalThemes = Object.keys(colorThemes).length;
-        
-        let updates = {
-          mission5_tried_themes: updatedThemes
-        };
-        
-        if (updatedThemes.length >= totalThemes && !config.mission5_can_claim) {
-          updates.mission5_completed = true;
-          updates.mission5_can_claim = true;
-        }
-        
-        await window.elementSdk.setConfig(updates);
-        await saveProgressToDatabase();
-      }
-    }
-
-    function renderTitles() {
-      const container = document.getElementById('titlesList');
-      const config = window.elementSdk?.config || defaultConfig;
-      
-      const currentLevel = config.current_level || 0;
-      const activeTitle = config.active_title;
-
-      const titles = [
-        { level: 0, name: "Brak tytułu", description: "Nie wyświetlaj żadnego tytułu" },
-        { level: 1, name: "Nowicjusz w Patronacie", color: "yellow", borderColor: "#eab308" },
-        { level: 2, name: "Zasiane Ziarno", color: "green", borderColor: "#22c55e" },
-        { level: 3, name: "Przyjaciel Świętych", color: "lightblue", borderColor: "#60a5fa" },
-        { level: 4, name: "Mały Patroniak", color: "pink", borderColor: "#ec4899" },
-        { level: 5, name: "Wspieracz Modlitwy", color: "lightgreen", borderColor: "#86efac" },
-        { level: 6, name: "Cichy Wędrowiec", color: "gray", borderColor: "#9ca3af" },
-        { level: 7, name: "Opiekun Patronatu", color: "paleyellow", borderColor: "#fef08a" },
-        { level: 8, name: "Gorliwy Patronator", color: "darknavy", borderColor: "#1e3a8a" },
-        { level: 9, name: "Patronacki Pielgrzym", color: "orange", borderColor: "#f97316" },
-        { level: 10, name: "Arcymistrz Patronacki", color: "brown", borderColor: "#92400e" },
-        { level: 11, name: "Patroniak Pierwszy", color: "saturatedgreen", borderColor: "#16a34a" },
-        { level: 12, name: "Patronik Wędrowiec", color: "cyan", borderColor: "#06b6d4" },
-        { level: 13, name: "Patronowy Towarzysz", color: "skyblue", borderColor: "#0ea5e9" },
-        { level: 14, name: "Patroniacki Strażnik", color: "indigo", borderColor: "#6366f1" },
-        { level: 15, name: "Wielki Patron", color: "purple", borderColor: "#a855f7" }
-      ];
-
-      const unlockedTitles = titles.filter(t => t.level === 0 || t.level <= currentLevel);
-
-      container.innerHTML = `
-        <div class="titles-grid">
-          ${unlockedTitles.map(title => {
-            const isActive = activeTitle === title.level;
-            if (title.level === 0) {
-              return `
-                <div class="no-title-card ${isActive ? 'active' : ''}" data-level="${title.level}">
-                  ${isActive ? '<div class="title-card-active-badge">��� Aktywny</div>' : ''}
-                  <div class="no-title-card-text">${title.name}</div>
-                  <div class="title-card-status">${title.description}</div>
-                </div>
-              `;
-            }
-            return `
-              <div class="title-card ${isActive ? 'active' : ''}" data-level="${title.level}" style="border-color: ${title.borderColor};">
-                ${isActive ? '<div class="title-card-active-badge">✓ Aktywny</div>' : ''}
-                <div class="title-card-header">
-                  <div class="title-card-name">${title.name}</div>
-                  <div class="title-card-level">Poziom ${title.level}</div>
-                </div>
-                <div class="reward-preview" style="margin-top: 12px;">
-                  <div class="reward-preview-button" style="border-color: ${title.borderColor}; color: ${title.borderColor};">
-                    Losuj
-                  </div>
-                  <div class="reward-preview-button" style="border-color: ${title.borderColor}; color: ${title.borderColor};">
-                    Historia
-                  </div>
-                  <div class="reward-preview-button" style="border-color: ${title.borderColor}; color: ${title.borderColor};">
-                    Nagrody
-                  </div>
-                </div>
-                <div class="title-card-status" style="margin-top: 12px;">🎉 Odblokowany - Kliknij aby założyć</div>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      `;
-
-      document.querySelectorAll('.title-card:not(.locked), .no-title-card').forEach(card => {
-        card.addEventListener('click', async () => {
-          const level = parseInt(card.dataset.level);
-          await selectTitle(level);
-        });
-      });
-    }
-
-    async function selectTitle(level) {
-      if (!window.elementSdk) return;
-      
-      await window.elementSdk.setConfig({
-        active_title: level
-      });
-      await saveProgressToDatabase();
-      
-      renderTitles();
-    }
-
-    document.getElementById('drawButton').addEventListener('click', (e) => {
-      e.preventDefault();
-      performDraw();
-    });
-
     async function onConfigChange(config) {
       document.getElementById('mainTitle').textContent = config.main_title || defaultConfig.main_title;
       document.getElementById('drawButton').textContent = config.draw_button_text || defaultConfig.draw_button_text;
       document.getElementById('countdownLabel').textContent = config.time_remaining_label || defaultConfig.time_remaining_label;
       document.getElementById('historyButton').textContent = config.history_button_text || defaultConfig.history_button_text;
-
-      const activeTitle = config.active_title;
-      let borderColor = '';
-      
-      if (activeTitle === null || activeTitle === 0) {
-        borderColor = '';
-      } else if (activeTitle === 1) {
-        borderColor = '#eab308';
-      } else if (activeTitle === 2) {
-        borderColor = '#22c55e';
-      } else if (activeTitle === 3) {
-        borderColor = '#60a5fa';
-      } else if (activeTitle === 4) {
-        borderColor = '#ec4899';
-      } else if (activeTitle === 5) {
-        borderColor = '#86efac';
-      } else if (activeTitle === 6) {
-        borderColor = '#9ca3af';
-      } else if (activeTitle === 7) {
-        borderColor = '#fef08a';
-      } else if (activeTitle === 8) {
-        borderColor = '#1e3a8a';
-      } else if (activeTitle === 9) {
-        borderColor = '#f97316';
-      } else if (activeTitle === 10) {
-        borderColor = '#92400e';
-      } else if (activeTitle === 11) {
-        borderColor = '#16a34a';
-      } else if (activeTitle === 12) {
-        borderColor = '#06b6d4';
-      } else if (activeTitle === 13) {
-        borderColor = '#0ea5e9';
-      } else if (activeTitle === 14) {
-        borderColor = '#6366f1';
-      } else if (activeTitle === 15) {
-        borderColor = '#a855f7';
-      }
-
-      const drawButton = document.getElementById('drawButton');
-      const historyButton = document.getElementById('historyButton');
-      const rewardsButton = document.getElementById('rewardsButton');
-
-      if (borderColor) {
-        drawButton.style.border = `4px solid ${borderColor}`;
-        historyButton.style.border = `4px solid ${borderColor}`;
-        rewardsButton.style.border = `4px solid ${borderColor}`;
-      } else {
-        drawButton.style.border = 'none';
-        historyButton.style.border = '2px solid #3b5998';
-        rewardsButton.style.border = '2px solid #3b5998';
-      }
 
       const customFont = config.font_family || defaultConfig.font_family;
       const baseFontStack = 'Arial, sans-serif';
@@ -3024,9 +1866,9 @@
       const patronPrayers = document.querySelectorAll('.patron-prayer');
       const countdownTimers = document.querySelectorAll('.countdown-timer');
       
-      patronNames.forEach(el => el.style.fontSize = `${baseSize * 1.75}px`);
-      patronPrayers.forEach(el => el.style.fontSize = `${baseSize}px`);
-      countdownTimers.forEach(el => el.style.fontSize = `${baseSize * 1.75}px`);
+      patronNames.forEach(el => el.style.fontSize = `${baseSize * 1.5}px`);
+      patronPrayers.forEach(el => el.style.fontSize = `${baseSize * 0.9375}px`);
+      countdownTimers.forEach(el => el.style.fontSize = `${baseSize * 1.5}px`);
 
       const themeKey = config.color_theme || defaultConfig.color_theme;
       const isSeasonalTheme = config.is_seasonal || defaultConfig.is_seasonal;
@@ -3097,150 +1939,101 @@
         filledStars.forEach(star => {
           star.style.color = theme.accent;
         });
-
-        const missionXPs = document.querySelectorAll('.mission-xp');
-        missionXPs.forEach(el => {
-          el.style.background = `linear-gradient(135deg, ${theme.gradientStart} 0%, ${theme.gradientEnd} 100%)`;
-        });
-
-        const xpDisplayValue = document.querySelector('.xp-display-value');
-        if (xpDisplayValue) {
-          xpDisplayValue.style.color = theme.gradientStart;
-        }
-
-        const unlockBadges = document.querySelectorAll('.unlock-badge');
-        unlockBadges.forEach(el => {
-          el.style.background = `linear-gradient(135deg, ${theme.gradientStart} 0%, ${theme.gradientEnd} 100%)`;
-        });
-
-        const claimButtons = document.querySelectorAll('.claim-button, .claim-level-button');
-        claimButtons.forEach(el => {
-          el.style.background = `linear-gradient(135deg, ${theme.gradientStart} 0%, ${theme.gradientEnd} 100%)`;
-        });
-
-        const titleCardLevels = document.querySelectorAll('.title-card-level');
-        titleCardLevels.forEach(el => {
-          el.style.background = `linear-gradient(135deg, ${theme.gradientStart} 0%, ${theme.gradientEnd} 100%)`;
-        });
-
-        const titleActiveBadges = document.querySelectorAll('.title-card-active-badge');
-        titleActiveBadges.forEach(el => {
-          el.style.background = `linear-gradient(135deg, ${theme.gradientStart} 0%, ${theme.gradientEnd} 100%)`;
-        });
-
-        const titleCardNames = document.querySelectorAll('.title-card-name, .no-title-card-text');
-        titleCardNames.forEach(el => {
-          el.style.color = theme.text;
-        });
       }
-    }
-
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities: (config) => ({
-          recolorables: [
-            {
-              get: () => config.background_color || defaultConfig.background_color,
-              set: (value) => {
-                window.elementSdk.config.background_color = value;
-                window.elementSdk.setConfig({ background_color: value });
-              }
-            },
-            {
-              get: () => config.primary_color || defaultConfig.primary_color,
-              set: (value) => {
-                window.elementSdk.config.primary_color = value;
-                window.elementSdk.setConfig({ primary_color: value });
-              }
-            },
-            {
-              get: () => config.accent_color || defaultConfig.accent_color,
-              set: (value) => {
-                window.elementSdk.config.accent_color = value;
-                window.elementSdk.setConfig({ accent_color: value });
-              }
-            },
-            {
-              get: () => config.navy_color || defaultConfig.navy_color,
-              set: (value) => {
-                window.elementSdk.config.navy_color = value;
-                window.elementSdk.setConfig({ navy_color: value });
-              }
-            },
-            {
-              get: () => config.modal_background || defaultConfig.modal_background,
-              set: (value) => {
-                window.elementSdk.config.modal_background = value;
-                window.elementSdk.setConfig({ modal_background: value });
-              }
-            }
-          ],
-          borderables: [],
-          fontEditable: {
-            get: () => config.font_family || defaultConfig.font_family,
-            set: (value) => {
-              window.elementSdk.config.font_family = value;
-              window.elementSdk.setConfig({ font_family: value });
-            }
-          },
-          fontSizeable: {
-            get: () => config.font_size || defaultConfig.font_size,
-            set: (value) => {
-              window.elementSdk.config.font_size = value;
-              window.elementSdk.setConfig({ font_size: value });
-            }
-          }
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ["main_title", config.main_title || defaultConfig.main_title],
-          ["draw_button_text", config.draw_button_text || defaultConfig.draw_button_text],
-          ["time_remaining_label", config.time_remaining_label || defaultConfig.time_remaining_label],
-          ["history_button_text", config.history_button_text || defaultConfig.history_button_text]
-        ])
-      });
     }
 
     async function init() {
-      const result = await window.dataSdk.init(dataHandler);
-      if (!result.isOk) {
-        console.error("Nie udało się zainicjować Data SDK");
+      try {
+        if (window.elementSdk) {
+          await window.elementSdk.init({
+            defaultConfig,
+            onConfigChange,
+            mapToCapabilities: (config) => ({
+              recolorables: [
+                {
+                  get: () => config.background_color || defaultConfig.background_color,
+                  set: (value) => {
+                    config.background_color = value;
+                    window.elementSdk.setConfig({ background_color: value });
+                  }
+                },
+                {
+                  get: () => config.primary_color || defaultConfig.primary_color,
+                  set: (value) => {
+                    config.primary_color = value;
+                    window.elementSdk.setConfig({ primary_color: value });
+                  }
+                },
+                {
+                  get: () => config.accent_color || defaultConfig.accent_color,
+                  set: (value) => {
+                    config.accent_color = value;
+                    window.elementSdk.setConfig({ accent_color: value });
+                  }
+                },
+                {
+                  get: () => config.navy_color || defaultConfig.navy_color,
+                  set: (value) => {
+                    config.navy_color = value;
+                    window.elementSdk.setConfig({ navy_color: value });
+                  }
+                },
+                {
+                  get: () => config.modal_background || defaultConfig.modal_background,
+                  set: (value) => {
+                    config.modal_background = value;
+                    window.elementSdk.setConfig({ modal_background: value });
+                  }
+                }
+              ],
+              borderables: [],
+              fontEditable: {
+                get: () => config.font_family || defaultConfig.font_family,
+                set: (value) => {
+                  config.font_family = value;
+                  window.elementSdk.setConfig({ font_family: value });
+                }
+              },
+              fontSizeable: {
+                get: () => config.font_size || defaultConfig.font_size,
+                set: (value) => {
+                  config.font_size = value;
+                  window.elementSdk.setConfig({ font_size: value });
+                }
+              }
+            }),
+            mapToEditPanelValues: (config) => new Map([
+              ["main_title", config.main_title || defaultConfig.main_title],
+              ["draw_button_text", config.draw_button_text || defaultConfig.draw_button_text],
+              ["time_remaining_label", config.time_remaining_label || defaultConfig.time_remaining_label],
+              ["history_button_text", config.history_button_text || defaultConfig.history_button_text]
+            ])
+          });
+          
+          await onConfigChange(window.elementSdk.config);
+        }
+
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error("Nie udało się zainicjować Data SDK");
+          resetDisplay();
+        }
+
+        document.getElementById('drawButton').addEventListener('click', async (e) => {
+          e.preventDefault();
+          await performDraw();
+        });
+      } catch (error) {
+        console.error("Błąd inicjalizacji:", error);
+        resetDisplay();
       }
-      
-      await checkDailyMission();
     }
 
-    async function checkDailyMission() {
-      if (!window.elementSdk) return;
-      
-      const config = window.elementSdk.config;
-      const lastClaimDate = config.mission4_last_claim_date;
-      
-      if (!lastClaimDate) {
-        await window.elementSdk.setConfig({
-          mission4_can_claim: true
-        });
-        await saveProgressToDatabase();
-        return;
-      }
-      
-      const now = new Date();
-      const lastClaim = new Date(lastClaimDate);
-      
-      const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-      const lastClaimMidnight = new Date(lastClaim.getFullYear(), lastClaim.getMonth(), lastClaim.getDate()).getTime();
-      
-      if (nowMidnight > lastClaimMidnight) {
-        await window.elementSdk.setConfig({
-          mission4_can_claim: true
-        });
-        await saveProgressToDatabase();
-      }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
     }
-
-    init();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a97673f3425bbc6',t:'MTc2NDk3ODE4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aaf0d07d7dcbbc6',t:'MTc2NTIyNjE0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
-   
